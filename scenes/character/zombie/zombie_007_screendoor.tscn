@@ -190,7 +190,6 @@ skew = 0.009101
 [node name="Anim_cone" parent="Body/BodyCorrect" index="31"]
 position = Vector2(33.9784, -19.3961)
 rotation = 0.195578
-scale = Vector2(0.799, 0.799)
 
 [node name="Anim_bucket" parent="Body/BodyCorrect/IronNodeBucket" index="0"]
 position = Vector2(23.8647, -12.8647)

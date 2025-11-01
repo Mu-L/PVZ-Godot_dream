@@ -8,7 +8,7 @@
 [ext_resource type="BitMap" uid="uid://bc7yq02xscrlr" path="res://assets/image/ui/ui_level/Almanac_CloseButton_Mask.png" id="6_g2rg4"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
-layer = 3
+layer = 128
 script = ExtResource("1_urijc")
 
 [node name="OptionBG" type="TextureRect" parent="."]
@@ -140,6 +140,7 @@ offset_left = 18.0
 offset_top = 2.0
 offset_right = 58.0
 offset_bottom = 23.0
+mouse_filter = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)

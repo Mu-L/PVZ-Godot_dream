@@ -114,26 +114,26 @@ centered = false
 centered = false
 
 [node name="Anim_face" type="Sprite2D" parent="Body/BodyCorrect" index="3"]
-position = Vector2(29.3, 46.8532)
-scale = Vector2(0.44, 0.431562)
+position = Vector2(29.3, 45.5969)
+scale = Vector2(0.44, 0.468751)
 texture = ExtResource("2_7rmee")
 centered = false
 
 [node name="PuffShroom_stem" type="Sprite2D" parent="Body/BodyCorrect" index="4"]
-position = Vector2(47.6, 51.2532)
-scale = Vector2(0.45, 0.441562)
+position = Vector2(47.6, 50.2969)
+scale = Vector2(0.45, 0.479095)
 texture = ExtResource("3_t2sgi")
 centered = false
 
 [node name="PuffShroom_tip" type="Sprite2D" parent="Body/BodyCorrect" index="5"]
-position = Vector2(49.4, 48.9688)
+position = Vector2(49.4, 48.2312)
 scale = Vector2(0.45, 0.45)
 texture = ExtResource("4_57i3y")
 centered = false
 
 [node name="PuffShroom_head" type="Sprite2D" parent="Body/BodyCorrect" index="6"]
-position = Vector2(22.2312, 28.9063)
-scale = Vector2(0.443375, 0.432405)
+position = Vector2(22.7688, 26.3937)
+scale = Vector2(0.428968, 0.469751)
 texture = ExtResource("5_wddx6")
 centered = false
 
@@ -143,7 +143,7 @@ centered = false
 
 [node name="Anim_blink" type="Sprite2D" parent="Body/BodyCorrect" index="8"]
 visible = false
-position = Vector2(43.9281, 49.425)
+position = Vector2(43.9466, 48.919)
 scale = Vector2(0.45, 0.45)
 texture = ExtResource("6_exn8h")
 centered = false

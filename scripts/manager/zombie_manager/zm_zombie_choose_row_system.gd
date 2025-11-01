@@ -19,7 +19,7 @@ func init_zombie_choose_row_system():
 	var ori_weight_land:Array[float] = []
 	var ori_weight_pool:Array[float] = []
 	var ori_weight_both:Array[float] = []
-	for zombie_row_node: ZombieRow in MainGameDate.all_zombie_rows:
+	for zombie_row_node: ZombieRow in Global.main_game.zombie_manager.all_zombie_rows:
 		match zombie_row_node.zombie_row_type:
 			Global.ZombieRowType.Land:
 				ori_weight_land.append(1)
@@ -66,7 +66,7 @@ func calculate_smooth_weights(zombie_row_type: Global.ZombieRowType, special_bas
 		base_weight = base_weigth_all_type[zombie_row_type]
 		total_base_weight = total_base_weight_all_type[zombie_row_type]
 
-	for i in range(MainGameDate.all_zombie_rows.size()):
+	for i in range(Global.main_game.zombie_manager.all_zombie_rows.size()):
 		if base_weight[i] <= 0 or total_base_weight <= 0:
 			smooth_weights.append(0.0)
 			continue

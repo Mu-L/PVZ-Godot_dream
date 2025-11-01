@@ -49,10 +49,6 @@ texture = ExtResource("2_wo6mn")
 visible = true
 script = ExtResource("3_hnx64")
 
-[node name="Splats" type="Sprite2D" parent="BulletEffect" index="0"]
-visible = false
-hframes = 4
-
 [node name="GPUParticles2D" type="GPUParticles2D" parent="BulletEffect/AllParticles2D" index="0"]
 material = SubResource("CanvasItemMaterial_o220a")
 emitting = false

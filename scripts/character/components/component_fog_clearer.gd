@@ -7,7 +7,8 @@ var fog_node:Fog
 
 func _ready() -> void:
 	super._ready()
-	fog_node = MainGameDate.fog_node
+	if is_instance_valid(Global.main_game):
+		fog_node = Global.main_game.fog_node
 	if is_instance_valid(fog_node):
 		### 要等待一帧后，不然会有偏移，不知道为什么
 		#await get_tree().process_frame

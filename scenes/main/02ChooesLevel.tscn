@@ -602,7 +602,6 @@ scale = Vector2(0.6, 0.6)
 texture = ExtResource("26_dfwdo")
 
 [node name="Plant033CabbagePult" parent="AllPage/GridContainer/TextureRect9/Panel/TextureRect" instance=ExtResource("27_pcq3e")]
-visible = true
 position = Vector2(103.233, 113.353)
 character_init_type = 1
 

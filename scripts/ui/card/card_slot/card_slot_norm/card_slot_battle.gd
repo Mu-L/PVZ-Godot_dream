@@ -23,6 +23,9 @@ func _ready() -> void:
 	Global.signal_change_disappear_spare_card_placeholder.connect(judge_disappear_add_card_bar)
 	EventBus.subscribe("test_change_sun_value", func(value): sun_value = value)
 	EventBus.subscribe("add_sun_value", func(value): sun_value+=value)
+	EventBus.subscribe("update_card_purple_sun_cost", update_card_purple_sun_cost)
+
+
 
 ## 初始化出战卡槽，管理器调用
 func init_card_slot_battle(max_choosed_card_num:int, sun:int):
@@ -37,6 +40,7 @@ func init_card_slot_battle(max_choosed_card_num:int, sun:int):
 
 ## 主游戏刷新卡片
 func main_game_refresh_card():
+	update_card_purple_sun_cost()
 	for i in range(curr_cards.size()):
 		var card:Card = curr_cards[i]
 		card.judge_sun_enough(sun_value)
@@ -54,7 +58,7 @@ func card_use_end(card:Card):
 ## 是否显示多余卡槽
 func judge_disappear_add_card_bar():
 	## 在游戏进行阶段
-	if MainGameDate.main_game_progress == MainGameManager.E_MainGameProgress.MAIN_GAME:
+	if Global.main_game.main_game_progress == MainGameManager.E_MainGameProgress.MAIN_GAME:
 		if Global.disappear_spare_card_Placeholder:
 			if curr_cards.size() < cards_placeholder.size():
 				for i in range(curr_cards.size(), cards_placeholder.size()):
@@ -63,3 +67,11 @@ func judge_disappear_add_card_bar():
 			for i in range(cards_placeholder.size()):
 				cards_placeholder[i].visible = true
 #endregion
+
+## 等待一帧(阳光减少)后 更新当前卡片的紫卡价格,每次植物种植或死亡时调用
+func update_card_purple_sun_cost():
+	await get_tree().process_frame
+	for card:Card in curr_cards:
+		if card.is_purple_card and Global.main_game.plant_cell_manager.curr_plant_num.has(card.card_plant_type):
+			card.sun_cost = Global.get_plant_info(card.card_plant_type, Global.PlantInfoAttribute.SunCost) + 50 * Global.main_game.plant_cell_manager.curr_plant_num[card.card_plant_type]
+			card.judge_sun_enough(sun_value)

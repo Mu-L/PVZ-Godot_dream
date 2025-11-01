@@ -10,8 +10,8 @@ func init_background(game_para:ResourceLevelData):
 	home.init_home(game_para.game_BG)
 
 	if game_para.is_fog:
-		MainGameDate.fog_node = SceneRegistry.FOG.instantiate()
-		add_child(MainGameDate.fog_node)
+		Global.main_game.fog_node = SceneRegistry.FOG.instantiate()
+		add_child(Global.main_game.fog_node)
 	match game_para.game_BG:
 		ResourceLevelData.GameBg.Pool, ResourceLevelData.GameBg.Fog:
 			var pool:Pool = get_node(^"Pool")

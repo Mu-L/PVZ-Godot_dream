@@ -110,14 +110,14 @@ func create_curr_wave_all_zombies(wave:int, is_big_wave:bool):
 	## 当前波次僵尸数据
 	var curr_wave_zombie_date:Array[Dictionary]
 
-	for i in wave_spawn.size():
+	for i in range(wave_spawn.size()):
 		var zombie_type : Global.ZombieType = wave_spawn[i]
 		var lane :int = -1
 		## 雪橇车僵尸
 		if zombie_type == Global.ZombieType.Z014Bobsled:
 			## 计算冰道权重
 			if special_base_weight.is_empty():
-				for row_ice_road:Array[IceRoad] in MainGameDate.all_ice_roads:
+				for row_ice_road:Array[IceRoad] in Global.main_game.plant_cell_manager.all_ice_roads:
 					if row_ice_road.is_empty():
 						special_base_weight.append(0)
 					else:
@@ -155,9 +155,9 @@ func wave_create_zombie(
 	curr_wave:int,		## 僵尸波次
 	init_zombie_special:Callable = Callable()		## 初始化僵尸特殊属性
 ):
-	var zombie_parent = MainGameDate.all_zombie_rows[lane]
+	var zombie_parent = Global.main_game.zombie_manager.all_zombie_rows[lane]
 	var zombie_init_type = Character000Base.E_CharacterInitType.IsNorm
-	var zombie_pos = MainGameDate.all_zombie_rows[lane].zombie_create_position.position + Vector2(randf_range(-10, 10), 0)
+	var zombie_pos = Global.main_game.zombie_manager.all_zombie_rows[lane].zombie_create_position.position + Vector2(randf_range(-10, 10), 0)
 
 	var zombie = zombie_manager.create_norm_zombie(zombie_type,zombie_parent,zombie_init_type,lane,curr_wave,zombie_pos, init_zombie_special)
 
@@ -310,8 +310,8 @@ func spawn_special_zombie_in_big_wave(is_final:=false):
 ## 最后一大波珊瑚僵尸
 func spawn_sea_weed_zombies():
 	var zombie_row_pool_i :Array[int]
-	for i in range(MainGameDate.all_zombie_rows.size()):
-		if MainGameDate.all_zombie_rows[i].zombie_row_type == Global.ZombieRowType.Pool:
+	for i in range(Global.main_game.zombie_manager.all_zombie_rows.size()):
+		if Global.main_game.zombie_manager.all_zombie_rows[i].zombie_row_type == Global.ZombieRowType.Pool:
 			zombie_row_pool_i.append(i)
 	if zombie_row_pool_i.is_empty():
 		return
@@ -333,7 +333,7 @@ func _zombie_seaweed(z:Zombie001Norm):
 func spawn_bungi_zombies():
 	## 选择plant_cell
 	var num_bungi_rand:int = randi_range(range_num_bungi.x, range_num_bungi.y)
-	var all_cell_have_plant:Array[PlantCell] = MainGameDate.main_game_manager.plant_cell_manager.get_cell_have_plant()
+	var all_cell_have_plant:Array[PlantCell] = Global.main_game.plant_cell_manager.get_cell_have_plant()
 	var num_bungi_res:int = min(num_bungi_rand, all_cell_have_plant.size())
 	## 打乱顺序
 	all_cell_have_plant.shuffle()
@@ -341,14 +341,14 @@ func spawn_bungi_zombies():
 	var all_cell_be_bungi = all_cell_have_plant.slice(0, num_bungi_res)
 	## 生成蹦极僵尸
 	for plant_cell:PlantCell in all_cell_be_bungi:
-		MainGameDate.zombie_manager.create_norm_zombie(
+		Global.main_game.zombie_manager.create_norm_zombie(
 			Global.ZombieType.Z021Bungi,
-			MainGameDate.all_zombie_rows[plant_cell.row_col.x],
+			Global.main_game.zombie_manager.all_zombie_rows[plant_cell.row_col.x],
 			Character000Base.E_CharacterInitType.IsNorm,
 			plant_cell.row_col.x,
 			-1,
-			Vector2(plant_cell.global_position.x + plant_cell.size.x/2 - MainGameDate.all_zombie_rows[plant_cell.row_col.x].global_position.x,
-				MainGameDate.all_zombie_rows[plant_cell.row_col.x].zombie_create_position.position.y
+			Vector2(plant_cell.global_position.x + plant_cell.size.x/2 - Global.main_game.zombie_manager.all_zombie_rows[plant_cell.row_col.x].global_position.x,
+				Global.main_game.zombie_manager.all_zombie_rows[plant_cell.row_col.x].zombie_create_position.position.y
 			),
 			create_bungi.bind(plant_cell)
 		)

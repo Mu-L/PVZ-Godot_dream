@@ -93,6 +93,10 @@ enum E_SpecialStateZombie {
 ## 梯子
 var ladder:Ladder
 
+## 植物种植和死亡信号
+signal signal_plant_create(plant_cell:PlantCell, plant_type:Global.PlantType)
+signal signal_plant_free(plant_cell:PlantCell, plant_type:Global.PlantType)
+
 #region 植物格子初始化
 func _ready() -> void:
 	## 隐藏按钮样式
@@ -134,14 +138,22 @@ func be_gargantuar_attack(zombie_gargantuar:Zombie000Base):
 #endregion
 
 #region 植物(僵尸)种植(死亡)
-
 ## 新植物种植
 func create_plant(plant_type:Global.PlantType):
 	## 创建植物
 	var plant_condition:ResourcePlantCondition = Global.get_plant_info(plant_type, Global.PlantInfoAttribute.PlantConditionResource)
-	## 如果该位置已经存在植物,返回
-	if is_instance_valid(plant_in_cell[plant_condition.place_plant_in_cell]):
-		return
+	## 如果该植物为紫卡
+	if plant_condition.is_purple_card:
+		## 删除紫卡前置植物,创建新植物
+		var condition_pre_plant :ResourcePlantCondition = Global.get_plant_info(Global.AllPrePlantPurple[plant_type], Global.PlantInfoAttribute.PlantConditionResource)
+		if is_instance_valid(plant_in_cell[condition_pre_plant.place_plant_in_cell]):
+			plant_in_cell[condition_pre_plant.place_plant_in_cell].character_death_disappear()
+			#await get_tree().process_frame
+
+	else:
+		## 非紫卡 如果该位置已经存在植物,返回
+		if is_instance_valid(plant_in_cell[plant_condition.place_plant_in_cell]):
+			return
 
 	var plant :Plant000Base= Global.get_plant_info(plant_type, Global.PlantInfoAttribute.PlantScenes).instantiate()
 	plant.init_plant(Character000Base.E_CharacterInitType.IsNorm, self)
@@ -169,6 +181,8 @@ func create_plant(plant_type:Global.PlantType):
 		remove_child(plant_container_node[Global.PlacePlantInCell.Shell])
 		plant.down_plant_container.add_child(plant_container_node[Global.PlacePlantInCell.Shell])
 		plant_container_node[Global.PlacePlantInCell.Shell].global_position = plant_postion_node_ori_global_position[Global.PlacePlantInCell.Shell] - plant.plant_up_position
+
+	signal_plant_create.emit(self, plant_type)
 
 	return plant
 
@@ -198,6 +212,8 @@ func one_plant_free(plant:Plant000Base):
 		plant.down_plant_container.remove_child(plant_container_node[Global.PlacePlantInCell.Shell])
 		add_child(plant_container_node[Global.PlacePlantInCell.Shell])
 		plant_container_node[Global.PlacePlantInCell.Shell].global_position = plant_postion_node_ori_global_position[Global.PlacePlantInCell.Shell]
+
+	signal_plant_free.emit(self, plant.plant_type)
 
 	##如果植物死亡时鼠标在当前植物格子中，等待一帧后重新发射鼠标进入格子信号检测种植
 	if is_mouse_in_ui(button):
@@ -302,7 +318,7 @@ func failure_eat_tombstone():
 ## 刪除墓碑，墓碑是墓碑吞噬者调用该函数
 func delete_tombstone():
 	if tombstone.new_zombie:
-		GlobalUtils.child_node_change_parent(tombstone.new_zombie, MainGameDate.all_zombie_rows[tombstone.new_zombie.lane])
+		GlobalUtils.child_node_change_parent(tombstone.new_zombie, Global.main_game.zombie_manager.all_zombie_rows[tombstone.new_zombie.lane])
 	signal_cell_delete_tombstone.emit(self, tombstone)
 	tombstone.queue_free()
 	## 等到墓碑被删除后，下一帧更新（如果鼠标拿着新植物在当前格子中，可以更新）
@@ -481,9 +497,10 @@ func get_plant_surrounding(p_t:Global.PlantType) -> Array[Plant000Base]:
 	var all_plant:Array[Plant000Base] = []
 	## 植物种植条件
 	var plant_condition:ResourcePlantCondition = Global.get_plant_info(p_t, Global.PlantInfoAttribute.PlantConditionResource)
-	for i in range(max(0, row_col.x-1), min(MainGameDate.row_col.x, row_col.x+2)):
-		for j in range(max(0, row_col.y-1), min(MainGameDate.row_col.y, row_col.y+2)):
-			var p_c:PlantCell = MainGameDate.all_plant_cells[i][j]
+	for i in range(max(0, row_col.x-1), min(Global.main_game.plant_cell_manager.row_col.x, row_col.x+2)):
+		for j in range(max(0, row_col.y-1), min(Global.main_game.plant_cell_manager.row_col.y, row_col.y+2)):
+			var p_c:PlantCell = Global.main_game.plant_cell_manager.all_plant_cells[i][j]
 			if is_instance_valid(p_c.plant_in_cell[plant_condition.place_plant_in_cell]) and p_c.plant_in_cell[plant_condition.place_plant_in_cell].plant_type == p_t:
 				all_plant.append(p_c.plant_in_cell[plant_condition.place_plant_in_cell])
 	return all_plant
+

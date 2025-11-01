@@ -8,27 +8,19 @@
 [ext_resource type="Script" uid="uid://bkeu6j2ek3su7" path="res://scripts/main_game_item/zombies_row.gd" id="4_6sinj"]
 [ext_resource type="PackedScene" uid="uid://dix4am6e6dehi" path="res://scenes/item/game_scenes_item/slope.tscn" id="4_8ubs5"]
 
-[node name="MainGame03Roof" instance=ExtResource("1_p4tip")]
+[node name="MainGame03Roof" node_paths=PackedStringArray("main_game_slope") instance=ExtResource("1_p4tip")]
+main_game_slope = NodePath("CanvasLayerBG/Background/RoofSlope")
 game_para = ExtResource("2_8jftm")
 
-[node name="Background" parent="." index="1"]
+[node name="Background" parent="CanvasLayerBG" index="0"]
 texture = ExtResource("2_656vs")
 
-[node name="PanelZombieGoHome" parent="Background/Home/Door/DoorDown" index="4"]
-offset_left = -44.0
-offset_top = -34.0
-offset_right = 183.0
-offset_bottom = 187.0
-
-[node name="Background5GameoverMask" parent="Background/Home/Door/DoorMask" index="4"]
-visible = true
-position = Vector2(111, 135)
-
-[node name="RoofSlope" type="Node2D" parent="Background" index="3"]
-position = Vector2(210, 0)
+[node name="RoofSlope" type="Node2D" parent="CanvasLayerBG/Background" index="4"]
+position = Vector2(420, 0)
 script = ExtResource("3_8ubs5")
 
-[node name="Slope" parent="Background/RoofSlope" index="0" instance=ExtResource("4_8ubs5")]
+[node name="Slope" parent="CanvasLayerBG/Background/RoofSlope" index="0" instance=ExtResource("4_8ubs5")]
+position = Vector2(-210, 0)
 
 [node name="PlantCellsRow1" type="Control" parent="PlantCellsRoot" index="0"]
 z_index = 10
@@ -554,5 +546,3 @@ script = ExtResource("4_6sinj")
 
 [node name="ZombieCreatePosition" type="Marker2D" parent="ZombiesRoot/Zombies_row5" index="0"]
 position = Vector2(0, 15)
-
-[editable path="Background/RoofSlope/Slope"]

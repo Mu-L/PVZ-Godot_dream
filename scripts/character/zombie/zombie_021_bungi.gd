@@ -47,6 +47,7 @@ func init_norm():
 func init_show():
 	super()
 	bungee_target.visible = false
+	shadow.visible = false
 
 ## 偷盗植物,开始起飞
 func raise_start():

@@ -54,14 +54,14 @@ func failure_eat_tombstone():
 ## 生成僵尸
 func create_new_zombie(new_zombie_type:Global.ZombieType, anim_multiply:float=1.0):
 	if not new_zombie:
-		new_zombie = MainGameDate.zombie_manager.create_norm_zombie(
+		new_zombie = Global.main_game.zombie_manager.create_norm_zombie(
 			new_zombie_type,
-			MainGameDate.all_zombie_rows[row_col.x],
+			Global.main_game.zombie_manager.all_zombie_rows[row_col.x],
 			Character000Base.E_CharacterInitType.IsNorm,
 			row_col.x,
 			-1,
-			Vector2(global_position.x - MainGameDate.all_zombie_rows[row_col.x].global_position.x,
-				MainGameDate.all_zombie_rows[row_col.x].zombie_create_position.position.y
+			Vector2(global_position.x - Global.main_game.zombie_manager.all_zombie_rows[row_col.x].global_position.x,
+				Global.main_game.zombie_manager.all_zombie_rows[row_col.x].zombie_create_position.position.y
 			)
 		)
 		new_zombie.call_deferred("update_speed_factor", anim_multiply, Character000Base.E_Influence_Speed_Factor.HammerZombieSpeed)

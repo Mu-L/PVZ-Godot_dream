@@ -399,29 +399,29 @@ tracks/31/keys = {
 "method": &"_end_shoot"
 }]
 }
-tracks/32/type = "value"
+tracks/32/type = "method"
 tracks/32/imported = false
 tracks/32/enabled = true
-tracks/32/path = NodePath("AttackComponent/Bullet_FX/GPUParticles2D:position")
+tracks/32/path = NodePath("AttackComponent")
 tracks/32/interp = 1
 tracks/32/loop_wrap = true
 tracks/32/keys = {
-"times": PackedFloat32Array(0.833333, 1, 1.25, 1.5, 1.66667, 2.08333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(111, 33), Vector2(115, 25), Vector2(113, 38), Vector2(101, 25), Vector2(115, 25), Vector2(114, 33)]
-}
-tracks/33/type = "method"
-tracks/33/imported = false
-tracks/33/enabled = true
-tracks/33/path = NodePath("AttackComponent")
-tracks/33/interp = 1
-tracks/33/loop_wrap = true
-tracks/33/keys = {
 "times": PackedFloat32Array(0.833333),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
 "method": &"_shoot_bullet"
 }]
+}
+tracks/33/type = "value"
+tracks/33/imported = false
+tracks/33/enabled = true
+tracks/33/path = NodePath("AttackComponent/AllBullet_FX/Bullet_FX:position")
+tracks/33/interp = 1
+tracks/33/loop_wrap = true
+tracks/33/keys = {
+"times": PackedFloat32Array(0, 0.75, 0.833333, 1, 1.16667, 1.33333, 1.5, 1.66667, 1.83333, 2, 2.08333, 2.16667, 2.41667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(36, -38), Vector2(36, -38), Vector2(59, -32), Vector2(64, -34), Vector2(53, -32), Vector2(61, -26), Vector2(52, -31), Vector2(63, -34), Vector2(53, -31), Vector2(60, -27), Vector2(58, -28), Vector2(36, -38), Vector2(36, -38)]
 }

@@ -13,6 +13,7 @@ enum E_IsEnableFactor{
 	Defautl,	## 默认是否启用组件,只有角色不使用该组件时在检测器中禁用该组件
 	InitType,	## 初始化状态类型（正常、展示、花园）
 	Character,	## 角色本身特殊需要禁用组件(确保该条件不会冲突)
+	Global,		## 全局禁用组件,追踪子弹全局检测组件使用
 	Death,		## 死亡禁用组件
 	Prepare,	## 准备（土豆雷）
 	Sleep,		## 睡眠

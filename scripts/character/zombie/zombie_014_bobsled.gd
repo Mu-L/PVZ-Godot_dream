@@ -38,7 +38,7 @@ func _play_anim(anim_name:StringName):
 ## 判断冰道是否在冰道上(0.3秒检测一次,不在冰道上掉100血)
 func judge_is_in_ice_road():
 	var is_in_road = false
-	for ice_road:IceRoad in MainGameDate.all_ice_roads[lane]:
+	for ice_road:IceRoad in Global.main_game.plant_cell_manager.all_ice_roads[lane]:
 		## 如果冰道最左边 < 当前位置+偏移
 		if ice_road.left_x < global_position.x - 50:
 			is_in_road = true
@@ -64,7 +64,7 @@ func death_language():
 		for sub_zombie_body in all_zombie_bobsled_single_body:
 			## 僵尸相对本体父节点的x
 			var zombie_pos_x = sub_zombie_body.global_position.x - zombie_row.zombie_create_position.global_position.x
-			MainGameDate.zombie_manager.call_deferred(
+			Global.main_game.zombie_manager.call_deferred(
 				"create_norm_zombie",
 				Global.ZombieType.Z1001BobsledSingle,
 				zombie_row,

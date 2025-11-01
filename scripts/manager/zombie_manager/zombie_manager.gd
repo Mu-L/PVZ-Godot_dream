@@ -8,7 +8,6 @@ class_name ZombieManager
 @onready var zombie_wave_manager: ZombieWaveManager = $ZombieWaveManager
 @onready var zombie_show_in_start: ZombieShowInStart = $ZombieShowInStart
 @onready var hammer_zombie_manager: HammerZombieManager = $HammerZombieManager
-
 ## 僵尸数量label
 @onready var label_zombie_sum: Label = %LabelZombieSum
 ## 所有僵尸根节点
@@ -19,10 +18,7 @@ var curr_zombie_num:int = 0:
 		curr_zombie_num=v
 		label_zombie_sum.text = "当前僵尸数量：" + str(curr_zombie_num)
 		signal_curr_zombie_num_change.emit(v)
-## 所有僵尸列表,用于每波清除在地图外的僵尸(矿工,魅惑等僵尸)
-var all_zombies_1d:Array[Zombie000Base]
-## 按行保存僵尸，用于保存僵尸列表的列表
-var all_zombies_2d:Array[Array]
+
 ## 是否为最后一波,最后一波时，僵尸数量为0后结束游戏
 var is_end_wave := false
 ## 被魅惑僵尸列表
@@ -31,30 +27,36 @@ var all_zombies_be_hypno:Array[Zombie000Base] = []
 var zombie_range_pos_x:=Vector2(-300, 900)
 ## 出怪模式
 var monster_mode:ResourceLevelData.E_MonsterMode
+## 所有僵尸列表,用于每波清除在地图外的僵尸(矿工,魅惑等僵尸)
+var all_zombies_1d:Array[Zombie000Base]
+
+## 所有僵尸行
+var all_zombie_rows:Array[ZombieRow] = []
+## 冰道,按行保存每行的冰道
+var all_ice_roads:Array[Array] = []
+## 按行保存僵尸，用于保存僵尸列表的列表
+var all_zombies_2d:Array[Array]
 
 signal signal_curr_zombie_num_change(num:int)
-
-func _exit_tree():
-	MainGameDate.zombie_manager = null
 
 func _ready():
 	## 注册事件总线
 	EventBus.subscribe("ice_all_zombie", ice_all_zombie)
+	## 火爆辣椒销毁道具[冰道和梯子]
+	EventBus.subscribe("jalapeno_bomb_item_lane", jalapeno_bomb_item_lane)
 	EventBus.subscribe("jalapeno_bomb_lane_zombie", jalapeno_bomb_lane_zombie)
 	EventBus.subscribe("blover_blow_away_in_sky_zombie", blover_blow_away_in_sky_zombie)
 	## 非刷怪模式最后一波僵尸
 	EventBus.subscribe("end_wave_zombie", func():is_end_wave=true)
-	MainGameDate.zombie_manager = self
 
 	## 初始化僵尸和行列表
-	MainGameDate.all_zombie_rows.clear()
 	for zombie_row_i in zombies_root.get_child_count():
 		var zombie_row :CanvasItem= zombies_root.get_child(zombie_row_i)
-		zombie_row.z_index = (zombie_row_i+1) * 10
+		zombie_row.z_index = zombie_row_i * 50 + 30
 
-		MainGameDate.all_zombie_rows.append(zombie_row)
+		all_zombie_rows.append(zombie_row)
 		var row_ice_roads:Array[IceRoad] = []
-		MainGameDate.all_ice_roads.append(row_ice_roads)
+		all_ice_roads.append(row_ice_roads)
 
 		var row_zombies:Array[Zombie000Base] = []
 		all_zombies_2d.append(row_zombies)
@@ -110,7 +112,7 @@ func create_norm_zombie(
 	var zombie:Zombie000Base = Global.get_zombie_info(zombie_type, Global.ZombieInfoAttribute.ZombieScenes).instantiate()
 	zombie.init_zombie(
 		zombie_init_type,
-		MainGameDate.all_zombie_rows[lane].zombie_row_type,
+		Global.main_game.zombie_manager.all_zombie_rows[lane].zombie_row_type,
 		lane,
 		curr_wave,
 		pos,
@@ -221,6 +223,13 @@ func ice_all_zombie(time_ice:float, time_decelerate: float):
 			zombie.add_child(ice_effect)
 			zombie.ice_effect = ice_effect
 			ice_effect.start_ice_effect(time_ice)
+
+
+func jalapeno_bomb_item_lane(lane:int):
+	## 冰道
+	for i in range(all_ice_roads[lane].size()-1, -1, -1):
+		var ice_road:IceRoad = all_ice_roads[lane][i]
+		ice_road.ice_road_disappear()
 
 ## 火爆辣椒爆炸整行僵尸
 func jalapeno_bomb_lane_zombie(lane:int):

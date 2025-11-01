@@ -4,7 +4,7 @@ class_name GameItemManager
 
 ## 放置在背景的游戏物品
 @onready var game_items_in_bg: Node2D = %GameItemsInBg
-@onready var items: Node2D = %Items
+@onready var canvas_layer_temp: CanvasLayer = $"../../CanvasLayerTemp"
 
 enum E_GameItemType {
 	WallnutBowlingStripe,	## 保龄球红线
@@ -27,5 +27,5 @@ func init_game_item_manager(game_para:ResourceLevelData):
 
 	if game_para.is_hammer:
 		var hammer = HAMMER.instantiate()
-		items.add_child(hammer)
+		canvas_layer_temp.add_child(hammer)
 		all_game_items[E_GameItemType.Hammer] = hammer

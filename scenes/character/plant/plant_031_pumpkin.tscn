@@ -74,14 +74,14 @@ centered = false
 
 [node name="Pumpkin_back" type="Sprite2D" parent="Body/BodyCorrect" index="1"]
 z_index = -1
-position = Vector2(-4.78979, 10.3627)
-scale = Vector2(0.773711, 0.821831)
+position = Vector2(-7.3326, 14.1652)
+scale = Vector2(0.81807, 0.775767)
 texture = ExtResource("2_ua2hr")
 centered = false
 
 [node name="Pumpkin_front" type="Sprite2D" parent="Body/BodyCorrect" index="2"]
-position = Vector2(-5.28979, 10.3627)
-scale = Vector2(0.773711, 0.821831)
+position = Vector2(-7.87445, 14.1652)
+scale = Vector2(0.81807, 0.775767)
 texture = ExtResource("3_ep6lu")
 centered = false
 

@@ -31,8 +31,8 @@ var curr_attack_num:=0
 ## 子弹初始位置
 var start_pos: Vector2
 ## 默认是否激活行属性，激活后只能攻击本行的僵尸
-@export var default_bullet_lane_activate:=true
-var bullet_lane_activate:bool
+@export var default_is_activate_lane:=true
+var is_activate_lane:bool
 ## 子弹行属性
 var bullet_lane :int = -1
 @export_subgroup("子弹音效相关")
@@ -63,27 +63,52 @@ func _ready() -> void:
 		tween.set_loops()
 		tween.tween_property(body, "rotation", TAU, 1.0).as_relative()
 
+## 子弹初始化参数种类
+enum E_InitParasAttr{
+	IsActivateLane,		## 是否激活行属性
+	BulletLane, 		## 子弹所在行
+	Position,			## 子弹起始位置
+	Direction,			## 子弹起始方向
+	CanAttackPlantState,	## 子弹可以攻击的敌人(植物)状态
+	CanAttackZombieState,	## 子弹可以攻击的敌人(僵尸)状态
+
+	## 抛物线子弹\追踪子弹额外属性
+	Enemy,				## 子弹选中的敌人
+	EnemyGloPos,		## 敌人位置(发射子弹时敌人若已经消失,抛物线依旧可以攻击)
+
+}
 
 ## 初始化子弹属性
-func init_bullet(lane:int, start_pos:Vector2, direction:= Vector2.RIGHT, \
-	bullet_lane_activate:bool=default_bullet_lane_activate, \
-	can_attack_plant_status:int= can_attack_plant_status, \
-	can_attack_zombie_status:int= can_attack_zombie_status
-	):
-
-	self.bullet_lane_activate = bullet_lane_activate
+func init_bullet(bullet_paras:Dictionary[E_InitParasAttr,Variant]):
 	## 子弹行
-	if bullet_lane_activate:
-		self.bullet_lane = lane
-	self.start_pos = start_pos
-	self.direction = direction
-	position = start_pos
-	self.can_attack_plant_status = can_attack_plant_status
-	self.can_attack_zombie_status = can_attack_zombie_status
+	self.is_activate_lane = bullet_paras.get(E_InitParasAttr.IsActivateLane, true)
+	self.bullet_lane = bullet_paras.get(E_InitParasAttr.BulletLane, -1)
+	z_index = self.bullet_lane * 50 + 45
 
+	self.start_pos = bullet_paras.get(E_InitParasAttr.Position, Vector2.ZERO)
+	position = self.start_pos
+
+	self.direction = bullet_paras.get(E_InitParasAttr.Direction, Vector2.RIGHT)
+	self.can_attack_plant_status = bullet_paras.get(E_InitParasAttr.CanAttackPlantState, 1)
+	self.can_attack_zombie_status = bullet_paras.get(E_InitParasAttr.CanAttackZombieState, 1)
+
+
+## 获取子弹属性
+func get_bullet_paras()->Dictionary[E_InitParasAttr,Variant]:
+	return {
+		E_InitParasAttr.IsActivateLane : self.is_activate_lane,
+		E_InitParasAttr.BulletLane : self.bullet_lane,
+		E_InitParasAttr.Position : position,
+		E_InitParasAttr.Direction : self.direction,
+		E_InitParasAttr.CanAttackPlantState : self.can_attack_plant_status,
+		E_InitParasAttr.CanAttackZombieState : self.can_attack_zombie_status,
+	}
 
 ## 子弹与敌人碰撞
 func _on_area_2d_attack_area_entered(area: Area2D) -> void:
+	## 如果碰撞到世界层,跳过
+	if area.collision_layer == 1:
+		return
 	var enemy:Character000Base = area.owner
 	## TODO:攻击植物子弹
 	if enemy is Plant000Base:
@@ -98,7 +123,7 @@ func _on_area_2d_attack_area_entered(area: Area2D) -> void:
 	## 子弹还有攻击次数
 	if max_attack_num != -1 and curr_attack_num < max_attack_num:
 		## 如果子弹有行属性
-		if bullet_lane_activate:
+		if is_activate_lane:
 			if bullet_lane == enemy.lane:
 				attack_once(enemy)
 		else:
@@ -149,7 +174,10 @@ func create_new_bullet_up():
 	var new_bullet_up_scenes = Global.get_bullet_scenes(bullet_up_type)
 	## 子弹升级后更新行属性，上次升级的火炬树桩
 	var bullet_up :Bullet000Base = new_bullet_up_scenes.instantiate()
-	bullet_up.init_bullet(bullet_lane, position, direction, bullet_lane_activate)
+	bullet_up.init_bullet(get_bullet_paras())
 
 	return bullet_up
+
+
+
 #endregion

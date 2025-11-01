@@ -1,5 +1,5 @@
 extends CanvasLayer
-class_name ControlCanvasLayer
+class_name CanvasLayerConsole
 
 
 @onready var check_box: CheckBox = $OptionBG/HBoxContainer/VBoxContainer/CheckBox
@@ -14,11 +14,11 @@ class_name ControlCanvasLayer
 
 
 func _ready() -> void:
-	call_deferred("init_control_panel")
-	
-	
+	call_deferred("init_console_panel")
+
+
 ## 初始化控制台
-func init_control_panel():
+func init_console_panel():
 	Global.load_config()
 	check_box.button_pressed = Global.auto_collect_sun
 	check_box_2.button_pressed = Global.auto_collect_coin
@@ -48,7 +48,7 @@ func _on_check_box_toggled(toggled_on: bool) -> void:
 func _on_check_box_2_toggled(toggled_on: bool) -> void:
 	Global.auto_collect_coin = toggled_on
 	Global.save_config()
-	
+
 ## 隐藏多余卡槽
 func _on_check_box_3_toggled(toggled_on: bool) -> void:
 	Global.disappear_spare_card_Placeholder = toggled_on
@@ -66,7 +66,7 @@ func _on_check_box_4_toggled(toggled_on: bool) -> void:
 func _on_check_box_5_toggled(toggled_on: bool) -> void:
 	Global.display_plant_HP_label = toggled_on
 	Global.save_config()
-	
+
 func _on_check_box_6_toggled(toggled_on: bool) -> void:
 	Global.display_zombie_HP_label = toggled_on
 	Global.save_config()
@@ -79,7 +79,7 @@ func _on_check_box_7_toggled(toggled_on: bool) -> void:
 func _on_check_box_8_toggled(toggled_on: bool) -> void:
 	Global.fog_is_static = toggled_on
 	Global.save_config()
-	
+
 func _on_check_box_9_toggled(toggled_on: bool) -> void:
 	Global.plant_be_shovel_front = toggled_on
-	
+

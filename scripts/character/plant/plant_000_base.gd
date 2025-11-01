@@ -51,6 +51,11 @@ var garden_date_init:Dictionary
 
 
 #region 初始化相关
+func _ready() -> void:
+	super()
+	if plant_type == 0:
+		push_error(name, "植物类型未赋值")
+
 ## 植物初始化相关, 创建植物时 加入场景树之前赋值
 func init_plant(init_type:E_CharacterInitType=E_CharacterInitType.IsNorm, plant_cell:PlantCell=null, garden_date:Dictionary={}) -> void:
 	self.character_init_type = init_type
@@ -60,14 +65,20 @@ func init_plant(init_type:E_CharacterInitType=E_CharacterInitType.IsNorm, plant_
 			self.row_col = plant_cell.row_col
 			self.lane = plant_cell.row_col.x
 		E_CharacterInitType.IsShow:
-			## 南瓜背景-1,这里所有植物+1
-			z_index += 1
+			### 南瓜背景-1,这里所有植物+1
+			#z_index += 1
+			pass
 		E_CharacterInitType.IsGarden:
-			## 南瓜背景-1,这里所有植物+1
-			z_index += 1
+			### 南瓜背景-1,这里所有植物+1
+			#z_index += 1
 			garden_date_init = garden_date
 			## 是否为水族馆背景，动画变化
 			is_garden_aquarium = garden_date["curr_garden_bg_type"]== GardenManager.E_GardenBgType.Aquarium
+			#for c in get_children():
+				#if not c.is_in_group("G_Garden") and c is ComponentBase:
+					#c = c as ComponentBase
+					#c.disable_component(ComponentBase.E_IsEnableFactor.Defautl)
+
 
 ## 初始化正常出战角色信号连接
 func init_norm_signal_connect():
@@ -177,13 +188,13 @@ func character_death_not_disappear():
 ## 被铲子威胁
 func be_shovel_look():
 	if Global.plant_be_shovel_front:
-		z_index += 1
+		z_index += 10
 	body.set_other_color(BodyCharacter.E_ChangeColors.BeShovelLookColor, Color(2, 2, 2))
 
 ## 被铲子威胁结束
 func be_shovel_look_end():
 	if Global.plant_be_shovel_front:
-		z_index -= 1
+		z_index -= 10
 	body.set_other_color(BodyCharacter.E_ChangeColors.BeShovelLookColor, Color(1, 1, 1))
 
 ## 被铲子铲除,禁止亡语
@@ -192,11 +203,15 @@ func be_shovel_kill():
 	hp_component.Hp_loss_death()
 
 ## 手持紫卡植物可以种植在该植物上
-func new_purple_card_plant_can_in_plant():
+func preplant_purple_body_light_and_dark():
+	if Global.plant_be_shovel_front:
+		z_index += 10
 	body.body_light_and_dark()
 
 ## 手持紫卡植物可以种植在该植物上结束
-func new_purple_card_plant_can_in_plant_end():
+func preplant_purple_body_light_and_dark_end():
+	if Global.plant_be_shovel_front:
+		z_index -= 10
 	body.body_light_and_dark_end()
 
 #endregion

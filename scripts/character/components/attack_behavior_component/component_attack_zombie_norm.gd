@@ -20,7 +20,7 @@ var frame_counter := 0
 
 ## 初始化攻击组件属性
 func init_attack_component(is_ignore_ladder:=false):
-	attack_ray_component.is_attack_ladder_plant = is_ignore_ladder
+	detect_component.is_attack_ladder_plant = is_ignore_ladder
 
 func _ready() -> void:
 	super()
@@ -40,16 +40,16 @@ func update_attack_value(value:float, influence_factor:E_AttackValueFactor):
 func _physics_process(delta: float) -> void:
 	if is_enabling and is_attack_res:
 		frame_counter = wrapi(frame_counter + 1, 0, 8)
-		if not is_instance_valid(attack_ray_component.enemy_can_be_attacked):
+		if not is_instance_valid(detect_component.enemy_can_be_attacked):
 			return
-		if frame_counter==0 and is_instance_valid(attack_ray_component.enemy_can_be_attacked):
-			attack_ray_component.enemy_can_be_attacked.be_zombie_eat(curr_attack_value_per_min * delta * 8, owner)
+		if frame_counter==0 and is_instance_valid(detect_component.enemy_can_be_attacked):
+			detect_component.enemy_can_be_attacked.be_zombie_eat(curr_attack_value_per_min * delta * 8, owner)
 
 
 ## 攻击一次发亮，动画调用
 func attack_once():
-	if is_instance_valid(attack_ray_component.enemy_can_be_attacked) and not owner.is_death:
-		attack_ray_component.enemy_can_be_attacked.be_zombie_eat_once(owner)
+	if is_instance_valid(detect_component.enemy_can_be_attacked) and not owner.is_death:
+		detect_component.enemy_can_be_attacked.be_zombie_eat_once(owner)
 		SoundManager.play_zombie_SFX(Global.ZombieType.Null, "Chomp")
 
 

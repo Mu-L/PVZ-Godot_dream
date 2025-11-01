@@ -13,9 +13,9 @@ func _ready() -> void:
 ## 初始化墓碑管理器
 func init_tomb_stone_manager(game_para:ResourceLevelData):
 	# 植物种植区域信号，更新植物位置列号,更新墓碑信息
-	for plant_cells_row_i in range(MainGameDate.all_plant_cells.size()):
+	for plant_cells_row_i in range(Global.main_game.plant_cell_manager.all_plant_cells.size()):
 
-		var plant_cells_row = MainGameDate.all_plant_cells[plant_cells_row_i]
+		var plant_cells_row = Global.main_game.plant_cell_manager.all_plant_cells[plant_cells_row_i]
 		var is_tombstone_row := []
 		for plant_cells_col_j in range(plant_cells_row.size() - 1, -1, -1):
 			var plant_cell:PlantCell = plant_cells_row[plant_cells_col_j]
@@ -27,7 +27,7 @@ func init_tomb_stone_manager(game_para:ResourceLevelData):
 
 #region 墓碑相关
 ## 生成待选位置,没有墓碑的行和列
-func _candidates_position(rows:int, cols_start:int, cols_end:int=MainGameDate.row_col.y) -> Array[Vector2i]:
+func _candidates_position(rows:int, cols_start:int, cols_end:int=Global.main_game.plant_cell_manager.row_col.y) -> Array[Vector2i]:
 	# 构建可选位置列表
 	var candidates: Array[Vector2i]= []
 	for r in range(rows):
@@ -42,8 +42,8 @@ func _candidates_position(rows:int, cols_start:int, cols_end:int=MainGameDate.ro
 
 ## 随机生成墓碑的位置
 func _reandom_tombstone_pos(new_num:int) ->  Array[Vector2i]:
-	var rows = MainGameDate.row_col.x
-	var cols = MainGameDate.row_col.y
+	var rows = Global.main_game.plant_cell_manager.row_col.x
+	var cols = Global.main_game.plant_cell_manager.row_col.y
 
 	# 如果请求的数量超过所有格子总数，就返回所有格子
 	if new_num + tombstone_num >= rows * cols:
@@ -88,7 +88,7 @@ func _create_one_tombstone(plant_cell: PlantCell, pos:Vector2i):
 	is_tombstone[pos.x][pos.y] = true
 	tombstone_num += 1
 
-	MainGameDate.tombstone_list.append(tombstone)
+	Global.main_game.plant_cell_manager.tombstone_list.append(tombstone)
 
 ## 删除墓碑修改对应的参数并断开信号连接
 func _delete_tombstone(plant_cell:PlantCell, tombstone:TombStone):
@@ -97,7 +97,7 @@ func _delete_tombstone(plant_cell:PlantCell, tombstone:TombStone):
 	var pos:Vector2i = plant_cell.row_col
 	is_tombstone[pos.x][pos.y] = false
 	tombstone_num -= 1
-	MainGameDate.tombstone_list.erase(tombstone)
+	Global.main_game.plant_cell_manager.tombstone_list.erase(tombstone)
 
 ## 黑夜关卡生成墓碑（生成数量）
 func create_tombstone(new_num:int):
@@ -109,7 +109,7 @@ func create_tombstone(new_num:int):
 
 	print("墓碑生成位置", selected_positions)
 	for pos in selected_positions:
-		var plant_cell:PlantCell = MainGameDate.all_plant_cells[pos.x][pos.y]
+		var plant_cell:PlantCell = Global.main_game.plant_cell_manager.all_plant_cells[pos.x][pos.y]
 
 		_create_one_tombstone(plant_cell, pos)
 

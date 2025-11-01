@@ -10,6 +10,7 @@ var is_sun_enough: bool = true		# 阳光是否足够
 var _cool_timer : float				# 冷却计时器
 var is_can_click := true		## 是否可以点击
 
+
 #region 开局选卡相关
 ## 开局选择卡片时 是否被选中
 var is_choosed_pre_card := false
@@ -22,6 +23,7 @@ signal signal_card_click(card:Card)
 signal signal_card_use_end(card:Card)
 
 func _ready() -> void:
+	super()
 	_cool_mask.value = 0
 
 ## 改变卡片的冷却时间（测试时使用）
@@ -47,7 +49,7 @@ func set_card_disabel():
 func card_init_conveyor_belt():
 	_cool_mask.value = 0
 	sun_cost = 0
-	get_node("CardBg/Cost").text = str(sun_cost)
+
 
 ## 卡片冷卻
 func _process(delta: float) -> void:
@@ -57,24 +59,26 @@ func _process(delta: float) -> void:
 		# 卡片冷却完成
 		if _cool_timer <= 0:
 			_is_cooling = false
-			#卡片阳光充足
-			if is_sun_enough:
-				card_ready()
+			judge_card_ready()
 
 ## 修改阳光时会调用
 func judge_sun_enough(curr_sun_value):
 	# 判断阳光是否足够
 	is_sun_enough = curr_sun_value >= sun_cost
-	# 阳光充足
-	if is_sun_enough:
-		# 卡片冷却完成
-		if not _is_cooling:
-			card_ready()
-		else:
+	judge_card_ready()
+
+## 判断卡片是否可以点击
+func judge_card_ready():
+	# 阳光充足 且 卡片冷却完成
+	if is_sun_enough and not _is_cooling:
+		## 紫卡并且不能种植
+		if is_purple_card and not plant_condition.judge_purple_card_can_plant(Global.main_game.plant_cell_manager.all_plant_cells, card_plant_type):
 			card_not_can_click()
-	# 阳光不充足
+		else:
+			card_ready()
 	else:
 		card_not_can_click()
+
 
 ## 卡片可以点击
 func card_ready():
@@ -96,14 +100,15 @@ func card_cool():
 
 ## 点击卡片时
 func _on_button_pressed() -> void:
-	if MainGameDate.main_game_progress != MainGameManager.E_MainGameProgress.MAIN_GAME:
-		signal_card_click.emit()
-	else:
+	## 如果时主游戏场景,并且游戏中
+	if is_instance_valid(Global.main_game) and Global.main_game.main_game_progress == MainGameManager.E_MainGameProgress.MAIN_GAME:
 		## 可以点击
 		if is_can_click:
 			EventBus.push_event("main_game_click_card", [self])
 		else:
 			SoundManager.play_other_SFX("buzzer")
+	else:
+		signal_card_click.emit()
 
 ## 快捷键设置
 func set_shortcut(i:int):

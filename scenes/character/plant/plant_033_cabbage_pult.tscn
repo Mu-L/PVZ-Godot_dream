@@ -59,7 +59,6 @@ node_connections = [&"OneShot", 0, &"Animation", &"OneShot", 1, &"TimeScale 2", 
 size = Vector2(800, 5)
 
 [node name="Plant033CabbagePult" instance=ExtResource("1_ntbhs")]
-visible = false
 script = ExtResource("2_01mcx")
 plant_type = 33
 
@@ -67,80 +66,80 @@ plant_type = 33
 position = Vector2(-41, -65)
 
 [node name="Cabbagepult_backleaf1" type="Sprite2D" parent="Body/BodyCorrect" index="0"]
-position = Vector2(14.6313, 53.7898)
-rotation = 0.237518
-scale = Vector2(0.558, 0.374)
-skew = -0.12355
+position = Vector2(17.4872, 51.666)
+rotation = 0.428976
+scale = Vector2(0.555, 0.374)
+skew = -0.0147039
 texture = ExtResource("2_4s2r4")
 centered = false
 
 [node name="Cabbagepult_backleaf2" type="Sprite2D" parent="Body/BodyCorrect" index="1"]
-position = Vector2(54.5, 53.3422)
-rotation = -0.380184
-scale = Vector2(0.690265, 0.443)
-skew = 0.0971801
+position = Vector2(55.1128, 52.0468)
+rotation = -0.453411
+scale = Vector2(0.566701, 0.443532)
+skew = 0.0245062
 texture = ExtResource("3_lsi5g")
 centered = false
 
 [node name="Cabbagepult_basket" type="Sprite2D" parent="Body/BodyCorrect" index="2"]
-position = Vector2(-10.2938, -4.31705)
-rotation = 0.270741
-scale = Vector2(0.639, 0.639)
+position = Vector2(-20.5084, 9.7509)
+rotation = -0.0236895
+scale = Vector2(0.64, 0.64)
 texture = ExtResource("4_01mcx")
 centered = false
 
 [node name="Cabbagepult_cabbage" type="Sprite2D" parent="Body/BodyCorrect" index="3"]
-position = Vector2(-5.23603, -9.65378)
-rotation = 0.220851
-scale = Vector2(0.995211, 0.995211)
+position = Vector2(-18.1084, 4.5573)
+rotation = -0.0980329
+scale = Vector2(0.999532, 0.999532)
 texture = ExtResource("5_4pxcv")
 centered = false
 
 [node name="Cabbagepult_basket_overlay" type="Sprite2D" parent="Body/BodyCorrect" index="4"]
-position = Vector2(-10.4571, -4.33269)
-rotation = 0.272296
-scale = Vector2(0.636, 0.652)
+position = Vector2(-20.3616, 9.7041)
+rotation = -0.0220556
+scale = Vector2(0.637, 0.637)
 texture = ExtResource("6_v16nm")
 centered = false
 
 [node name="Cabbagepult_stalk4" type="Sprite2D" parent="Body/BodyCorrect" index="5"]
-position = Vector2(17.3476, 11.7891)
-rotation = 0.164442
-scale = Vector2(0.798, 0.798)
+position = Vector2(11.6852, 16.7084)
+rotation = -0.0214621
+scale = Vector2(0.798532, 0.798532)
 texture = ExtResource("7_54h42")
 centered = false
 
 [node name="Cabbagepult_stalk3" type="Sprite2D" parent="Body/BodyCorrect" index="6"]
-position = Vector2(26.2531, 10.8578)
-rotation = 0.892814
-scale = Vector2(0.797, 0.797)
+position = Vector2(19.1384, 13.568)
+rotation = 0.593341
+scale = Vector2(0.797532, 0.797532)
 texture = ExtResource("8_3rydx")
 centered = false
 
 [node name="Cabbagepult_stalk2" type="Sprite2D" parent="Body/BodyCorrect" index="7"]
-position = Vector2(29.8633, 12.1211)
-rotation = 0.688123
-scale = Vector2(0.798, 0.798)
+position = Vector2(24.4788, 13.4808)
+rotation = 0.559509
+scale = Vector2(0.797532, 0.797532)
 texture = ExtResource("9_cenvh")
 centered = false
 
 [node name="Cabbagepult_stalk1" type="Sprite2D" parent="Body/BodyCorrect" index="8"]
-position = Vector2(35.0633, 21.5211)
-rotation = 0.160025
-scale = Vector2(0.799, 0.799)
+position = Vector2(31.3788, 21.8872)
+rotation = 0.0341653
+scale = Vector2(0.8, 0.8)
 texture = ExtResource("10_3l6yy")
 centered = false
 
 [node name="Cabbagepult_leaf" type="Sprite2D" parent="Body/BodyCorrect" index="9"]
-position = Vector2(43.1163, 11.9054)
-rotation = 0.646996
-scale = Vector2(0.797211, 0.797211)
+position = Vector2(31.8043, 11.4872)
+rotation = 0.0993767
+scale = Vector2(0.799532, 0.799532)
 texture = ExtResource("11_iy31f")
 centered = false
 
 [node name="Anim_face" type="Sprite2D" parent="Body/BodyCorrect" index="10"]
-position = Vector2(16.7156, 27.8422)
-rotation = 0.00651849
+position = Vector2(14.6128, 29.4744)
+rotation = -0.0647242
 scale = Vector2(0.799, 0.799)
 texture = ExtResource("12_dfp3i")
 centered = false
@@ -154,40 +153,38 @@ texture = ExtResource("13_woeqa")
 centered = false
 
 [node name="Cabbagepult_eyebrow2" type="Sprite2D" parent="Body/BodyCorrect" index="12"]
-position = Vector2(52.3578, 41.3211)
-rotation = 0.253073
+position = Vector2(51.4, 42.3596)
+rotation = 0.254001
 scale = Vector2(0.799, 0.799)
 texture = ExtResource("14_16d14")
 centered = false
 
 [node name="Cabbagepult_eyebrow1" type="Sprite2D" parent="Body/BodyCorrect" index="13"]
-position = Vector2(47.1, 42.3211)
+position = Vector2(47.0064, 43.0532)
 rotation = 2.56913
-scale = Vector2(0.797, 0.797)
+scale = Vector2(0.798064, 0.798064)
 skew = -3.13985
 texture = ExtResource("14_16d14")
 centered = false
 
 [node name="Frontleaf" type="Sprite2D" parent="Body/BodyCorrect" index="14"]
-position = Vector2(23.1211, 55.2578)
+position = Vector2(23.8064, 54.1404)
 rotation = 0.10472
-scale = Vector2(0.586946, 0.391476)
-skew = -0.0034909
+scale = Vector2(0.558276, 0.426256)
 texture = ExtResource("15_nuffr")
 centered = false
 
 [node name="Frontleaf_right_tip" type="Sprite2D" parent="Body/BodyCorrect" index="15"]
-position = Vector2(57.5735, 59.1578)
-rotation = 0.0153274
-scale = Vector2(0.67096, 0.432422)
+position = Vector2(57.0532, 58.4)
+rotation = 0.0842983
+scale = Vector2(0.575593, 0.443064)
 texture = ExtResource("3_lsi5g")
 centered = false
 
 [node name="Frontleaf_tip_left" type="Sprite2D" parent="Body/BodyCorrect" index="16"]
-position = Vector2(19.5844, 58.6945)
-rotation = 0.140292
-scale = Vector2(0.606531, 0.456524)
-skew = -0.00486801
+position = Vector2(19.9468, 58.8596)
+rotation = 0.121057
+scale = Vector2(0.563425, 0.451064)
 texture = ExtResource("2_4s2r4")
 centered = false
 

@@ -1,7 +1,7 @@
 extends Plant000Base
 class_name Plant005PotatoMine
 
-@onready var attack_ray_component: AttackRayComponent = $AttackRayComponent
+@onready var detect_component: AttackRayComponent = $AttackRayComponent
 @onready var bomb_component: BombComponentBase = $BombComponent
 @onready var prepare_timer: Timer = $PrepareTimer
 
@@ -16,7 +16,7 @@ class_name Plant005PotatoMine
 func init_norm():
 	super()
 	## 土豆雷默认禁用攻击射线检测组件
-	attack_ray_component.disable_component(ComponentBase.E_IsEnableFactor.Prepare)
+	detect_component.disable_component(ComponentBase.E_IsEnableFactor.Prepare)
 	## 默认禁用眨眼组件
 	blink_component.disable_component(ComponentBase.E_IsEnableFactor.Prepare)
 
@@ -27,8 +27,8 @@ func init_norm():
 func init_norm_signal_connect():
 	super()
 	## 准备完成后才会检测到敌人(触发爆炸\直接死亡)
-	attack_ray_component.signal_can_attack.connect(bomb_component.bomb_once)
-	attack_ray_component.signal_can_attack.connect(character_death)
+	detect_component.signal_can_attack.connect(bomb_component.bomb_once)
+	detect_component.signal_can_attack.connect(character_death)
 	## 角色速度改变
 	signal_update_speed.connect(update_prepare_speed)
 
@@ -38,7 +38,7 @@ func death_language():
 
 ## 土豆类出土动画结束调用
 func _rise_end():
-	attack_ray_component.enable_component(ComponentBase.E_IsEnableFactor.Prepare)
+	detect_component.enable_component(ComponentBase.E_IsEnableFactor.Prepare)
 	blink_component.enable_component(ComponentBase.E_IsEnableFactor.Prepare)
 	bomb_component.set_is_auto_bomb_in_death(true)
 

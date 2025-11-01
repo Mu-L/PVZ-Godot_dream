@@ -57,19 +57,22 @@ func _ready() -> void:
 	all_time = (start_control_point.distance_to(global_position) + start_control_point.distance_to(enemy_last_global_pos)) / speed
 
 	## 是否有斜坡
-	is_have_slope = is_instance_valid(MainGameDate.main_game_slope)
-	global_pos_y_shadow = MainGameDate.all_zombie_rows[bullet_lane].zombie_create_position.global_position.y
+	is_have_slope = is_instance_valid(Global.main_game.main_game_slope)
+	global_pos_y_shadow = Global.main_game.zombie_manager.all_zombie_rows[bullet_lane].zombie_create_position.global_position.y
 
 	update_shadow_global_pos()
 
 
-## 抛物线子弹初始化(子弹初始化之后)
-## [enemy: Character000Base]: 敌人
-## [enemy_global_position:Vector2]:敌人位置,发射单位赋值,若发射时敌人死亡,使用该位置
-## TODO: 敌人死亡时, 敌人位置赋值为发射子弹的位置,修改为敌人死亡位置
-func init_bullet_parabola(enemy: Character000Base, enemy_global_position:Vector2):
-	self.enemy = enemy
-	self.enemy_last_global_pos = enemy_global_position
+## 抛物线初始化子弹属性
+## [Enemy: Character000Base]: 敌人
+## [EnemyGloPos:Vector2]:敌人位置,发射单位赋值,若发射时敌人死亡,使用该位置
+func init_bullet(bullet_paras:Dictionary[E_InitParasAttr,Variant]):
+	super(bullet_paras)
+	## 抛物线子弹初始化(子弹初始化之后)
+	self.enemy = bullet_paras.get(E_InitParasAttr.Enemy, null)
+
+	self.enemy_last_global_pos = bullet_paras[E_InitParasAttr.EnemyGloPos]
+
 
 func _process(delta: float) -> void:
 	## 若敌人存在且敌人还未死亡,更新其位置
@@ -81,6 +84,7 @@ func _process(delta: float) -> void:
 
 	current_time += delta
 	var t :float= min(current_time / all_time, 1)
+	#prints(current_time, all_time, t )
 	## 使用缓动函数来调整时间 t (最后时移动变快)
 	var eased_t = eased_time(t)
 	## 如果到达最终落点时未命中敌人,攻击空气销毁子弹
@@ -120,8 +124,8 @@ func update_shadow_global_pos():
 ## 场景有斜坡时更新默认影子y值
 func update_global_pos_y_shadow_on_have_slope():
 	## 获取相对斜坡的位置
-	var slope_y = MainGameDate.main_game_slope.get_all_slope_y(global_position.x)
-	global_pos_y_shadow = MainGameDate.all_zombie_rows[bullet_lane].zombie_create_position.global_position.y + slope_y
+	var slope_y = Global.main_game.main_game_slope.get_all_slope_y(global_position.x)
+	global_pos_y_shadow = Global.main_game.zombie_manager.all_zombie_rows[bullet_lane].zombie_create_position.global_position.y + slope_y
 
 
 ## 自定义的缓动函数，分段加速,抛物线移动到最后时加速

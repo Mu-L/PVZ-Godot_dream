@@ -3,7 +3,7 @@ class_name Zombie015Dolphinrider
 
 
 @onready var jump_component: JumpComponent = $JumpComponent
-@onready var attack_ray_component: AttackRayComponent = %AttackRayComponent
+@onready var detect_component: AttackRayComponent = %AttackRayComponent
 
 @export var is_jumping := false
 var is_jump_stop := false
@@ -14,7 +14,7 @@ var is_ride := true
 
 func init_norm() -> void:
 	super()
-	attack_ray_component.disable_component(ComponentBase.E_IsEnableFactor.Jump)
+	detect_component.disable_component(ComponentBase.E_IsEnableFactor.Jump)
 
 ## 初始化正常出战角色信号连接
 func init_norm_signal_connect():
@@ -23,7 +23,7 @@ func init_norm_signal_connect():
 	jump_component.signal_jump_end.connect(jump_end)
 	jump_component.signal_jump_end_end.connect(jump_end_end)
 
-	jump_component.signal_jump_end_end.connect(attack_ray_component.enable_component.bind(ComponentBase.E_IsEnableFactor.Jump))
+	jump_component.signal_jump_end_end.connect(detect_component.enable_component.bind(ComponentBase.E_IsEnableFactor.Jump))
 	## 跳跃对移动影响
 	jump_component.signal_jump_start.connect(move_component.update_move_factor.bind(true, MoveComponent.E_MoveFactor.IsJump))
 	jump_component.signal_jump_end_end.connect(move_component.update_move_factor.bind(false, MoveComponent.E_MoveFactor.IsJump))

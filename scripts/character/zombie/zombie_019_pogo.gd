@@ -2,7 +2,7 @@ extends Zombie000Base
 class_name Zombie019Pogo
 ## 跳跳僵尸初始化时禁用攻击组件,使用AttackRayComponentPogo检测植物,若有植物,弹跳两次跳过该植物
 
-@onready var attack_ray_component_pogo: AttackRayComponent = $AttackRayComponentPogo
+@onready var detect_component_pogo: AttackRayComponent = $AttackRayComponentPogo
 @onready var body_correct: Node2D = $Body/BodyCorrect
 
 var tween_pogo:Tween
@@ -29,14 +29,14 @@ func init_norm():
 	time_pogo_once = time_pogo_once_default
 	attack_component.disable_component(ComponentBase.E_IsEnableFactor.Character)
 	## 跳跳状态下检测到植物停止移动,弹跳两次后移动
-	attack_ray_component_pogo.signal_can_attack.connect(pogo_ray_enemy)
-	#attack_ray_component_pogo.signal_not_can_attack.connect(func():move_component.update_move_factor.bind(false, MoveComponent.E_MoveFactor.IsCharacter))
+	detect_component_pogo.signal_can_attack.connect(pogo_ray_enemy)
+	#detect_component_pogo.signal_not_can_attack.connect(func():move_component.update_move_factor.bind(false, MoveComponent.E_MoveFactor.IsCharacter))
 
 ## 检测到敌人时
 func pogo_ray_enemy():
 	## 非大跳状态并且敌人在左边时
 	if not is_big_pogo and \
-	attack_ray_component_pogo.enemy_can_be_attacked.global_position.x < global_position.x:
+	detect_component_pogo.enemy_can_be_attacked.global_position.x < global_position.x:
 		move_component.update_only_move_speed(0)
 
 
@@ -57,8 +57,8 @@ func loss_iron_item():
 func pogo_start():
 	is_big_pogo = false
 	## 如果有敌人
-	if attack_ray_component_pogo.enemy_can_be_attacked and \
-	attack_ray_component_pogo.enemy_can_be_attacked.global_position.x < global_position.x:
+	if detect_component_pogo.enemy_can_be_attacked and \
+	detect_component_pogo.enemy_can_be_attacked.global_position.x < global_position.x:
 		pogo_time_on_plant += 1
 		if pogo_time_on_plant > 2:
 			pogo_time_on_plant = 0

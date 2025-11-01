@@ -9,7 +9,6 @@ func _ready() -> void:
 	for c in get_children():
 		c = c as Slope
 		all_slopes.append(c)
-	MainGameDate.main_game_slope = self
 
 ## 根据全局x获取相对y,一整行获取
 func get_all_slope_y(global_x:float)->float:

@@ -37,8 +37,8 @@ func _on_button_pressed() -> void:
 	collected = true  # 设置已被收集
 	var target_position = Vector2()
 	SoundManager.play_other_SFX("points")
-	if is_instance_valid(MainGameDate):
-		target_position = MainGameDate.marker_2d_sun_target.global_position
+	if is_instance_valid(Global.main_game):
+		target_position = Global.main_game.marker_2d_sun_target.global_position
 		EventBus.push_event("add_sun_value", [sun_value])
 
 	var tween:Tween = get_tree().create_tween()

@@ -16,8 +16,8 @@ func blow_away_fog():
 	if is_blow_away_once:
 		return
 	is_blow_away_once = true
-	if is_instance_valid(MainGameDate.fog_node):
-		MainGameDate.fog_node.be_flow_away()
+	if is_instance_valid(Global.main_game.fog_node):
+		Global.main_game.fog_node.be_flow_away()
 
 	EventBus.push_event("blover_blow_away_in_sky_zombie")
 

@@ -34,7 +34,7 @@ func _on_production_timer_timeout():
 func spawn_sun():
 	var new_sun = SceneRegistry.SUN.instantiate()
 	if new_sun is Sun:
-		MainGameDate.suns.add_child(new_sun)
+		Global.main_game.suns.add_child(new_sun)
 		curr_sun_sum_value += new_sun.sun_value
 		# 控制阳光下落
 		new_sun.spawn_sun_tween = get_tree().create_tween()

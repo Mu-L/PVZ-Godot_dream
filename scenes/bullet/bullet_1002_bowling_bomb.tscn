@@ -22,7 +22,7 @@ size = Vector2(250, 200)
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.54792, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_ql0xv"]
+[sub_resource type="CurveTexture" id="CurveTexture_meu2b"]
 curve = SubResource("Curve_4oqbk")
 
 [sub_resource type="Curve" id="Curve_fxhww"]
@@ -37,7 +37,7 @@ point_count = 2
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0]
 point_count = 1
 
-[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_jel4a"]
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_syn66"]
 curve_x = SubResource("Curve_fxhww")
 curve_y = SubResource("Curve_8hu5l")
 curve_z = SubResource("Curve_sir5a")
@@ -46,14 +46,14 @@ curve_z = SubResource("Curve_sir5a")
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.303371, 1), 0.0, 0.0, 0, 0, Vector2(0.64794, 0.177344), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_7m227"]
+[sub_resource type="CurveTexture" id="CurveTexture_4oqbk"]
 curve = SubResource("Curve_lgpm8")
 
 [sub_resource type="Curve" id="Curve_nej61"]
 _data = [Vector2(0, 0.505372), 0.0, 0.0, 0, 0, Vector2(0.524345, 0.5125), 0.0135949, -2.71172, 1, 1, Vector2(0.696629, 0.0453124), -2.71172, -0.274964, 1, 1, Vector2(0.861423, 0), -0.274964, 0.0, 1, 0]
 point_count = 4
 
-[sub_resource type="CurveTexture" id="CurveTexture_gsjgd"]
+[sub_resource type="CurveTexture" id="CurveTexture_fxhww"]
 curve = SubResource("Curve_nej61")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7xk12"]
@@ -96,10 +96,10 @@ shader_parameter/tangent_accel_min = 0.0
 shader_parameter/tangent_accel_max = 0.0
 shader_parameter/damping_min = 0.0
 shader_parameter/damping_max = 0.0
-shader_parameter/alpha_curve = SubResource("CurveTexture_ql0xv")
-shader_parameter/color_curve = SubResource("CurveXYZTexture_jel4a")
-shader_parameter/scale_curve = SubResource("CurveTexture_gsjgd")
-shader_parameter/initial_linear_velocity_curve = SubResource("CurveTexture_7m227")
+shader_parameter/alpha_curve = SubResource("CurveTexture_meu2b")
+shader_parameter/color_curve = SubResource("CurveXYZTexture_syn66")
+shader_parameter/scale_curve = SubResource("CurveTexture_fxhww")
+shader_parameter/initial_linear_velocity_curve = SubResource("CurveTexture_4oqbk")
 shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
 shader_parameter/emission_shape_scale = 1.0
 shader_parameter/emission_sphere_radius = 40.0
@@ -109,7 +109,7 @@ shader_parameter/random_direction_from_spread = Vector3(0, 0, 0)
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.54792, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_qq8mq"]
+[sub_resource type="CurveTexture" id="CurveTexture_8hu5l"]
 curve = SubResource("Curve_kj2ct")
 
 [sub_resource type="Curve" id="Curve_iytgh"]
@@ -124,7 +124,7 @@ point_count = 2
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0]
 point_count = 1
 
-[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_lg8p0"]
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_sir5a"]
 curve_x = SubResource("Curve_iytgh")
 curve_y = SubResource("Curve_5i8y0")
 curve_z = SubResource("Curve_jyko1")
@@ -133,7 +133,7 @@ curve_z = SubResource("Curve_jyko1")
 _data = [Vector2(0, 1), 0.0, -0.481111, 0, 1, Vector2(0.23221, 0.888281), -0.481111, -2.00431, 1, 1, Vector2(0.404494, 0.542969), -2.00431, -0.513028, 1, 1, Vector2(0.681648, 0.400781), -0.513028, 0.0, 1, 0]
 point_count = 4
 
-[sub_resource type="CurveTexture" id="CurveTexture_g6ibo"]
+[sub_resource type="CurveTexture" id="CurveTexture_lgpm8"]
 curve = SubResource("Curve_v7fpa")
 
 [sub_resource type="Curve" id="Curve_a2ilc"]
@@ -141,7 +141,7 @@ _limits = [0.0, 3.0, 0.0, 1.0]
 _data = [Vector2(0, 1.26328), 0.0, 0.0, 0, 0, Vector2(0.337079, 1.26328), 0.0, -2.46195, 1, 1, Vector2(0.621723, 0.5625), -2.46195, -1.487, 1, 1, Vector2(1, 0), -1.487, 0.0, 1, 0]
 point_count = 4
 
-[sub_resource type="CurveTexture" id="CurveTexture_rhvhm"]
+[sub_resource type="CurveTexture" id="CurveTexture_nej61"]
 curve = SubResource("Curve_a2ilc")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jeoum"]
@@ -184,10 +184,10 @@ shader_parameter/tangent_accel_min = 0.0
 shader_parameter/tangent_accel_max = 0.0
 shader_parameter/damping_min = 0.0
 shader_parameter/damping_max = 0.0
-shader_parameter/alpha_curve = SubResource("CurveTexture_qq8mq")
-shader_parameter/color_curve = SubResource("CurveXYZTexture_lg8p0")
-shader_parameter/scale_curve = SubResource("CurveTexture_rhvhm")
-shader_parameter/initial_linear_velocity_curve = SubResource("CurveTexture_g6ibo")
+shader_parameter/alpha_curve = SubResource("CurveTexture_8hu5l")
+shader_parameter/color_curve = SubResource("CurveXYZTexture_sir5a")
+shader_parameter/scale_curve = SubResource("CurveTexture_nej61")
+shader_parameter/initial_linear_velocity_curve = SubResource("CurveTexture_lgpm8")
 shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
 shader_parameter/emission_shape_scale = 1.0
 shader_parameter/emission_sphere_radius = 60.0

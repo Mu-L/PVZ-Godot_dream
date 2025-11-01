@@ -49,7 +49,7 @@ func create_prepare_show_zombies():
 	if is_bungi:
 		var z = create_show_zombie(Global.ZombieType.Z021Bungi, show_zombie_panel_2)
 		show_zombies_array.append(z)
-		z.shadow.visible = false
+
 
 
 ## 删除关卡前展示僵尸

@@ -7,6 +7,7 @@ var card:Card
 
 
 func _ready() -> void:
+	super()
 	card_id = card.card_id
 	sun_cost = card.sun_cost
 	var character_static_node = card.character_static.duplicate()

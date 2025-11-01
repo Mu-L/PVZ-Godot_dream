@@ -7,6 +7,8 @@ extends Node2D
 
 @onready var area_2d_2: Area2D = $AlmanacGroundRoof/Area2D2
 
+
+var a:Array[Node2D] = []
 # Called when the node enters the scene tree for the first time.
 #func _ready() -> void:
 	#print("移动前位置", almanac_ground_pool.position)
@@ -28,11 +30,17 @@ func _on_area_2d_area_exited(area: Area2D) -> void:
 
 
 func _on_button_pressed() -> void:
-	area_2d_2.monitorable = not area_2d_2.monitorable
-	area_2d_2.monitoring = not area_2d_2.monitoring
-	area_2d_2.monitoring = not area_2d_2.monitoring
-
-
+	print("点击按钮")
+	print(a)
+	var b = Node2D.new()
+	a.append(b)
+	print(a)
+	b.queue_free()
+	var c = Node2D.new()
+	a.append(c)
+	await get_tree().process_frame
+	print(a)
+	prints(is_instance_valid(a[0]), is_instance_valid(a[1]))
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:
 	print("区域2检测到区域一")

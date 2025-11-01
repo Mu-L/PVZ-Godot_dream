@@ -119,9 +119,9 @@ func start_next_wave() -> void:
 func call_tombstone_create_zombie():
 	EventBus.push_event("create_tombstone", [randi()%3+1])
 	await get_tree().create_timer(1.0, false).timeout
-	for i in range(MainGameDate.tombstone_list.size()):
+	for i in range(Global.main_game.plant_cell_manager.tombstone_list.size()):
 		var new_zombie_type = zombie_type_candidate_tombstone.pick_random()
-		MainGameDate.tombstone_list[i].create_new_zombie(new_zombie_type)
+		Global.main_game.plant_cell_manager.tombstone_list[i].create_new_zombie(new_zombie_type)
 
 ## 更新每秒旗帜进度(僵尸波次更新管理器信号触发)
 func update_progress_bar_segment_mini_every_sec(time:float):

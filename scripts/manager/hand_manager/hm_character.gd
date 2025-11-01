@@ -25,6 +25,9 @@ var is_mode_column := false
 ## 柱子模式虚影
 var characte_static_shadow_colum : Array[Node2D]
 
+## 紫卡植物可以的预种植植物,点击卡片时明暗交替
+var curr_all_preplant_purple:Array[Plant000Base]
+
 func init_hm_character(game_para:ResourceLevelData):
 	self.is_mode_column = game_para.is_mode_column
 
@@ -53,6 +56,11 @@ func click_card(card:Card) -> void:
 
 		if click_card_column:
 			click_card_column()
+
+		# 如果是紫卡植物
+		if plant_condition.is_purple_card:
+			start_preplant_purple_light(plant_condition, curr_card.card_plant_type)
+
 	## 僵尸
 	else:
 		zombie_row_type = Global.get_zombie_info(curr_card.card_zombie_type, Global.ZombieInfoAttribute.ZombieRowType)
@@ -69,8 +77,25 @@ func click_card(card:Card) -> void:
 		if click_card_column:
 			click_card_column()
 
+## 紫卡预种植植物身体明暗发光开始
+func start_preplant_purple_light(plant_condition:ResourcePlantCondition, plant_type:Global.PlantType):
+	curr_all_preplant_purple = plant_condition.get_all_preplant_purple(Global.main_game.plant_cell_manager.all_plant_cells, plant_type)
+	for preplant_purple in curr_all_preplant_purple:
+		preplant_purple.preplant_purple_body_light_and_dark()
+#
+## 紫卡预种植植物身体明暗发光结束
+func end_preplant_purple_light():
+	for preplant_purple in curr_all_preplant_purple:
+		if is_instance_valid(preplant_purple):
+			preplant_purple.preplant_purple_body_light_and_dark_end()
+
 ## 清除数据
 func _clear_curr_data():
+
+	# 如果是紫卡植物
+	if plant_condition != null and plant_condition.is_purple_card:
+		end_preplant_purple_light()
+
 	is_shadow_in_cell = false
 	curr_card = null
 	characte_static.queue_free()
@@ -90,30 +115,15 @@ func mouse_enter(plant_cell:PlantCell):
 func _update_cell_shadow(plant_cell:PlantCell, characte_static_shadow:Node2D) -> bool:
 	## 植物
 	if curr_card.card_plant_type != 0:
-		## 如果是普通植物并且当前格子可以种植普通植物
-		if not plant_condition.is_special_plants and plant_cell.can_common_plant:
-			## 如果地形当前格子地形符合 并且 当前格子对应的植物位置为空
-			if plant_condition.plant_condition & plant_cell.curr_condition and not is_instance_valid(plant_cell.plant_in_cell[plant_condition.place_plant_in_cell]):
-				characte_static_shadow.global_position = plant_cell.get_new_plant_static_shadow_global_position(plant_condition.place_plant_in_cell)
-				characte_static_shadow.modulate.a = 0.5
-				return true
-			else:
-				characte_static_shadow.modulate.a = 0
-				return false
-
-		## 如果是特殊植物，特殊植物调用自己的方法判断是否可以种植
-		elif plant_condition.is_special_plants:
-			if plant_condition.judge_special_plants_condition(plant_cell):
-				characte_static_shadow.global_position = plant_cell.get_new_plant_static_shadow_global_position(plant_condition.place_plant_in_cell)
-				characte_static_shadow.modulate.a = 0.5
-				return true
-			else:
-				characte_static_shadow.modulate.a = 0
-				return false
-		## 如果都不是，不能种植
+		## 如果是判定是否可以种植植物
+		if plant_condition.judge_is_can_plant(plant_cell, curr_card.card_plant_type):
+			characte_static_shadow.global_position = plant_cell.get_new_plant_static_shadow_global_position(plant_condition.place_plant_in_cell)
+			characte_static_shadow.modulate.a = 0.5
+			return true
 		else:
 			characte_static_shadow.modulate.a = 0
 			return false
+
 	## 僵尸
 	else:
 		## 如果当前格子不能种植僵尸
@@ -121,7 +131,7 @@ func _update_cell_shadow(plant_cell:PlantCell, characte_static_shadow:Node2D) ->
 			return false
 		## 如果不是双地形
 		if zombie_row_type != Global.ZombieRowType.Both:
-			if zombie_row_type == MainGameDate.all_zombie_rows[plant_cell.row_col.x].zombie_row_type:
+			if zombie_row_type == Global.main_game.zombie_manager.all_zombie_rows[plant_cell.row_col.x].zombie_row_type:
 				characte_static_shadow.global_position =  get_zombie_static_shadow_global_position(plant_cell)
 				characte_static_shadow.modulate.a = 0.5
 				return true
@@ -137,12 +147,12 @@ func _update_cell_shadow(plant_cell:PlantCell, characte_static_shadow:Node2D) ->
 func get_zombie_static_shadow_global_position(plant_cell)->Vector2:
 	var global_pos =  Vector2(
 		plant_cell.global_position.x + plant_cell.size.x/2,
-		MainGameDate.all_zombie_rows[plant_cell.row_col.x].zombie_create_position.global_position.y
+		Global.main_game.zombie_manager.all_zombie_rows[plant_cell.row_col.x].zombie_create_position.global_position.y
 	)
 
 	## 如果有斜面
-	if is_instance_valid(MainGameDate.main_game_slope):
-		global_pos += Vector2(0, MainGameDate.main_game_slope.get_all_slope_y(global_pos.x))
+	if is_instance_valid(Global.main_game.main_game_slope):
+		global_pos += Vector2(0, Global.main_game.main_game_slope.get_all_slope_y(global_pos.x))
 
 
 	return global_pos
@@ -159,22 +169,21 @@ func click_cell(plant_cell:PlantCell):
 		if curr_card.card_plant_type != 0:
 			plant_cell.create_plant(curr_card.card_plant_type)
 		else:
-			MainGameDate.zombie_manager.create_norm_zombie(
+			Global.main_game.zombie_manager.create_norm_zombie(
 				curr_card.card_zombie_type,
-				MainGameDate.all_zombie_rows[plant_cell.row_col.x],
+				Global.main_game.zombie_manager.all_zombie_rows[plant_cell.row_col.x],
 				Character000Base.E_CharacterInitType.IsNorm,
 				plant_cell.row_col.x,
 				-1,
 				Vector2(
-					plant_cell.global_position.x + plant_cell.size.x/2 - MainGameDate.all_zombie_rows[plant_cell.row_col.x].global_position.x,
-					MainGameDate.all_zombie_rows[plant_cell.row_col.x].zombie_create_position.position.y
+					plant_cell.global_position.x + plant_cell.size.x/2 - Global.main_game.zombie_manager.all_zombie_rows[plant_cell.row_col.x].global_position.x,
+					Global.main_game.zombie_manager.all_zombie_rows[plant_cell.row_col.x].zombie_create_position.position.y
 				),
 				get_special_zombie_callable(curr_card.card_zombie_type, plant_cell)
 			)
 
-		## 卡片种植完成后发射信号
+		## 卡片种植完成发射信号
 		curr_card.signal_card_use_end.emit()
-
 		if is_mode_column:
 			_click_cell_column(plant_cell)
 
@@ -187,13 +196,13 @@ func exit_status():
 ## 柱子模式 点击卡片产生多余植物虚影
 func click_card_column() -> void:
 	if curr_card.card_plant_type != 0:
-		for plant_cell_i in range(MainGameDate.row_col.x):
+		for plant_cell_i in range(Global.main_game.plant_cell_manager.row_col.x):
 			var column_characte_static_shadow = characte_static_shadow.duplicate()
 			column_characte_static_shadow.modulate.a = 0
 			temporary_plants.add_child(column_characte_static_shadow)
 			characte_static_shadow_colum.append(column_characte_static_shadow)
 	else:
-		for zombie_rows_i in range(MainGameDate.all_zombie_rows.size()):
+		for zombie_rows_i in range(Global.main_game.zombie_manager.all_zombie_rows.size()):
 			var column_characte_static_shadow = characte_static_shadow.duplicate()
 			column_characte_static_shadow.modulate.a = 0
 			temporary_zombies.add_child(column_characte_static_shadow)
@@ -201,13 +210,13 @@ func click_card_column() -> void:
 
 ## 柱子模式 鼠标进入判断其他格子是否可以种植，产生虚影
 func _mouse_enter_column(plant_cell:PlantCell):
-	for plant_cell_i in range(MainGameDate.row_col.x):
+	for plant_cell_i in range(Global.main_game.plant_cell_manager.row_col.x):
 		if plant_cell_i == plant_cell.row_col.x:
 			continue
 
 		## 判断是否产生虚影
 		_update_cell_shadow(
-			MainGameDate.all_plant_cells[plant_cell_i][plant_cell.row_col.y],\
+			Global.main_game.plant_cell_manager.all_plant_cells[plant_cell_i][plant_cell.row_col.y],\
 			characte_static_shadow_colum[plant_cell_i]
 		)
 
@@ -223,23 +232,23 @@ func _click_cell_column(plant_cell:PlantCell):
 			## 当前格子的图像透明
 			var _characte_static_shadow = characte_static_shadow_colum[i]
 			if _characte_static_shadow.modulate.a != 0:
-				var _plant_cell:PlantCell = MainGameDate.all_plant_cells[i][plant_cell.row_col.y]
+				var _plant_cell:PlantCell = Global.main_game.plant_cell_manager.all_plant_cells[i][plant_cell.row_col.y]
 				_plant_cell.create_plant(curr_card.card_plant_type)
 	else:
 		for i in range(characte_static_shadow_colum.size()):
 			## 当前格子的图像透明
 			var _characte_static_shadow = characte_static_shadow_colum[i]
 			if _characte_static_shadow.modulate.a != 0:
-				var _plant_cell:PlantCell = MainGameDate.all_plant_cells[i][plant_cell.row_col.y]
+				var _plant_cell:PlantCell = Global.main_game.plant_cell_manager.all_plant_cells[i][plant_cell.row_col.y]
 
-				MainGameDate.zombie_manager.create_norm_zombie(
+				Global.main_game.zombie_manager.create_norm_zombie(
 					curr_card.card_zombie_type,
-					MainGameDate.all_zombie_rows[_plant_cell.row_col.x],
+					Global.main_game.zombie_manager.all_zombie_rows[_plant_cell.row_col.x],
 					Character000Base.E_CharacterInitType.IsNorm,
 					_plant_cell.row_col.x,
 					-1,
-					Vector2(_characte_static_shadow.global_position.x - MainGameDate.all_zombie_rows[_plant_cell.row_col.x].global_position.x,
-						MainGameDate.all_zombie_rows[_plant_cell.row_col.x].zombie_create_position.position.y
+					Vector2(_characte_static_shadow.global_position.x - Global.main_game.zombie_manager.all_zombie_rows[_plant_cell.row_col.x].global_position.x,
+						Global.main_game.zombie_manager.all_zombie_rows[_plant_cell.row_col.x].zombie_create_position.position.y
 					),
 					get_special_zombie_callable(curr_card.card_zombie_type, _plant_cell)
 				)

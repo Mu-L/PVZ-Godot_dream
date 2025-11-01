@@ -1,7 +1,7 @@
 extends Plant000Base
 class_name Plant022Caltrop
 
-@onready var attack_ray_component: AttackRayComponent = $AttackRayComponent
+@onready var detect_component: AttackRayComponent = $AttackRayComponent
 
 @export var attack_value:=20
 @export_group("动画状态")
@@ -12,13 +12,13 @@ var is_flattened := false
 ## 初始化正常出战角色信号连接
 func init_norm_signal_connect():
 	super()
-	attack_ray_component.signal_can_attack.connect(func():is_attack = true)
-	attack_ray_component.signal_not_can_attack.connect(func():is_attack = false)
+	detect_component.signal_can_attack.connect(func():is_attack = true)
+	detect_component.signal_not_can_attack.connect(func():is_attack = false)
 
 ## 攻击一次
 func _attack_once():
 	SoundManager.play_plant_SFX(Global.PlantType.P001PeaShooterSingle, "Throw")
-	var all_enemy_can_be_attacked = attack_ray_component.get_all_enemy_can_be_attacked()
+	var all_enemy_can_be_attacked = detect_component.get_all_enemy_can_be_attacked()
 	for i in range(all_enemy_can_be_attacked.size() - 1, -1, -1):
 		var enemy:Character000Base = all_enemy_can_be_attacked[i]
 		if enemy is Zombie000Base:

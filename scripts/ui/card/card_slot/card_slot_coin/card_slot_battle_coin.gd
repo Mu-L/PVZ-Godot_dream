@@ -29,12 +29,12 @@ var is_end_wave:=false
 func _ready() -> void:
 	Global.signal_change_disappear_spare_card_placeholder.connect(judge_disappear_add_card_bar)
 	update_label_info()
-	MainGameDate.p_yeti_run = curr_p
+	Global.main_game.p_yeti_run = curr_p
 	Global.coin_value_change.connect(func():curr_coin_value.text = str(Global.coin_value))
 
 func _process(delta: float) -> void:
 	if curr_wave_card <= 0 and not is_end_wave:
-		for z:Zombie020Yeti in MainGameDate.zombie_manager.all_zombies_1d:
+		for z:Zombie020Yeti in Global.main_game.zombie_manager.all_zombies_1d:
 			if not z.is_run_end and not z.is_death:
 				return
 
@@ -99,7 +99,7 @@ func next_wave():
 	elif curr_p<=0.5:
 		curr_p += 0
 
-	MainGameDate.p_yeti_run = curr_p
+	Global.main_game.p_yeti_run = curr_p
 	next_wave_timer.stop()
 	curr_cards[0].set_card_cool_time_start_cool(0)
 	EventBus.push_event("replenish_lawn_mover")
@@ -111,7 +111,7 @@ func next_wave():
 ## 是否显示多余卡槽
 func judge_disappear_add_card_bar():
 	## 在游戏进行阶段
-	if MainGameDate.main_game_progress == MainGameManager.E_MainGameProgress.MAIN_GAME:
+	if Global.main_game.main_game_progress == MainGameManager.E_MainGameProgress.MAIN_GAME:
 		if Global.disappear_spare_card_Placeholder:
 			if curr_cards.size() < cards_placeholder.size():
 				for i in range(curr_cards.size(), cards_placeholder.size()):

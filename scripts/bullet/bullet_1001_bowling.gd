@@ -8,7 +8,7 @@ var rotation_speed = 5.0
 var y_every_lane:Array[float]
 ## 第一次攻击是否完成
 var first_attack_end := false
-## 是否在当前行,为true时可以攻击
+## 是否在当前行,为 true 时可以攻击
 var in_curr_lane := true
 ## 当前的碰撞敌人,到达当前行后对当前敌人攻击
 var curr_enemy :Character000Base
@@ -16,20 +16,9 @@ var curr_enemy :Character000Base
 
 func _ready() -> void:
 	super._ready()
-	for i_zombie_row_node:ZombieRow in MainGameDate.all_zombie_rows:
-		y_every_lane.append(i_zombie_row_node.zombie_create_position.global_position.y - 10)
+	for i_zombie_row_node:ZombieRow in Global.main_game.zombie_manager.all_zombie_rows:
+		y_every_lane.append(i_zombie_row_node.zombie_create_position.global_position.y)
 	SoundManager.play_bullet_attack_SFX(SoundManager.TypeBulletSFX.Bowling)
-
-## 初始化子弹属性
-func init_bullet(lane:int, start_pos:Vector2, direction:= Vector2.RIGHT, \
-	bullet_lane_activate:bool=default_bullet_lane_activate, \
-	can_attack_plant_status:int = can_attack_plant_status, \
-	can_attack_zombie_status:int=can_attack_zombie_status
-	):
-	super(lane, start_pos, direction, bullet_lane_activate, can_attack_plant_status, can_attack_zombie_status)
-	z_as_relative = false
-	z_index = 415 + lane * 10
-
 
 func _process(delta: float) -> void:
 	super._process(delta)
@@ -64,12 +53,8 @@ func _process(delta: float) -> void:
 
 ## 更新图层
 func update_z_index_and_lane(curr_lane:int, target_lane:int):
-	##第0行僵尸z_index = 410
-	if curr_lane > target_lane:
-		z_index = 415 + target_lane * 10
-	else:
-		z_index = 415 + (target_lane - 1) * 10
 	bullet_lane = target_lane
+	z_index = 50 * bullet_lane + 45
 
 ## 更新保龄球移动方向
 func _update_direction():

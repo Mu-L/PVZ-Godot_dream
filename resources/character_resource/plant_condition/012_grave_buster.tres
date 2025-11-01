@@ -7,4 +7,5 @@ script = ExtResource("1_ixjue")
 plant_condition = 63
 place_plant_in_cell = 0
 is_special_plants = true
+is_purple_card = false
 metadata/_custom_type_script = "uid://lm6sv7e83ixs"

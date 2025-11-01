@@ -7,7 +7,6 @@ func activate_bomb_effect():
 	super()
 	EventBus.push_event("canvas_layer_effect_once", [CanvasLayerEffect.E_CanvasLayerEffectType.Doom])
 
-	visible = true
 	animation_player.play("idle")
 	await animation_player.animation_finished
 	queue_free()

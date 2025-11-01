@@ -8,7 +8,7 @@ signal signal_is_have_zombie_in_sky(value:bool)
 func _ready() -> void:
 	super()
 	## 检测到空中敌人时，将信号传递给角色本体
-	attack_ray_component.signal_is_have_zombie_in_sky.connect(update_is_have_zombie_in_sky)
+	detect_component.signal_is_have_zombie_in_sky.connect(update_is_have_zombie_in_sky)
 
 ## 更新是否有空中敌人，将信号传递给角色本体
 func update_is_have_zombie_in_sky(value:bool):

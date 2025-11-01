@@ -49,8 +49,8 @@ func spawn_sun(create_global_position:Vector2):
 	var new_sun = SceneRegistry.SUN.instantiate()
 	if new_sun is Sun:
 
-		new_sun.init_sun(sun_value, MainGameDate.suns.to_local(create_global_position))
-		MainGameDate.suns.add_child(new_sun)
+		new_sun.init_sun(sun_value, Global.main_game.suns.to_local(create_global_position))
+		Global.main_game.suns.add_child(new_sun)
 
 		## 控制阳光下落
 		var tween = create_tween()

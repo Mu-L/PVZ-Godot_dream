@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://qa5hdp5x5xq8"]
+[gd_scene load_steps=8 format=3 uid="uid://qa5hdp5x5xq8"]
 
 [ext_resource type="PackedScene" uid="uid://b2soejmoqi7wd" path="res://scenes/main/MainGame00Base.tscn" id="1_ebgo8"]
 [ext_resource type="Texture2D" uid="uid://cvydoge11mp4" path="res://assets/image/background/background3.jpg" id="2_d84l0"]
+[ext_resource type="Resource" uid="uid://bw5m4wyshmv8w" path="res://resources/level_date_resource/mode_adventure/adventure_03_pool_test.tres" id="2_lh46o"]
 [ext_resource type="PackedScene" uid="uid://bq5t78cjcpj7y" path="res://scenes/item/game_scenes_item/bg_item/pool.tscn" id="4_7o8m0"]
 [ext_resource type="PackedScene" uid="uid://brnfbv2sxv2qh" path="res://scenes/ui/plant_cell.tscn" id="5_lh46o"]
 [ext_resource type="Script" uid="uid://bkeu6j2ek3su7" path="res://scripts/main_game_item/zombies_row.gd" id="12_jlyge"]
@@ -10,29 +11,12 @@
 
 [node name="MainGame" instance=ExtResource("1_ebgo8")]
 test_change_sun_value = 10000
+game_para = ExtResource("2_lh46o")
 
-[node name="Background" parent="." index="1"]
+[node name="Background" parent="CanvasLayerBG" index="0"]
 texture = ExtResource("2_d84l0")
 
-[node name="Background3GameoverInteriorOverlay" parent="Background/Home/Door/DoorDown" index="2"]
-position = Vector2(73.3951, 344.849)
-
-[node name="Background4GameoverInteriorOverlay" parent="Background/Home/Door/DoorDown" index="3"]
-position = Vector2(73.7242, 346.991)
-
-[node name="PanelZombieGoHome" parent="Background/Home/Door/DoorDown" index="4"]
-offset_left = 48.4924
-offset_top = -1.81818
-offset_right = 248.493
-offset_bottom = 598.182
-
-[node name="Background3GameoverMask" parent="Background/Home/Door/DoorMask" index="2"]
-position = Vector2(71.474, 343.806)
-
-[node name="Background4GameoverMask" parent="Background/Home/Door/DoorMask" index="3"]
-position = Vector2(137.674, 304.677)
-
-[node name="Pool" parent="Background" index="2" instance=ExtResource("4_7o8m0")]
+[node name="Pool" parent="CanvasLayerBG/Background" index="4" instance=ExtResource("4_7o8m0")]
 
 [node name="PlantCellsRow1" type="Control" parent="PlantCellsRoot" index="0"]
 z_index = 10

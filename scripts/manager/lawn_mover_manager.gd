@@ -47,9 +47,9 @@ func create_all_lawn_movers():
 	all_lawn_movers_type = AllLawnMoverTypeFromGameScenes[game_scene]
 
 	print("创建小推车, 小推车类型", all_lawn_movers_type)
-	assert(MainGameDate.all_zombie_rows.size() == all_lawn_movers_type.size(), "小推车数量与僵尸行数量不一致")
+	assert(Global.main_game.zombie_manager.all_zombie_rows.size() == all_lawn_movers_type.size(), "小推车数量与僵尸行数量不一致")
 	for lane in range(all_lawn_movers_type.size()):
-		var zombie_row:ZombieRow = MainGameDate.all_zombie_rows[lane]
+		var zombie_row:ZombieRow = Global.main_game.zombie_manager.all_zombie_rows[lane]
 		var global_pos_lawn_mover:Vector2 = Vector2(GlobalXLawnMover, zombie_row.zombie_create_position.global_position.y)
 		all_lawn_movers_global_pos.append(global_pos_lawn_mover)
 		var new_lawn_mover = create_lawn_mover(lane, all_lawn_movers_type[lane], all_lawn_movers_global_pos[lane])
@@ -71,7 +71,7 @@ func replenish_lawn_mover():
 func create_lawn_mover(lane:int, lawn_mover_type:E_LawnMoverType, global_pos:Vector2)->LawnMover:
 	var new_lawn_mover:LawnMover = LawnMoverSecneMap[lawn_mover_type].instantiate()
 	new_lawn_mover.lane = lane
-	new_lawn_mover.z_index = 5 + (lane+1) * 10
+	new_lawn_mover.z_index = lane * 50 + 40
 	new_lawn_mover.position = global_pos - lawn_movers.global_position
 	lawn_movers.add_child(new_lawn_mover)
 	lawn_mover_appear(new_lawn_mover)

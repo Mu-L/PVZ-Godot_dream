@@ -5,14 +5,15 @@
 
 [resource]
 script = ExtResource("1_kesjv")
-game_sences = 2
+game_sences = 0
 game_BG = 0
-game_BGM = 3
+game_BGM = 5
 is_fog = false
 is_day = true
 is_day_sun = false
+is_lawn_mover = true
 all_pre_plant_data = Array[ExtResource("1_5myuh")]([])
-look_show_zombie = true
+look_show_zombie = false
 can_choosed_card = false
 monster_mode = 1
 zombie_multy = 3

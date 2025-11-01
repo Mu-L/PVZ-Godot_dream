@@ -9,11 +9,11 @@ func init_item(plant_cell_col_j:int=2, plant_cell_can_use:Dictionary = {}):
 	var main_game: MainGameManager = get_tree().current_scene
 	plant_cell_manager = main_game.plant_cell_manager
 	## 确定红线位置
-	var target_plant_cell:PlantCell= MainGameDate.all_plant_cells[0][plant_cell_col_j]
+	var target_plant_cell:PlantCell= Global.main_game.plant_cell_manager.all_plant_cells[0][plant_cell_col_j]
 	global_position = target_plant_cell.global_position + Vector2(target_plant_cell.size.x - 11, 0)
 
 
-	for plant_cells_row in MainGameDate.all_plant_cells:
+	for plant_cells_row in Global.main_game.plant_cell_manager.all_plant_cells:
 		## 左边不可以种植
 		if not plant_cell_can_use["left_can_plant"]:
 			for j in range(plant_cell_col_j + 1):

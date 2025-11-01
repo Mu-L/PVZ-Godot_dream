@@ -1,7 +1,7 @@
 extends Plant000Base
 class_name Plant007Chomper
 
-@onready var attack_ray_component: AttackRayComponent = $AttackRayComponent
+@onready var detect_component: AttackRayComponent = $AttackRayComponent
 
 ## 咀嚼时间计时器
 @onready var chew_timer: Timer = $ChewTimer
@@ -25,7 +25,7 @@ func init_norm() -> void:
 func init_norm_signal_connect():
 	super()
 	signal_update_speed.connect(owner_update_speed)
-	attack_ray_component.signal_can_attack.connect(change_is_attack.bind(true))
+	detect_component.signal_can_attack.connect(change_is_attack.bind(true))
 
 ## 速度改变
 func owner_update_speed(speed_product:float):
@@ -53,7 +53,7 @@ func _on_chew_timer_timeout() -> void:
 #region 动画轨道调用
 ## 吞咽动画结束
 func swallow_end():
-	if is_instance_valid(attack_ray_component.enemy_can_be_attacked):
+	if is_instance_valid(detect_component.enemy_can_be_attacked):
 		is_bite = true
 
 ## 啃咬动画结束
@@ -61,7 +61,7 @@ func bite_end():
 	is_bite = false
 	## 如果没有啃咬到僵尸
 	if not is_chewing:
-		if is_instance_valid(attack_ray_component.enemy_can_be_attacked):
+		if is_instance_valid(detect_component.enemy_can_be_attacked):
 			is_bite = true
 #endregion
 
@@ -70,8 +70,8 @@ func _eat_zombie():
 	## 播放音效
 	SoundManager.play_plant_SFX(Global.PlantType.P007Chomper, &"BigChomp")
 	## 如果有僵尸
-	if is_instance_valid(attack_ray_component.enemy_can_be_attacked):
-		var zombie :Zombie000Base = attack_ray_component.enemy_can_be_attacked
+	if is_instance_valid(detect_component.enemy_can_be_attacked):
+		var zombie :Zombie000Base = detect_component.enemy_can_be_attacked
 		zombie.be_chomper_eat(eat_attack)
 		chew_timer.start()
 

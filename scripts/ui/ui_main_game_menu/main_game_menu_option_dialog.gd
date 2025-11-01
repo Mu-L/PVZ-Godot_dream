@@ -7,6 +7,7 @@ class_name MainGameMenuOptionDialog
 @onready var sound_h_slider: HSlider = $Option/VBoxContainer/SoundEffect/HSlider
 @onready var time_scale_h_slider: HSlider = $Option/VBoxContainer/TimeScale/HSlider
 @onready var time_sacle_label: Label = $Option/VBoxContainer/TimeScale/Label
+@onready var canvas_layer_console: CanvasLayerConsole = %CanvasLayerConsole
 
 
 func _ready() -> void:
@@ -50,7 +51,7 @@ func return_button_pressed():
 	SoundManager.play_other_SFX("pause")
 	visible = false
 
-	if MainGameDate.main_game_progress == MainGameManager.E_MainGameProgress.GAME_OVER:
+	if Global.main_game.main_game_progress == MainGameManager.E_MainGameProgress.GAME_OVER:
 		return
 	get_tree().paused = false
 	#mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -79,3 +80,7 @@ func return_main_menu():
 ## 功能未实现
 func _unrealized():
 	dialog.appear_dialog()
+
+## 出现控制台
+func _on_button_console_pressed() -> void:
+	canvas_layer_console.appear_canvas_layer_control()

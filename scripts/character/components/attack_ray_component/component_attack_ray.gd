@@ -36,7 +36,7 @@ var need_judge := false
 
 ## 检测区域列表
 var all_ray_area:Array[Area2D]
-## 检测区域的方向
+## 检测区域的方向,部分植物发射子弹使用
 var ray_area_direction:Array[Vector2]
 
 ## 外部需要的组件（攻击行为组件）连接该信号
@@ -50,8 +50,10 @@ func _ready() -> void:
 		enemy_collision_lay = zomie_enemy_collision_lay
 	elif owner is Plant000Base:
 		enemy_collision_lay = plant_enemy_collision_lay
+	elif owner is MainGameManager:
+		enemy_collision_lay = plant_enemy_collision_lay
 	else:
-		push_error("组件owner不是植物或者僵尸基类角色")
+		printerr("组件owner不是植物或者僵尸基类角色")
 
 	## 连接所有子节点（area2d）的信号[三线、杨桃等有多个射线area2d]
 	for i:int in range(get_child_count()):
@@ -62,9 +64,9 @@ func _ready() -> void:
 		all_ray_area.append(area_2d)
 		ray_area_direction.append(Vector2(cos(area_2d.rotation), sin(area_2d.rotation)))
 
-	if owner.lane == -1 and owner.character_init_type == Character000Base.E_CharacterInitType.IsNorm:
+	## 如果是角色类型(世界有一个全局检测组件,用于追踪型子弹检查敌人)
+	if owner is Character000Base and owner.lane == -1 and owner.character_init_type == Character000Base.E_CharacterInitType.IsNorm:
 		printerr("lane == -1且为正常出战初始化类型")
-
 
 func _process(_delta):
 	if need_judge and is_enabling:
@@ -217,3 +219,5 @@ func owner_be_hypno():
 	enemy_collision_lay = plant_enemy_collision_lay
 	disable_component(ComponentBase.E_IsEnableFactor.Hypno)
 	enable_component(ComponentBase.E_IsEnableFactor.Hypno)
+
+

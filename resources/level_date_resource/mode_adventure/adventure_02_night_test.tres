@@ -1,7 +1,19 @@
-[gd_resource type="Resource" script_class="ResourceLevelData" load_steps=3 format=3 uid="uid://5g1put23jrjf"]
+[gd_resource type="Resource" script_class="ResourceLevelData" load_steps=5 format=3 uid="uid://5g1put23jrjf"]
 
 [ext_resource type="Script" uid="uid://bjt3l56exxmdw" path="res://scripts/resources/level/level_data.gd" id="1_d8ulq"]
 [ext_resource type="Script" uid="uid://bke3sg5otco7s" path="res://scripts/resources/level/pre_plant_in_level.gd" id="1_pcdkq"]
+
+[sub_resource type="Resource" id="Resource_pcdkq"]
+script = ExtResource("1_pcdkq")
+plant_type = 48
+plant_cell_pos = Vector2i(5, 2)
+metadata/_custom_type_script = "uid://bke3sg5otco7s"
+
+[sub_resource type="Resource" id="Resource_iqisu"]
+script = ExtResource("1_pcdkq")
+plant_type = 1
+plant_cell_pos = Vector2i(1, 1)
+metadata/_custom_type_script = "uid://bke3sg5otco7s"
 
 [resource]
 script = ExtResource("1_d8ulq")
@@ -11,7 +23,8 @@ game_BGM = 1
 is_fog = false
 is_day = false
 is_day_sun = false
-all_pre_plant_data = Array[ExtResource("1_pcdkq")]([])
+is_lawn_mover = true
+all_pre_plant_data = Array[ExtResource("1_pcdkq")]([SubResource("Resource_pcdkq"), SubResource("Resource_iqisu")])
 look_show_zombie = true
 can_choosed_card = true
 monster_mode = 0
@@ -19,6 +32,7 @@ zombie_multy = 5
 max_wave = 30
 zombie_refresh_types = Array[int]([1, 3, 4, 5])
 is_bungi = false
+range_num_bungi = Vector2i(3, 5)
 zombie_multy_hammer = 1
 max_wave_hammer_zombie = 10
 speed_zombie_init = 1.0

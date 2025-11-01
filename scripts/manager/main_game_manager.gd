@@ -19,23 +19,30 @@ class_name MainGameManager
 #endregion
 
 #region UI元素、相机
-@onready var camera_2d: MainGameCamera = $Camera2D
-@onready var ui_remind_word: UIRemindWord = $CanvasLayer/UIRemindWord
+@onready var camera_2d: MainGameCamera = %Camera2D
+@onready var ui_remind_word: UIRemindWord = %UIRemindWord
 #endregion
 
 #region 游戏主元素
 @onready var background: MainGameBackGround = %Background
 
-## 将对应子弹\爆炸\阳光放到对应节点下,更新至MainGameDate中
+## 阳光收集位置
+@onready var marker_2d_sun_target: Marker2D = %Marker2DSunTargetDefault
+
+## 将子弹\爆炸\阳光
 @onready var bullets: Node2D = %Bullets
 @onready var bombs: Node2D = %Bombs
 @onready var suns: Node2D = %Suns
 
-@onready var coin_bank_label: CoinBankLabel = $CanvasLayer/CoinBankLabel
+@onready var coin_bank_label: CoinBankLabel = %CoinBankLabel
 ## 卡槽
 @onready var card_slot_root: CardSlotRoot = %CardSlotRoot
 ## 僵尸进家panel
 @onready var panel_zombie_go_home: Panel = %PanelZombieGoHome
+
+## 全局检测组件,用于检测敌人
+##TODO:可能会用于检测敌人离开场景后删除
+@onready var detect_component_global: DetectComponentGlobal = %DetectComponentGlobal
 
 #endregion
 
@@ -46,16 +53,16 @@ var is_mouse_visibel_on_hammer:bool = false
 	## 卡槽
 	%CardSlotRoot,
 	## 菜单
-	$CanvasLayer/All_UI/MainGameMenuButton,
-	$CanvasLayer/All_UI/MainGameMenuOptionDialog,
-	$CanvasLayer/All_UI/Dialog
+	%MainGameMenuButton, %MainGameMenuOptionDialog, %Dialog
 ]
 
 #endregion
 
 #region bgm
+## 选卡bgm
 @export var bgm_choose_card: AudioStream
-@export var bgm_main_game: AudioStream
+## 主游戏bgm
+var bgm_main_game: AudioStream
 #endregion
 
 
@@ -67,34 +74,52 @@ enum E_MainGameProgress{
 	MAIN_GAME,		## 游戏阶段
 	GAME_OVER		## 游戏结束阶段
 }
+
+var main_game_progress := E_MainGameProgress.NONE
+#endregion
+
+#region 游戏数据
+@export_group("地图特殊地形")
+## 斜面(屋顶)
+@export var main_game_slope:MainGameSlope
+## 主游戏背景
+var fog_node:Fog
+## 雪人僵尸逃跑概率(默认不使用该概率,赌狗小游戏使用)
+var p_yeti_run :float= -1
 #endregion
 
 #region 游戏参数
 @export_group("本局游戏参数")
+## 正常进入游戏会自动更新对应关卡数据,直接进入该场景会使用该关卡数据,并设置is_test=true
 @export var game_para : ResourceLevelData
-@export var is_test : bool = false
+## 若为true,选卡无冷却
+var is_test := false
 #endregion
+
+
 
 #endregion
 func _ready() -> void:
-	MainGameDate.main_game_manager = self
+	Global.main_game = self
+	## 默认禁用全局敌人检测组件(追踪子弹调用, 放置追踪植物时启用,追踪植物死亡时,检测是否关闭)
+	detect_component_global.disable_component(ComponentBase.E_IsEnableFactor.Global)
 	## 订阅总线事件
 	event_bus_subscribe()
-	## 更新主游戏数据单例
-	update_main_game_date()
 	## 主游戏进程
-	MainGameDate.main_game_progress = E_MainGameProgress.CHOOSE_CARD
+	main_game_progress = E_MainGameProgress.CHOOSE_CARD
 	## 播放选卡bgm
 	SoundManager.play_bgm(bgm_choose_card)
 	## 先获取当前关卡参数
-	if not is_test:
-		_from_globel_get_level_para()
+	if Global.game_para != null:
+		game_para = Global.game_para
+	else:
+		is_test = true
 	game_para.init_para()
 
-	## 初始化子管理器
-	init_manager()
 	## 连接子节点信号
 	signal_connect()
+	## 初始化子管理器
+	init_manager()
 	## 金币label初始化
 	Global.coin_value_label = coin_bank_label
 	coin_bank_label.visible = false
@@ -133,12 +158,6 @@ func event_bus_subscribe():
 	## 正常选卡结束后开始游戏
 	EventBus.subscribe("card_slot_norm_start_game", choosed_card_start_game)
 
-## 更新主游戏数据单例
-func update_main_game_date():
-	MainGameDate.bullets = bullets
-	MainGameDate.bombs = bombs
-	MainGameDate.suns = suns
-
 
 #region 游戏关卡初始化
 ## 初始化管理器
@@ -150,11 +169,10 @@ func init_manager():
 	zombie_manager.init_zombie_manager(game_para)
 	lawn_mover_manager.init_lawn_mover_manager(game_para)
 
-
 ## 子节点之间信号连接
 func signal_connect():
 	## 植物种植区域信号
-	for plant_cells_row in MainGameDate.all_plant_cells:
+	for plant_cells_row in plant_cell_manager.all_plant_cells:
 		for plant_cell in plant_cells_row:
 			plant_cell = plant_cell as PlantCell
 			plant_cell.click_cell.connect(hand_manager._on_click_cell)
@@ -164,10 +182,6 @@ func signal_connect():
 		for ui_node:Control in node_mouse_appear_have_hammer:
 			ui_node.mouse_entered.connect(mouse_appear_have_hammer)
 			ui_node.mouse_exited.connect(mouse_disappear_have_hammer)
-
-## 从globel中获取当前关卡
-func _from_globel_get_level_para():
-	game_para = Global.game_para
 
 ## 初始化游戏背景,bgm
 func _init_game_BG():
@@ -196,9 +210,9 @@ func choosed_card_start_game():
 ## 选卡结束，开始游戏
 func main_game_start():
 	## 主游戏进程阶段
-	MainGameDate.main_game_progress = E_MainGameProgress.PREPARE
+	main_game_progress = E_MainGameProgress.PREPARE
 	if game_para.is_fog:
-		MainGameDate.fog_node.come_back_game(5.0)
+		fog_node.come_back_game(5.0)
 
 	## 删除展示僵尸
 	if game_para.look_show_zombie:
@@ -223,7 +237,7 @@ func main_game_start():
 	if game_para.have_card_bar:
 		card_manager.card_slot_update_main_game()
 	## 主游戏进程阶段
-	MainGameDate.main_game_progress = E_MainGameProgress.MAIN_GAME
+	main_game_progress = E_MainGameProgress.MAIN_GAME
 
 	## 红字结束后一秒修改bgm
 	await get_tree().create_timer(1.0).timeout
@@ -244,7 +258,7 @@ func change_zombie_position(zombie:Zombie000Base):
 ## 僵尸进房
 func on_zombie_go_home(zombie:Zombie000Base):
 
-	MainGameDate.main_game_progress = E_MainGameProgress.GAME_OVER
+	main_game_progress = E_MainGameProgress.GAME_OVER
 	card_slot_root.visible = false
 	# 游戏暂停
 	get_tree().paused = true
@@ -284,3 +298,4 @@ func change_is_mouse_visibel_on_hammer(value:bool):
 		is_mouse_visibel_on_hammer = value
 
 #endregion
+

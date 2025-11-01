@@ -1,8 +1,9 @@
 extends ComponentBase
-## 基础攻击组件，攻击组件都有攻击射线检测组件（attack_ray_component）
+## 基础攻击组件，攻击组件都有攻击射线检测组件（detect_component）
+## (除了全局攻击组件使用全局检测组件)
 class_name AttackComponentBase
 
-@onready var attack_ray_component: AttackRayComponent = $AttackRayComponent
+@onready var detect_component: AttackRayComponent = $AttackRayComponent
 
 ### 是否正在攻击
 #var is_attack := false
@@ -33,20 +34,27 @@ signal signal_change_is_attack(value:bool)
 
 func _ready() -> void:
 	super()
-	attack_ray_component.signal_can_attack.connect(update_is_attack_factors.bind(true, E_IsAttackFactors.RayEnemy))
-	attack_ray_component.signal_not_can_attack.connect(update_is_attack_factors.bind(false, E_IsAttackFactors.RayEnemy))
+	detect_component_init()
+
+func detect_component_init():
+	if is_instance_valid(detect_component):
+		detect_component.signal_can_attack.connect(update_is_attack_factors.bind(true, E_IsAttackFactors.RayEnemy))
+		detect_component.signal_not_can_attack.connect(update_is_attack_factors.bind(false, E_IsAttackFactors.RayEnemy))
 
 
 ## 启用组件
 func enable_component(is_enable_factor:E_IsEnableFactor):
 	super(is_enable_factor)
-	attack_ray_component.enable_component(is_enable_factor)
+	if is_instance_valid(detect_component):
+		detect_component.enable_component(is_enable_factor)
 	update_is_attack_factors(true, E_IsAttackFactors.Enbale)
 
 ## 禁用组件
 func disable_component(is_enable_factor:E_IsEnableFactor):
 	super(is_enable_factor)
-	attack_ray_component.disable_component(is_enable_factor)
+	#print(owner.name)
+	if is_instance_valid(detect_component):
+		detect_component.disable_component(is_enable_factor)
 	update_is_attack_factors(false, E_IsAttackFactors.Enbale)
 
 ## 开始攻击
@@ -60,4 +68,5 @@ func attack_end():
 
 ## 被魅惑
 func owner_be_hypno():
-	attack_ray_component.owner_be_hypno()
+	detect_component.owner_be_hypno()
+

@@ -7,3 +7,4 @@ script = ExtResource("1_erx55")
 plant_condition = 63
 place_plant_in_cell = 3
 is_special_plants = true
+is_purple_card = false

@@ -36,9 +36,8 @@ var bullets: Node2D
 func _ready() -> void:
 	super()
 	bullet_attack_cd_timer.wait_time = attack_cd
-	attack_ray_component.is_lane = is_lane
-	if is_instance_valid(MainGameDate.bullets):
-		bullets = MainGameDate.bullets
+	if is_instance_valid(Global.main_game):
+		bullets = Global.main_game.bullets
 
 ## 角色速度修改
 func owner_update_speed(speed_product:float):
@@ -86,19 +85,24 @@ func set_cancel_attack():
 func _shoot_bullet():
 	signal_shoot_bullet.emit()
 	for i in range(markers_2d_bullet.size()):
-		var marker_2d_bullet = markers_2d_bullet[i]
-		var ray_direction = attack_ray_component.ray_area_direction[i]
 		var bullet:Bullet000Base = Global.get_bullet_scenes(attack_bullet_type).instantiate()
-		## 子弹初始位置
-		var bullet_pos_ori = marker_2d_bullet.global_position
-		bullet.init_bullet(owner.lane, bullets.to_local(bullet_pos_ori), ray_direction, is_lane, can_attack_plant_status, can_attack_zombie_status)
-		special_bullet_init(bullet)
+		var bullet_paras = get_bullet_paras(markers_2d_bullet[i].global_position, detect_component.ray_area_direction[i])
+		#print(bullet_paras)
+		bullet.init_bullet(bullet_paras)
 		bullets.add_child(bullet)
 		play_throw_sfx()
 
-## 特殊子弹初始化
-func special_bullet_init(bullet:Bullet000Base):
-	pass
+
+func get_bullet_paras(marker_2d_bullet_glo_pos:Vector2, ray_direction:Vector2) -> Dictionary[Bullet000Base.E_InitParasAttr,Variant]:
+	return {
+		Bullet000Base.E_InitParasAttr.IsActivateLane : is_lane,
+		Bullet000Base.E_InitParasAttr.BulletLane : owner.lane,
+		Bullet000Base.E_InitParasAttr.Position : bullets.to_local(marker_2d_bullet_glo_pos),
+		Bullet000Base.E_InitParasAttr.Direction : ray_direction,
+		Bullet000Base.E_InitParasAttr.CanAttackPlantState : can_attack_plant_status,
+		Bullet000Base.E_InitParasAttr.CanAttackZombieState : can_attack_zombie_status,
+	}
+
 
 func play_throw_sfx():
 	## 播放音效

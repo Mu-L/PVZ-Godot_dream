@@ -170,9 +170,9 @@ func call_zombie_dancer():
 			var new_zombie_dancer_lane_and_pos = get_new_zombie_dancer_lane_and_pos(i, zombie_dancers[-1].lane, zombie_dancers[-1].global_position)
 			## 如果当前位置可以生成伴舞
 			if new_zombie_dancer_lane_and_pos:
-				var new_zombie_dancer:Zombie010Dancer = MainGameDate.zombie_manager.create_norm_zombie(
+				var new_zombie_dancer:Zombie010Dancer = Global.main_game.zombie_manager.create_norm_zombie(
 					Global.ZombieType.Z010Dancer,
-					MainGameDate.all_zombie_rows[new_zombie_dancer_lane_and_pos["lane"]],
+					Global.main_game.zombie_manager.all_zombie_rows[new_zombie_dancer_lane_and_pos["lane"]],
 					Character000Base.E_CharacterInitType.IsNorm,
 					new_zombie_dancer_lane_and_pos["lane"],
 					-1,
@@ -198,34 +198,34 @@ func get_new_zombie_dancer_lane_and_pos(i:int, lane_Jackson:int, global_postion_
 	## 上下左右顺序
 	if i == 0:
 		## 舞王在第一行，或者召唤行为泳池行
-		if lane_Jackson == 0 or MainGameDate.all_zombie_rows[lane_Jackson - 1].zombie_row_type == Global.ZombieRowType.Pool:
+		if lane_Jackson == 0 or Global.main_game.zombie_manager.all_zombie_rows[lane_Jackson - 1].zombie_row_type == Global.ZombieRowType.Pool:
 			return false
-		var global_pos = Vector2(global_postion_jackson.x, MainGameDate.all_zombie_rows[lane_Jackson - 1].zombie_create_position.global_position.y)
+		var global_pos = Vector2(global_postion_jackson.x, Global.main_game.zombie_manager.all_zombie_rows[lane_Jackson - 1].zombie_create_position.global_position.y)
 
 		return {
 			"lane":lane_Jackson - 1,
-			"pos": MainGameDate.all_zombie_rows[lane_Jackson - 1].to_local(global_pos)
+			"pos": Global.main_game.zombie_manager.all_zombie_rows[lane_Jackson - 1].to_local(global_pos)
 		}
 	elif i == 1:
-		if lane_Jackson == MainGameDate.all_zombie_rows.size() - 1 or MainGameDate.all_zombie_rows[lane_Jackson + 1].zombie_row_type == Global.ZombieRowType.Pool:
+		if lane_Jackson == Global.main_game.zombie_manager.all_zombie_rows.size() - 1 or Global.main_game.zombie_manager.all_zombie_rows[lane_Jackson + 1].zombie_row_type == Global.ZombieRowType.Pool:
 			return false
-		var global_pos = Vector2(global_postion_jackson.x, MainGameDate.all_zombie_rows[lane_Jackson + 1].zombie_create_position.global_position.y)
+		var global_pos = Vector2(global_postion_jackson.x, Global.main_game.zombie_manager.all_zombie_rows[lane_Jackson + 1].zombie_create_position.global_position.y)
 
 		return {
 			"lane":lane_Jackson + 1,
-			"pos": MainGameDate.all_zombie_rows[lane_Jackson + 1].to_local(global_pos)
+			"pos": Global.main_game.zombie_manager.all_zombie_rows[lane_Jackson + 1].to_local(global_pos)
 		}
 	elif i == 2:
 		var global_pos = Vector2(global_postion_jackson.x - 100, global_postion_jackson.y)
 		return {
 			"lane":lane_Jackson,
-			"pos":MainGameDate.all_zombie_rows[lane_Jackson].to_local(global_pos)
+			"pos":Global.main_game.zombie_manager.all_zombie_rows[lane_Jackson].to_local(global_pos)
 		}
 	elif i == 3:
 		var global_pos = Vector2(global_postion_jackson.x + 100, global_postion_jackson.y)
 		return {
 			"lane":lane_Jackson,
-			"pos":MainGameDate.all_zombie_rows[lane_Jackson].to_local(global_pos)
+			"pos":Global.main_game.zombie_manager.all_zombie_rows[lane_Jackson].to_local(global_pos)
 		}
 
 ## 或当前持有舞王管理器的伴舞死后，转移父节点

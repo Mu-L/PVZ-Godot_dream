@@ -54,7 +54,7 @@ var coin_value_label:CoinBankLabel
 func create_coin(probability:Array=[0.5, 0.5, 0], global_position_new_coin:Vector2=Vector2()):
 	coin_value_label.update_label()
 	## 如果当前场景有金币值的label,将金币生产在coin_bank_bank（Global.coin_value_label）节点下
-	if Global.coin_value_label and is_instance_valid(Global.coin_value_label):
+	if is_instance_valid(Global.coin_value_label):
 		assert(probability[0] + probability[1] + probability[2], "概率和不为1")
 		var r = randf()
 		var new_coin:Coin
@@ -68,7 +68,8 @@ func create_coin(probability:Array=[0.5, 0.5, 0], global_position_new_coin:Vecto
 		new_coin.global_position = global_position_new_coin
 		## 抛物线发射金币
 		new_coin.launch(Vector2(randf_range(-50, 50), randf_range(80, 90)))
-
+	else:
+		printerr("生成金币但没有coin_value_label")
 # TODO:暂时先写global，后面要改?
 # 也可能不改 -- 20250907
 ## 掉落花园植物
@@ -121,6 +122,7 @@ func _create_save_game_timer():
 	# 连接超时信号
 	save_game_timer.timeout.connect(_on_save_game_timer_timeout)
 
+
 func _on_save_game_timer_timeout():
 	print("自动保存存档")
 	save_game_data()
@@ -171,15 +173,15 @@ var curr_plant = [
 	PlantType.P038UmbrellaLeaf,
 	PlantType.P039MariGold,
 	PlantType.P040MelonPult,
-#
-	#PlantType.P041GatlingPea,
-	#PlantType.P042TwinSunFlower,
-	#PlantType.P043GloomShroom,
-	#PlantType.P044Cattail,
-	#PlantType.P045WinterMelon,
-	#PlantType.P046GoldMagnet,
-	#PlantType.P047SpikeRock,
-	#PlantType.P048CobCannon,
+
+	PlantType.P041GatlingPea,
+	PlantType.P042TwinSunFlower,
+	PlantType.P043GloomShroom,
+	PlantType.P044Cattail,
+	PlantType.P045WinterMelon,
+	PlantType.P046GoldMagnet,
+	PlantType.P047SpikeRock,
+	PlantType.P048CobCannon,
 #
 	#PlantType.P1001WallNutBowling,
 	#PlantType.P1002WallNutBowlingBomb,
@@ -381,6 +383,17 @@ enum PlantType {
 	P1003WallNutBowlingBig,
 	}
 
+## 紫卡植物种植前置植物
+const AllPrePlantPurple:Dictionary[PlantType, PlantType]= {
+	PlantType.P041GatlingPea:PlantType.P008PeaShooterDouble,
+	PlantType.P042TwinSunFlower:PlantType.P002SunFlower,
+	PlantType.P043GloomShroom:PlantType.P011FumeShroom,
+	PlantType.P044Cattail:PlantType.P017LilyPad,
+	PlantType.P045WinterMelon:PlantType.P040MelonPult,
+	PlantType.P046GoldMagnet:PlantType.P032MagnetShroom,
+	PlantType.P047SpikeRock:PlantType.P022Caltrop,
+	PlantType.P048CobCannon:PlantType.P035CornPult,
+}
 
 const  PlantInfo = {
 	PlantType.P001PeaShooterSingle: {
@@ -666,58 +679,70 @@ const  PlantInfo = {
 		PlantInfoAttribute.PlantConditionResource :  preload("res://resources/character_resource/plant_condition/000_common_plant_land.tres"),
 		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_040_melon_pult.tscn")
 		},
-	#PlantType.P041GatlingPea: {
-		#PlantInfoAttribute.PlantName: "TallNut",
-		#PlantInfoAttribute.CoolTime: 30.0,
-		#PlantInfoAttribute.SunCost: 175,
-		#PlantInfoAttribute.PlantConditionResource :  preload("res://resources/character_resource/plant_condition/000_common_plant_land.tres")
-		#},
-	#PlantType.P042TwinSunFlower: {
-		#PlantInfoAttribute.PlantName: "TallNut",
-		#PlantInfoAttribute.CoolTime: 30.0,
-		#PlantInfoAttribute.SunCost: 175,
-		#PlantInfoAttribute.PlantConditionResource :  preload("res://resources/character_resource/plant_condition/000_common_plant_land.tres")
-		#},
-	#PlantType.P043GloomShroom: {
-		#PlantInfoAttribute.PlantName: "TallNut",
-		#PlantInfoAttribute.CoolTime: 30.0,
-		#PlantInfoAttribute.SunCost: 175,
-		#PlantInfoAttribute.PlantConditionResource :  preload("res://resources/character_resource/plant_condition/000_common_plant_land.tres")
-		#},
-	#PlantType.P044Cattail: {
-		#PlantInfoAttribute.PlantName: "TallNut",
-		#PlantInfoAttribute.CoolTime: 30.0,
-		#PlantInfoAttribute.SunCost: 175,
-		#PlantInfoAttribute.PlantConditionResource :  preload("res://resources/character_resource/plant_condition/000_common_plant_land.tres")
-		#},
-	#PlantType.P045WinterMelon: {
-		#PlantInfoAttribute.PlantName: "TallNut",
-		#PlantInfoAttribute.CoolTime: 30.0,
-		#PlantInfoAttribute.SunCost: 175,
-		#PlantInfoAttribute.PlantConditionResource :  preload("res://resources/character_resource/plant_condition/000_common_plant_land.tres")
-		#},
-	#PlantType.P046GoldMagnet: {
-		#PlantInfoAttribute.PlantName: "TallNut",
-		#PlantInfoAttribute.CoolTime: 30.0,
-		#PlantInfoAttribute.SunCost: 175,
-		#PlantInfoAttribute.PlantConditionResource :  preload("res://resources/character_resource/plant_condition/000_common_plant_land.tres")
-		#},
-	#PlantType.P047SpikeRock: {
-		#PlantInfoAttribute.PlantName: "TallNut",
-		#PlantInfoAttribute.CoolTime: 30.0,
-		#PlantInfoAttribute.SunCost: 175,
-		#PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/024_tall_nut.tscn"),
-		#PlantInfoAttribute.PlantStaticScenes : preload("res://scenes/character/plant/024_tall_nut_static.tscn"),
-		#PlantInfoAttribute.PlantConditionResource :  preload("res://resources/plant_resource/plant_condition/000_common_plant_land.tres")
-		#},
-	#PlantType.P048CobCannon: {
-		#PlantInfoAttribute.PlantName: "TallNut",
-		#PlantInfoAttribute.CoolTime: 30.0,
-		#PlantInfoAttribute.SunCost: 175,
-		#PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/024_tall_nut.tscn"),
-		#PlantInfoAttribute.PlantStaticScenes : preload("res://scenes/character/plant/024_tall_nut_static.tscn"),
-		#PlantInfoAttribute.PlantConditionResource :  preload("res://resources/plant_resource/plant_condition/000_common_plant_land.tres")
-		#},
+
+	PlantType.P041GatlingPea: {
+		PlantInfoAttribute.PlantName: "GatlingPea",
+		PlantInfoAttribute.CoolTime: 50.0,
+		PlantInfoAttribute.SunCost: 250,
+		PlantInfoAttribute.PlantConditionResource : preload("res://resources/character_resource/plant_condition/000_common_purple.tres"),
+		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_041_gatling_pea.tscn")
+		},
+
+	PlantType.P042TwinSunFlower: {
+		PlantInfoAttribute.PlantName: "TwinSunFlower",
+		PlantInfoAttribute.CoolTime: 50.0,
+		PlantInfoAttribute.SunCost: 150,
+		PlantInfoAttribute.PlantConditionResource : preload("res://resources/character_resource/plant_condition/000_common_purple.tres"),
+		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_042_twin_sun_flower.tscn")
+		},
+
+	PlantType.P043GloomShroom: {
+		PlantInfoAttribute.PlantName: "GloomShroom",
+		PlantInfoAttribute.CoolTime: 50.0,
+		PlantInfoAttribute.SunCost: 150,
+		PlantInfoAttribute.PlantConditionResource : preload("res://resources/character_resource/plant_condition/000_common_purple.tres"),
+		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_043_gloom_shroom.tscn")
+		},
+
+	PlantType.P044Cattail: {
+		PlantInfoAttribute.PlantName: "Cattail",
+		PlantInfoAttribute.CoolTime: 50.0,
+		PlantInfoAttribute.SunCost: 225,
+		PlantInfoAttribute.PlantConditionResource : preload("res://resources/character_resource/plant_condition/000_common_purple.tres"),
+		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_044_cattail.tscn")
+		},
+
+	PlantType.P045WinterMelon: {
+		PlantInfoAttribute.PlantName: "WinterMelon",
+		PlantInfoAttribute.CoolTime: 50.0,
+		PlantInfoAttribute.SunCost: 200,
+		PlantInfoAttribute.PlantConditionResource : preload("res://resources/character_resource/plant_condition/000_common_purple.tres"),
+		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_045_winter_melon.tscn")
+		},
+
+	PlantType.P046GoldMagnet: {
+		PlantInfoAttribute.PlantName: "GoldMagnet",
+		PlantInfoAttribute.CoolTime: 50.0,
+		PlantInfoAttribute.SunCost: 50,
+		PlantInfoAttribute.PlantConditionResource : preload("res://resources/character_resource/plant_condition/000_common_purple.tres"),
+		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_046_gold_magnet.tscn")
+		},
+
+	PlantType.P047SpikeRock: {
+		PlantInfoAttribute.PlantName: "SpikeRock",
+		PlantInfoAttribute.CoolTime: 50.0,
+		PlantInfoAttribute.SunCost: 125,
+		PlantInfoAttribute.PlantConditionResource : preload("res://resources/character_resource/plant_condition/000_common_purple.tres"),
+		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_047_spike_rock.tscn")
+		},
+
+	PlantType.P048CobCannon: {
+		PlantInfoAttribute.PlantName: "CobCannon",
+		PlantInfoAttribute.CoolTime: 50.0,
+		PlantInfoAttribute.SunCost: 500,
+		PlantInfoAttribute.PlantConditionResource : preload("res://resources/character_resource/plant_condition/048_cob_cannon.tres"),
+		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_048_cob_cannon.tscn")
+		},
 
 	## 发芽
 	PlantType.P1000Sprout:{
@@ -1018,9 +1043,9 @@ func get_zombie_info(zombie_type:ZombieType, info_attribute:ZombieInfoAttribute)
 ## 伤害种类
 ## 普通，穿透，真实
 enum AttackMode {
-	Norm, 			# 按顺序对二类防具、一类防具、本体造成伤害
-	Penetration, 	# 对二类防具造成伤害同时对一类防具造成伤害
-	Real,			# 不对二类防具造成伤害，直接对一类防具造成伤害
+	Norm, 			## 正常 按顺序对二类防具、一类防具、本体造成伤害
+	Penetration, 	## 穿透 对二类防具造成伤害同时对一类防具造成伤害
+	Real,			## 真实 不对二类防具造成伤害，直接对一类防具造成伤害
 	BowlingFront,		## 保龄球正面
 	BowlingSide,		## 保龄球侧面
 	Hammer,			## 锤子
@@ -1046,6 +1071,11 @@ enum BulletType{
 
 	Bullet013Basketball,	## 篮球
 
+	Bullet014CattailBullet,	## 香蒲子弹
+	Bullet015WinterMelon,	## 冰瓜子弹
+
+	Bullet016CobCannon,	## 冰瓜子弹
+
 }
 
 const BulletTypeMap := {
@@ -1065,6 +1095,10 @@ const BulletTypeMap := {
 
 	BulletType.Bullet013Basketball :preload("res://scenes/bullet/bullet_013_basketball.tscn"),
 
+	BulletType.Bullet014CattailBullet :preload("res://scenes/bullet/bullet_014_cattail_bullet.tscn"),
+	BulletType.Bullet015WinterMelon :preload("res://scenes/bullet/bullet_015_winter_melon.tscn"),
+
+	BulletType.Bullet016CobCannon :preload("res://scenes/bullet/bullet_016_cob_cannon.tscn"),
 }
 
 ## 获取子弹场景方法
@@ -1201,7 +1235,7 @@ enum MainScenes{
 	MainGameBack,
 	MainGameRoof,
 
-	StartMenu,
+	StartMenu = 100,
 	ChooseLevel,
 	ChooseLevelMiniGame,
 
@@ -1224,8 +1258,8 @@ var MainScenesMap = {
 	MainScenes.Store: "res://scenes/main/12Store.tscn",
 }
 
-
-var game_para:ResourceLevelData = load("res://resources/level_date_resource/mode_adventure/adventure_01_day.tres")
+var main_game:MainGameManager
+var game_para:ResourceLevelData
 ## 离开商店信号
 signal signal_store_leave
 var store_node :Node

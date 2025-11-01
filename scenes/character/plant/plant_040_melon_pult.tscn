@@ -63,53 +63,53 @@ plant_type = 40
 position = Vector2(-42, -65)
 
 [node name="Frontleaf_right_tip" type="Sprite2D" parent="Body/BodyCorrect" index="0"]
-position = Vector2(26.8, 57.4)
-rotation = -2.46079
-scale = Vector2(0.57107, 0.44307)
-skew = 3.1431
+position = Vector2(28.5977, 59.0011)
+rotation = -2.53482
+scale = Vector2(0.631864, 0.443663)
+skew = 3.30198
 texture = ExtResource("2_ese8j")
 centered = false
 
 [node name="Frontleaf_tip_left" type="Sprite2D" parent="Body/BodyCorrect" index="1"]
-position = Vector2(64.707, 48.7)
-rotation = 2.51165
-scale = Vector2(0.57107, 0.498)
-skew = -3.13985
+position = Vector2(61.6326, 49.9011)
+rotation = 2.34631
+scale = Vector2(0.571337, 0.504674)
+skew = -3.30691
 texture = ExtResource("3_g6087")
 centered = false
 
 [node name="Cabbagepult_basket" type="Sprite2D" parent="Body/BodyCorrect" index="2"]
-position = Vector2(-23.4719, 6.40338)
-rotation = 0.0523006
-scale = Vector2(0.799, 0.799)
+position = Vector2(-27.1674, 30.6034)
+rotation = -0.387033
+scale = Vector2(0.798337, 0.798337)
 texture = ExtResource("4_myj7b")
 centered = false
 
 [node name="Melonpult_mellon" type="Sprite2D" parent="Body/BodyCorrect" index="3"]
-position = Vector2(-30.7542, -21.7143)
-rotation = 0.0992428
-scale = Vector2(0.99893, 0.99893)
+position = Vector2(-47.3394, 11.6902)
+rotation = -0.435162
+scale = Vector2(0.997337, 0.997337)
 texture = ExtResource("5_ien23")
 centered = false
 
 [node name="Cabbagepult_basket_overlay" type="Sprite2D" parent="Body/BodyCorrect" index="4"]
-position = Vector2(-23.4719, 6.40338)
-rotation = 0.0523006
-scale = Vector2(0.799, 0.799)
+position = Vector2(-27.1674, 30.6034)
+rotation = -0.387033
+scale = Vector2(0.798337, 0.798337)
 texture = ExtResource("6_3h8kf")
 centered = false
 
 [node name="Melonpult_stalk" type="Sprite2D" parent="Body/BodyCorrect" index="5"]
-position = Vector2(16.1789, 20.6579)
-rotation = 0.00584882
-scale = Vector2(0.80007, 0.8)
-skew = 0.0131977
+position = Vector2(14.9674, 27.1966)
+rotation = -0.177924
+scale = Vector2(0.802, 0.799)
+skew = 0.0790685
 texture = ExtResource("7_y7nur")
 centered = false
 
 [node name="Anim_face" type="Sprite2D" parent="Body/BodyCorrect" index="6"]
-position = Vector2(15.507, 32.8719)
-scale = Vector2(0.794719, 0.810772)
+position = Vector2(13.9, 36.6023)
+scale = Vector2(0.844011, 0.726606)
 texture = ExtResource("8_lue24")
 centered = false
 
@@ -121,38 +121,37 @@ texture = ExtResource("9_5c13o")
 centered = false
 
 [node name="Melonpult_eyebrow1" type="Sprite2D" parent="Body/BodyCorrect" index="8"]
-position = Vector2(53.4, 45.1)
+position = Vector2(53.4, 47.3731)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("10_ru083")
 centered = false
 
 [node name="Melonpult_eyebrow2" type="Sprite2D" parent="Body/BodyCorrect" index="9"]
-position = Vector2(35.5, 46.886)
+position = Vector2(35.5, 48.2405)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("10_ru083")
 centered = false
 
 [node name="Frontleaf" type="Sprite2D" parent="Body/BodyCorrect" index="10"]
-position = Vector2(23.307, 54.9281)
+position = Vector2(23.7, 56.1989)
 rotation = 0.101229
-scale = Vector2(0.572, 0.435438)
+scale = Vector2(0.572, 0.39836)
 skew = 0.0034908
 texture = ExtResource("11_42var")
 centered = false
 
 [node name="Frontleaf_right_tip1" type="Sprite2D" parent="Body/BodyCorrect" index="11"]
-position = Vector2(57.286, 59.5211)
-rotation = 0.0635041
-scale = Vector2(0.572, 0.44186)
-skew = -0.00548158
+position = Vector2(57.3652, 60.1989)
+rotation = 0.0481422
+scale = Vector2(0.576011, 0.430674)
 texture = ExtResource("2_ese8j")
 centered = false
 
 [node name="Frontleaf_tip_left1" type="Sprite2D" parent="Body/BodyCorrect" index="12"]
-position = Vector2(19.8281, 59.5281)
-rotation = 0.119908
-scale = Vector2(0.576351, 0.482947)
-skew = 0.031877
+position = Vector2(20.0011, 60.0663)
+rotation = 0.135098
+scale = Vector2(0.576348, 0.450977)
+skew = -0.0226297
 texture = ExtResource("3_g6087")
 centered = false
 

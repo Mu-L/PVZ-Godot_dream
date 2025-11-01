@@ -4,7 +4,7 @@ class_name JumpComponent
 
 @onready var owner_zombie: Zombie000Base = owner
 @onready var move_component: MoveComponent = %MoveComponent
-@onready var attack_ray_component: AttackRayComponent = %AttackRayComponent
+@onready var detect_component: AttackRayComponent = %AttackRayComponent
 
 ## 影子定位僵尸本体位置
 @onready var shadow: Sprite2D = %Shadow

@@ -22,7 +22,7 @@ func _ready() -> void:
 
 ## 离开商店
 func _on_store_main_menu_button_pressed() -> void:
-	if ori_coin_value_label:
+	if is_instance_valid(ori_coin_value_label):
 		Global.coin_value_label = ori_coin_value_label
 		Global.coin_value_label.update_label()
 	Global.exit_store()

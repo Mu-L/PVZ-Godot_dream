@@ -12,7 +12,7 @@ var enemy:Character000Base
 
 ## 动画开始时,获取攻击对象
 func anim_start():
-	enemy = attack_ray_component.enemy_can_be_attacked
+	enemy = detect_component.enemy_can_be_attacked
 
 ## 攻击一次，动画调用
 func attack_once():

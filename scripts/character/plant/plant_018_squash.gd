@@ -2,7 +2,7 @@ extends Plant000Base
 class_name Plant018Squash
 
 @onready var area_2d_squash_attack: Area2D = $Area2DSquashAttack
-@onready var attack_ray_component: AttackRayComponentSquash = $AttackRayComponent
+@onready var detect_component: AttackRayComponentSquash = $AttackRayComponent
 
 ## 可以攻击的敌人状态
 @export_flags("1 正常", "2 悬浮", "4 地刺") var can_attack_plant_status:int = 5
@@ -15,14 +15,14 @@ var target_x
 
 func init_norm_signal_connect():
 	super()
-	attack_ray_component.signal_can_attack.connect(attack_start)
+	detect_component.signal_can_attack.connect(attack_start)
 
 ## 开始攻击
 func attack_start():
 	if not is_attack:
 		SoundManager.play_plant_SFX(Global.PlantType.P018Squash, "SquashHmm")
 		is_attack = true
-		target_x = attack_ray_component.enemy_can_be_attacked.shadow.global_position.x
+		target_x = detect_component.enemy_can_be_attacked.shadow.global_position.x
 		is_right = target_x > global_position.x
 		be_attacked_box_component.disable_component(ComponentBase.E_IsEnableFactor.Character)
 
@@ -35,8 +35,8 @@ func jump_up_start():
 		shadow.visible = false
 
 	var tween:Tween = create_tween()
-	if is_instance_valid(attack_ray_component.enemy_can_be_attacked):
-		tween.tween_property(self, "global_position:x", attack_ray_component.enemy_can_be_attacked.shadow.global_position.x, 0.3).set_ease(Tween.EASE_IN)
+	if is_instance_valid(detect_component.enemy_can_be_attacked):
+		tween.tween_property(self, "global_position:x", detect_component.enemy_can_be_attacked.shadow.global_position.x, 0.3).set_ease(Tween.EASE_IN)
 	else:
 		tween.tween_property(self, "global_position:x", target_x, 0.3).set_ease(Tween.EASE_IN)
 

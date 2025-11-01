@@ -152,9 +152,9 @@ func init_norm():
 	super()
 	curr_be_attack_status = init_be_attack_status
 	## 若生成位置在斜面中,生成时修正斜面位置
-	if is_instance_valid(MainGameDate.main_game_slope):
+	if is_instance_valid(Global.main_game.main_game_slope):
 		## 获取对应位置的斜面y相对位置
-		var slope_y_first = MainGameDate.main_game_slope.get_all_slope_y(global_position.x)
+		var slope_y_first = Global.main_game.main_game_slope.get_all_slope_y(global_position.x)
 		move_y_body(slope_y_first)
 	## 僵尸普通攻击组件连接信号
 	if attack_component is AttackComponentZombieNorm:
@@ -409,9 +409,9 @@ func update_lane_on_eat_garlic():
 func update_lane():
 	## 可以换的行索引
 	var can_update_zombie_row_i:Array[int] = []
-	if lane != 0 and MainGameDate.all_zombie_rows[lane-1].zombie_row_type == curr_zombie_row_type:
+	if lane != 0 and Global.main_game.zombie_manager.all_zombie_rows[lane-1].zombie_row_type == curr_zombie_row_type:
 		can_update_zombie_row_i.append(lane-1)
-	if lane != MainGameDate.all_zombie_rows.size()-1 and MainGameDate.all_zombie_rows[lane+1].zombie_row_type == curr_zombie_row_type:
+	if lane != Global.main_game.zombie_manager.all_zombie_rows.size()-1 and Global.main_game.zombie_manager.all_zombie_rows[lane+1].zombie_row_type == curr_zombie_row_type:
 		can_update_zombie_row_i.append(lane+1)
 
 	var new_lane_i = can_update_zombie_row_i.pick_random()
@@ -420,9 +420,9 @@ func update_lane():
 
 	## 禁用攻击组件
 	attack_component.disable_component(ComponentBase.E_IsEnableFactor.Garlic)
-	GlobalUtils.child_node_change_parent(self, MainGameDate.all_zombie_rows[lane])
+	GlobalUtils.child_node_change_parent(self, Global.main_game.zombie_manager.all_zombie_rows[lane])
 	var tween:Tween = create_tween()
-	tween.tween_property(self, ^"position:y", MainGameDate.all_zombie_rows[lane].zombie_create_position.position.y, 1)
+	tween.tween_property(self, ^"position:y", Global.main_game.zombie_manager.all_zombie_rows[lane].zombie_create_position.position.y, 1)
 	tween.tween_callback(attack_component.enable_component.bind(ComponentBase.E_IsEnableFactor.Garlic))
 
 #endregion

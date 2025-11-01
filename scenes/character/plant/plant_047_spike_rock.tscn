@@ -1,0 +1,241 @@
+[gd_scene load_steps=27 format=3 uid="uid://dvnxvwhphhgnu"]
+
+[ext_resource type="PackedScene" uid="uid://c5cke4cm02um7" path="res://scenes/character/plant/plant_000_base.tscn" id="1_p7g2d"]
+[ext_resource type="Script" uid="uid://03mx6f3myi6t" path="res://scripts/character/plant/plant_047_spike_rock.gd" id="2_4en4w"]
+[ext_resource type="Texture2D" uid="uid://dlb853xglbi86" path="res://assets/reanim/SpikeRock_spike.png" id="2_r7ija"]
+[ext_resource type="Texture2D" uid="uid://bliq00g5404oc" path="res://assets/reanim/SpikeRock_body.png" id="3_dcpc6"]
+[ext_resource type="Texture2D" uid="uid://cuuocw1e5kx4t" path="res://assets/reanim/Spikerock_bigspike1.png" id="4_4en4w"]
+[ext_resource type="Texture2D" uid="uid://bqrlhw3jdog24" path="res://assets/reanim/Spikerock_bigspike2.png" id="5_de10u"]
+[ext_resource type="Texture2D" uid="uid://bpwrvelgbabpq" path="res://assets/reanim/Spikerock_bigspike3.png" id="6_4ao8q"]
+[ext_resource type="Texture2D" uid="uid://dkg4ri5gpndf8" path="res://assets/reanim/SpikeRock_eyebrow.png" id="7_g434o"]
+[ext_resource type="Texture2D" uid="uid://ckskt1bhtv7nt" path="res://assets/reanim/SpikeRock_mouth.png" id="8_dwrbp"]
+[ext_resource type="Animation" uid="uid://bt2w56n0yev4x" path="res://animation/character/plant/047_spike_rock/SpikeRock_attack.tres" id="9_4n7d8"]
+[ext_resource type="Animation" uid="uid://dfp22v5ht64gh" path="res://animation/character/plant/047_spike_rock/SpikeRock_idle.tres" id="10_0ub8i"]
+[ext_resource type="Script" uid="uid://bafp0ax1lmlge" path="res://scripts/character/components/attack_ray_component/component_attack_ray.gd" id="11_dcpc6"]
+[ext_resource type="Script" uid="uid://4o1wtnifn4tq" path="res://scripts/character/components/hp_component/component_hp_stage_change.gd" id="13_4ao8q"]
+[ext_resource type="Script" uid="uid://jl0nl4a234bc" path="res://scripts/resources/resource_body_change.gd" id="14_g434o"]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5iw31"]
+_data = {
+&"SpikeRock_attack": ExtResource("9_4n7d8"),
+&"SpikeRock_idle": ExtResource("10_0ub8i")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_r7ija"]
+animation = &"SpikeRock_attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dcpc6"]
+animation = &"SpikeRock_idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4en4w"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_de10u"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "is_attack"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4ao8q"]
+xfade_time = 0.2
+break_loop_at_end = true
+switch_mode = 2
+advance_mode = 2
+advance_expression = "not is_attack"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_g434o"]
+states/SpikeRock_attack/node = SubResource("AnimationNodeAnimation_r7ija")
+states/SpikeRock_attack/position = Vector2(563, 100)
+states/SpikeRock_idle/node = SubResource("AnimationNodeAnimation_dcpc6")
+states/SpikeRock_idle/position = Vector2(352, 100)
+transitions = ["Start", "SpikeRock_idle", SubResource("AnimationNodeStateMachineTransition_4en4w"), "SpikeRock_idle", "SpikeRock_attack", SubResource("AnimationNodeStateMachineTransition_de10u"), "SpikeRock_attack", "SpikeRock_idle", SubResource("AnimationNodeStateMachineTransition_4ao8q")]
+graph_offset = Vector2(-17, -26)
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_dwrbp"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_r7ija"]
+graph_offset = Vector2(78.912, 16.149)
+nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_g434o")
+nodes/StateMachine/position = Vector2(480, 120)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_dwrbp")
+nodes/TimeScale/position = Vector2(800, 140)
+nodes/output/position = Vector2(1020, 160)
+node_connections = [&"TimeScale", 0, &"StateMachine", &"output", 0, &"TimeScale"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4en4w"]
+size = Vector2(75, 5)
+
+[sub_resource type="Resource" id="Resource_dwrbp"]
+script = ExtResource("14_g434o")
+sprite_change = Array[NodePath]([])
+sprite_change_texture = Array[Texture2D]([])
+sprite_appear = Array[NodePath]([])
+sprite_disappear = Array[NodePath]([NodePath("../Body/BodyCorrect/Bigspike3")])
+node_drop = NodePath("")
+metadata/_custom_type_script = "uid://jl0nl4a234bc"
+
+[sub_resource type="Resource" id="Resource_4n7d8"]
+script = ExtResource("14_g434o")
+sprite_change = Array[NodePath]([])
+sprite_change_texture = Array[Texture2D]([])
+sprite_appear = Array[NodePath]([])
+sprite_disappear = Array[NodePath]([NodePath("../Body/BodyCorrect/Bigspike2")])
+node_drop = NodePath("")
+metadata/_custom_type_script = "uid://jl0nl4a234bc"
+
+[node name="Plant047SpikeRock" instance=ExtResource("1_p7g2d")]
+script = ExtResource("2_4en4w")
+attack_value = 20
+is_attack = false
+plant_type = 47
+init_be_attack_status = 4
+
+[node name="BodyCorrect" parent="Body" index="0"]
+position = Vector2(-41, -63)
+
+[node name="Anim_blink" type="Sprite2D" parent="Body/BodyCorrect" index="0"]
+visible = false
+centered = false
+
+[node name="Anim_idle" type="Sprite2D" parent="Body/BodyCorrect" index="1"]
+centered = false
+
+[node name="Anim_attack" type="Sprite2D" parent="Body/BodyCorrect" index="2"]
+visible = false
+centered = false
+
+[node name="Spike1" type="Sprite2D" parent="Body/BodyCorrect" index="3"]
+position = Vector2(50.4, 40.3765)
+scale = Vector2(0.794676, 0.778706)
+texture = ExtResource("2_r7ija")
+centered = false
+
+[node name="Spike7" type="Sprite2D" parent="Body/BodyCorrect" index="4"]
+position = Vector2(59.1382, 40.3765)
+scale = Vector2(0.794676, 0.778706)
+texture = ExtResource("2_r7ija")
+centered = false
+
+[node name="Spike8" type="Sprite2D" parent="Body/BodyCorrect" index="5"]
+position = Vector2(7.68531, 40.3765)
+scale = Vector2(0.794676, 0.778706)
+texture = ExtResource("2_r7ija")
+centered = false
+
+[node name="Spike2" type="Sprite2D" parent="Body/BodyCorrect" index="6"]
+position = Vector2(42, 38.5294)
+scale = Vector2(0.795294, 0.678559)
+texture = ExtResource("2_r7ija")
+centered = false
+
+[node name="Spike3" type="Sprite2D" parent="Body/BodyCorrect" index="7"]
+position = Vector2(32.8618, 37.1294)
+scale = Vector2(0.938058, 0.794795)
+texture = ExtResource("2_r7ija")
+centered = false
+
+[node name="Spike4" type="Sprite2D" parent="Body/BodyCorrect" index="8"]
+position = Vector2(23.8235, 40.0147)
+scale = Vector2(0.856676, 0.778706)
+texture = ExtResource("2_r7ija")
+centered = false
+
+[node name="Spike5" type="Sprite2D" parent="Body/BodyCorrect" index="9"]
+position = Vector2(15.1235, 39.9911)
+scale = Vector2(0.857676, 0.794795)
+texture = ExtResource("2_r7ija")
+centered = false
+
+[node name="Spike9" type="Sprite2D" parent="Body/BodyCorrect" index="10"]
+position = Vector2(0.28531, 44.6147)
+scale = Vector2(0.754912, 0.618088)
+texture = ExtResource("2_r7ija")
+centered = false
+
+[node name="Spike6" type="Sprite2D" parent="Body/BodyCorrect" index="11"]
+position = Vector2(66.9147, 45.3765)
+scale = Vector2(0.754912, 0.618088)
+texture = ExtResource("2_r7ija")
+centered = false
+
+[node name="Anim_face" type="Sprite2D" parent="Body/BodyCorrect" index="12"]
+position = Vector2(-0.11469, 40.1912)
+scale = Vector2(0.795294, 0.794795)
+texture = ExtResource("3_dcpc6")
+centered = false
+
+[node name="Bigspike1" type="Node2D" parent="Body/BodyCorrect" index="13"]
+
+[node name="Bigspike1" type="Sprite2D" parent="Body/BodyCorrect/Bigspike1" index="0"]
+position = Vector2(8.32354, 28.8529)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("4_4en4w")
+centered = false
+
+[node name="Bigspike2" type="Node2D" parent="Body/BodyCorrect" index="14"]
+
+[node name="Bigspike2" type="Sprite2D" parent="Body/BodyCorrect/Bigspike2" index="0"]
+position = Vector2(33, 32.6765)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("5_de10u")
+centered = false
+
+[node name="Bigspike3" type="Node2D" parent="Body/BodyCorrect" index="15"]
+
+[node name="Bigspike3" type="Sprite2D" parent="Body/BodyCorrect/Bigspike3" index="0"]
+position = Vector2(56.7147, 28.7147)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("6_4ao8q")
+centered = false
+
+[node name="Anim_eye_leftbrow" type="Sprite2D" parent="Body/BodyCorrect" index="16"]
+position = Vector2(18.8, 45.5294)
+rotation = 6.40736
+scale = Vector2(0.793676, 0.794177)
+skew = 0.00333643
+texture = ExtResource("7_g434o")
+centered = false
+
+[node name="Anim_eye_rightbrow" type="Sprite2D" parent="Body/BodyCorrect" index="17"]
+position = Vector2(61.7618, 45.5147)
+rotation = 2.97584
+scale = Vector2(0.792294, 0.794559)
+skew = -3.15057
+texture = ExtResource("7_g434o")
+centered = false
+
+[node name="Mouth" type="Sprite2D" parent="Body/BodyCorrect" index="18"]
+position = Vector2(28.6618, 55.7529)
+scale = Vector2(0.77097, 0.830412)
+texture = ExtResource("8_dwrbp")
+centered = false
+
+[node name="HpComponent" parent="." index="3"]
+max_hp = 450
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="8"]
+libraries = {
+&"": SubResource("AnimationLibrary_5iw31")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="9"]
+tree_root = SubResource("AnimationNodeBlendTree_r7ija")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
+parameters/TimeScale/scale = 1.0
+
+[node name="AttackRayComponent" type="Node2D" parent="." index="10"]
+script = ExtResource("11_dcpc6")
+plant_enemy_collision_lay = 20
+
+[node name="Area2D" type="Area2D" parent="AttackRayComponent" index="0"]
+position = Vector2(0, -25)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRayComponent/Area2D" index="0"]
+shape = SubResource("RectangleShape2D_4en4w")
+
+[node name="HpStageChangeComponent" type="Node2D" parent="." index="11"]
+script = ExtResource("13_4ao8q")
+boundary_value_hp = Array[int]([300, 150, 0])
+body_change = Array[ExtResource("14_g434o")]([SubResource("Resource_dwrbp"), SubResource("Resource_4n7d8"), null])

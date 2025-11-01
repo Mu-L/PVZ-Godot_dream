@@ -13,7 +13,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 76.0
 offset_bottom = 95.0
-mouse_filter = 1
+mouse_filter = 2
 script = ExtResource("1_66flf")
 
 [node name="Button" type="Button" parent="."]
@@ -23,6 +23,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme_override_styles/focus = SubResource("StyleBoxEmpty_66flf")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_3evvn")
 theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_12gte")

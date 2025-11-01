@@ -22,10 +22,9 @@ func change_y(target_y:float):
 
 ## 子弹与敌人碰撞,直线子弹检测是否有斜面,判断是否与斜面碰撞
 func _on_area_2d_attack_area_entered(area: Area2D) -> void:
-	## 如果是世界层的碰撞
-	if area.collision_layer == 1:
-		## 线性子弹判断是否攻击到斜坡
-		if area.owner is Slope:
+	## 线性子弹判断是否攻击到斜坡,非穿透子弹
+	if area.owner is Slope:
+		if bullet_mode != Global.AttackMode.Penetration:
 			var slope:Slope = area.owner
 			## 如果方向与斜面法向量夹角小于90度
 			if direction.dot(slope.normal_vector_slope) < 0:

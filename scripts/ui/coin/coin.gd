@@ -17,7 +17,7 @@ class_name Coin
 		else:
 			anim_lib.seek(0.0, true)  # 跳到第0秒（第一帧），并立即更新动画
 			anim_lib.stop(true)
-			
+
 var coin_target_position := Vector2(0,0)
 
 #抛物线
@@ -26,13 +26,16 @@ var coin_target_position := Vector2(0,0)
 @export var peak_height := 70.0      # 抛物线的最大高度（正值）
 var tween: Tween = null
 
+## 是否被获取
+var is_get:bool = false
+
 func _ready():
 	## 信号连接
 	button.pressed.connect(_on_button_pressed)
 	await get_tree().create_timer(coin_exist_time).timeout
 	fade_and_delete()
 
-	
+
 func fade_and_delete():
 	var tween = create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 1.0)  # 1秒内 alpha 从当前变到 0
@@ -58,13 +61,13 @@ func launch(relative_target: Vector2):
 		1.0,
 		duration
 	).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
-	
+
 	await tween.finished
 	tween = null
 	is_anim = true
 	## 如果开启自动收集金币
 	if Global.auto_collect_coin:
-		_on_button_pressed()
+		button.pressed.emit()
 
 func _on_interrupt_triggered():
 	# 外部中断调用
@@ -74,6 +77,9 @@ func _on_interrupt_triggered():
 
 ## 点击金币
 func _on_button_pressed() -> void:
+	if is_get:
+		return
+	is_get = true
 	SoundManager.play_other_SFX("coin")
 	button.queue_free()
 	##打断抛物线
@@ -82,8 +88,8 @@ func _on_button_pressed() -> void:
 	## 如果当前场景有金币值的label
 	if Global.coin_value_label and is_instance_valid(Global.coin_value_label):
 		coin_target_position = Global.coin_value_label.marker_2d_coin_target.global_position
-		
-	
+
+
 	var tween:Tween = create_tween()
 	tween.tween_property(self, "global_position", coin_target_position, 0.5)
 	await tween.finished
@@ -92,9 +98,27 @@ func _on_button_pressed() -> void:
 	tween.set_parallel()
 	tween.tween_property(self, "modulate:a", 0, 0.5)
 	tween.tween_property(self, "scale", Vector2(0.5,0.5), 0.5)
-	
+
 	await tween.finished
 	queue_free()
-	
 
-	
+
+## 被吸金石吸引铁器
+func be_attract_gold_magnet(target_global_pos:Vector2):
+	if is_get:
+		return
+	is_get = true
+	##打断抛物线
+	_on_interrupt_triggered()
+
+	var tween:Tween = create_tween()
+	tween.tween_property(self, "global_position", target_global_pos, 0.5)
+	await tween.finished
+	Global.coin_value += coin_value
+	tween = create_tween()
+	tween.set_parallel()
+	tween.tween_property(self, "modulate:a", 0, 0.5)
+	tween.tween_property(self, "scale", Vector2(0.5,0.5), 0.5)
+
+	await tween.finished
+	queue_free()

@@ -119,7 +119,7 @@ func judge_half_refresh(all_loss_hp:int, wave:int):
 	if wave == curr_wave and curr_can_refresh_type == E_RefreshType.HalfRefresh:
 		wave_current_health -= all_loss_hp
 
-		if wave_current_health <= refresh_health or MainGameDate.zombie_manager.curr_zombie_num <= 0:
+		if wave_current_health <= refresh_health or Global.main_game.zombie_manager.curr_zombie_num <= 0:
 			_trigger_refresh()
 
 ## 判断全部死亡刷新

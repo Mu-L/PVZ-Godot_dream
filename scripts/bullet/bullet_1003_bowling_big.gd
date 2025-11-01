@@ -7,17 +7,6 @@ class_name Bullet1003BowlingBig
 var rotation_speed = 5.0
 
 
-## 初始化子弹属性
-## 初始化子弹属性
-func init_bullet(lane:int, start_pos:Vector2, direction:= Vector2.RIGHT, \
-	bullet_lane_activate:bool=default_bullet_lane_activate, \
-	can_attack_plant_status:int = can_attack_plant_status, \
-	can_attack_zombie_status:int=can_attack_zombie_status
-	):
-	super(lane, start_pos, direction, bullet_lane_activate, can_attack_plant_status, can_attack_zombie_status)
-	z_as_relative = false
-	z_index = 415 + lane * 10
-
 
 func _process(delta: float) -> void:
 	super._process(delta)

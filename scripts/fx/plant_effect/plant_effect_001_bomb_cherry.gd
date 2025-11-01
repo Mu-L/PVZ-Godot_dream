@@ -8,7 +8,6 @@ class_name BombEffectCherryBomb
 ## 樱桃炸弹爆炸特效
 func activate_bomb_effect():
 	super()
-	visible = true
 	gpu_particles_2d.emitting = true
 	gpu_particles_2d_2.emitting = true
 

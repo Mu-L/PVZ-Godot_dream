@@ -81,21 +81,21 @@ func start_first_wave():
 func create_one_group_min_zombie():
 	var new_zombie_type = curr_zombie_type_candidate.pick_random()
 	## 如果当前没有墓碑
-	if MainGameDate.tombstone_list.size() == 0:
+	if Global.main_game.plant_cell_manager.tombstone_list.is_empty():
 		EventBus.push_event("create_tombstone", [randi()%3+1])
 		await get_tree().create_timer(2).timeout
 
 	## 真正生成的僵尸数量
-	var real_zombie_num = min(randi_range(1, curr_num_new_zombie_every_group) * zombie_multy, MainGameDate.tombstone_list.size())
+	var real_zombie_num = min(randi_range(1, curr_num_new_zombie_every_group) * zombie_multy, Global.main_game.plant_cell_manager.tombstone_list.size())
 	if big_wave:
-		real_zombie_num = MainGameDate.tombstone_list.size()
+		real_zombie_num = Global.main_game.plant_cell_manager.tombstone_list.size()
 		for i in range(real_zombie_num):
 			new_zombie_type = curr_zombie_type_candidate.pick_random()
-			MainGameDate.tombstone_list[i].create_new_zombie(new_zombie_type, curr_speed_zombie)
+			Global.main_game.plant_cell_manager.tombstone_list[i].create_new_zombie(new_zombie_type, curr_speed_zombie)
 	else:
-		MainGameDate.tombstone_list.shuffle()
+		Global.main_game.plant_cell_manager.tombstone_list.shuffle()
 		for i in range(real_zombie_num):
-			MainGameDate.tombstone_list[i].create_new_zombie(new_zombie_type, curr_speed_zombie)
+			Global.main_game.plant_cell_manager.tombstone_list[i].create_new_zombie(new_zombie_type, curr_speed_zombie)
 
 ## 计算当前进度并更新进度条
 func set_progress_bar(curr_flag=-1):
@@ -146,10 +146,10 @@ func _on_hammer_zombie_timer_timeout() -> void:
 
 			## 等待3秒创建墓碑后再等待两秒
 			await get_tree().create_timer(3).timeout
-			if MainGameDate.tombstone_list.size() >= 5:
+			if Global.main_game.plant_cell_manager.tombstone_list.size() >= 5:
 				EventBus.push_event("create_tombstone", [1])
 			else:
-				EventBus.push_event("create_tombstone", [5 - MainGameDate.tombstone_list.size()])
+				EventBus.push_event("create_tombstone", [5 - Global.main_game.plant_cell_manager.tombstone_list.size()])
 			await get_tree().create_timer(2).timeout
 			hammer_zombie_timer.wait_time = interval_every_group + randf_range(-0.1, 0.1)
 

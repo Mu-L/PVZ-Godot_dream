@@ -70,7 +70,7 @@ func acitvate_it(control_x:float = 0):
 		ground_y = 200
 		is_swimming = true
 
-	var zombie_lane := MainGameDate.all_zombie_rows[zombie.lane]
+	var zombie_lane := Global.main_game.zombie_manager.all_zombie_rows[zombie.lane]
 	GlobalUtils.child_node_change_parent(self, zombie_lane)
 
 

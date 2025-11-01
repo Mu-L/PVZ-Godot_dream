@@ -2,16 +2,16 @@ extends Plant000Base
 class_name Plant020Tanglekelp
 
 @onready var grap_component: GrapComponent = $GrapComponent
-@onready var attack_ray_component: AttackRayComponent = $AttackRayComponent
+@onready var detect_component: AttackRayComponent = $AttackRayComponent
 
 
 func init_norm_signal_connect():
 	super()
-	attack_ray_component.signal_can_attack.connect(start_grap_zombie)
+	detect_component.signal_can_attack.connect(start_grap_zombie)
 
 ## 开始攻击
 func start_grap_zombie():
-	grap_in_pool(attack_ray_component.enemy_can_be_attacked)
+	grap_in_pool(detect_component.enemy_can_be_attacked)
 	blink_component.disable_component(ComponentBase.E_IsEnableFactor.Attack)
 
 ## 拖入水中

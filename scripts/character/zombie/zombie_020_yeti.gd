@@ -8,8 +8,8 @@ var is_run_end:=false
 
 func init_norm():
 	super()
-	if MainGameDate.p_yeti_run != -1:
-		probability_run = MainGameDate.p_yeti_run
+	if Global.main_game.p_yeti_run != -1:
+		probability_run = Global.main_game.p_yeti_run
 
 ## 判断是否逃跑
 func judge_is_run():
