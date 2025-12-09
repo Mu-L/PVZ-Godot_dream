@@ -60,6 +60,7 @@ class_name MainGameManager
 @onready var card_slot_root: CardSlotRoot = %CardSlotRoot
 ## 僵尸进家panel
 @onready var panel_zombie_go_home: Panel = %PanelZombieGoHome
+@onready var marker_2d_zombie_go_home: Marker2D = %Marker2DZombieGoHome
 
 ## 全局检测组件,用于检测敌人
 ##TODO:可能会用于检测敌人离开场景后删除
@@ -219,6 +220,7 @@ func init_manager():
 	zombie_manager.init_zombie_manager(game_para)
 	lawn_mover_manager.init_lawn_mover_manager(game_para)
 	background_manager.init_background_manager(game_para)
+	print("info:管理器初始化完成")
 
 ## 子节点之间信号连接
 func signal_connect():
@@ -313,6 +315,7 @@ func end_pause_on_re_choose_card_progress():
 
 ## 选择卡片完成
 func choosed_card_start_game():
+	print("选卡完成")
 	## 主游戏进程阶段
 	main_game_progress = E_MainGameProgress.PREPARE
 	## 隐藏待选卡槽
@@ -325,6 +328,7 @@ func choosed_card_start_game():
 func main_game_start():
 	if is_pause_on_re_choose_card:
 		end_pause_on_re_choose_card_progress()
+	print("主游戏开始")
 	## 主游戏进程阶段
 	main_game_progress = E_MainGameProgress.PREPARE
 	if game_para.is_fog:
@@ -359,11 +363,23 @@ func main_game_start():
 #region 游戏结束
 ## 修改僵尸位置
 func change_zombie_position(zombie:Zombie000Base):
-	## 要删除碰撞器，不然会闪退
+	## 要删除碰撞器，不然会闪退(这里好像是因为暂停的时候会重复循环执行一些代码，不清楚为什么)
 	zombie.hurt_box_component.free()
 	zombie.get_parent().remove_child(zombie)
 	panel_zombie_go_home.add_child(zombie)
-	zombie.position = Vector2(75, 360)
+	zombie.position = marker_2d_zombie_go_home.position
+	if game_para.game_BG == ResourceLevelData.GameBg.Roof:
+		roof_zombie_go_home(zombie)
+
+
+func roof_zombie_go_home(zombie:Zombie000Base):
+	print("禁用僵尸移动组件")
+	zombie.move_component.disable_component(ComponentNormBase.E_IsEnableFactor.GameMode)
+	await get_tree().create_timer(3).timeout
+	var tween = zombie.create_tween()
+	tween.tween_property(zombie, "position:y", 300, 10.0).as_relative()
+
+
 
 ## 僵尸进房
 func on_zombie_go_home(zombie:Zombie000Base):
@@ -415,6 +431,7 @@ func create_trophy(glo_pos:Vector2):
 
 ## 奖杯抛出
 func throw_to(node:Node2D, target_pos: Vector2, duration: float = 1.0):
+	main_game_progress = E_MainGameProgress.GAME_OVER
 	var start_pos = node.position
 	var peak_pos = start_pos.lerp(target_pos, 0.5)
 	peak_pos.y -= 50  # 向上抛
@@ -448,13 +465,14 @@ func win_main_game():
 #region 锤子鼠标交互
 ## 锤子鼠标进入后，显示鼠标
 func mouse_appear_have_hammer():
-	## 如果有锤子
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	if main_game_progress == E_MainGameProgress.MAIN_GAME:
+		## 如果有锤子
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 ## 有锤子时连接该信号
 func mouse_disappear_have_hammer():
 	## 如果有锤子不显示鼠标（非重新开始、离开游戏）
-	if not is_mouse_visibel_on_hammer:
+	if not is_mouse_visibel_on_hammer and main_game_progress == E_MainGameProgress.MAIN_GAME:
 		## 如果有锤子
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 

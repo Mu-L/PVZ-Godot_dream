@@ -143,65 +143,65 @@ node2d_detect_in_slope = [NodePath("HurtBoxComponent/HurtBoxDetection"), NodePat
 position = Vector2(-42, -69)
 
 [node name="Backleaf" type="Sprite2D" parent="Body/BodyCorrect" index="0"]
-position = Vector2(27.7, 53.697685)
-scale = Vector2(0.57090735, 0.5192084)
+position = Vector2(27.6, 55.06565)
+scale = Vector2(0.5943131, 0.46654567)
 texture = ExtResource("2_4s244")
 centered = false
 
 [node name="Backleaf_left_tip" type="Sprite2D" parent="Body/BodyCorrect" index="1"]
-position = Vector2(25.097685, 54.397686)
-rotation = 0.025977917
-scale = Vector2(0.58283794, 0.53213894)
+position = Vector2(24.53435, 55.831303)
+rotation = -0.028065419
+scale = Vector2(0.6284543, 0.515)
 texture = ExtResource("3_kpie8")
 centered = false
 
 [node name="Backleaf_right_tip" type="Sprite2D" parent="Body/BodyCorrect" index="2"]
-position = Vector2(47.497684, 53.595367)
-rotation = 0.010431592
-scale = Vector2(0.6186295, 0.53311574)
+position = Vector2(48.082825, 54.76565)
+rotation = 0.07205159
+scale = Vector2(0.65285873, 0.4998587)
 texture = ExtResource("4_3bnf4")
 centered = false
 
 [node name="ThreePeater_stem3" type="Sprite2D" parent="Body/BodyCorrect" index="3"]
-position = Vector2(22.87916, 20.17453)
-rotation = 0.074644856
-scale = Vector2(0.64, 0.65246314)
+position = Vector2(21.088915, 19.596956)
+rotation = 0.038803652
+scale = Vector2(0.64, 0.6628892)
 texture = ExtResource("5_jdor8")
 centered = false
 
 [node name="ThreePeater_stem1" type="Sprite2D" parent="Body/BodyCorrect" index="4"]
-position = Vector2(29.388422, 41.913895)
-rotation = -0.08223208
-scale = Vector2(0.64, 0.6857221)
-skew = 0.060762692
+position = Vector2(33.07978, 42.37978)
+rotation = -0.02304217
+scale = Vector2(0.64, 0.6541218)
+skew = 0.17063618
 texture = ExtResource("6_wvqqo")
 centered = false
 
 [node name="ThreePeater_stem2" type="Sprite2D" parent="Body/BodyCorrect" index="5"]
-position = Vector2(21.418524, 33.034733)
-rotation = -0.01721051
-scale = Vector2(0.64, 0.608259)
-skew = -0.034502752
+position = Vector2(16.52022, 33.242386)
+rotation = -0.08053138
+scale = Vector2(0.64, 0.6437783)
+skew = -0.13662942
 texture = ExtResource("7_fyt40")
 centered = false
 
 [node name="Frontleaf" type="Sprite2D" parent="Body/BodyCorrect" index="6"]
-position = Vector2(22.402315, 55.095367)
-scale = Vector2(0.56990737, 0.53311574)
+position = Vector2(21.917173, 56.082825)
+scale = Vector2(0.59131306, 0.4998587)
 texture = ExtResource("8_077w6")
 centered = false
 
 [node name="Frontleaf_right_tip" type="Sprite2D" parent="Body/BodyCorrect" index="7"]
-position = Vector2(55.70463, 56.397686)
-rotation = -0.10236777
-scale = Vector2(0.6703285, 0.5480463)
+position = Vector2(57.048477, 56.965652)
+rotation = -0.055111032
+scale = Vector2(0.64660656, 0.5391717)
 texture = ExtResource("9_ci3mc")
 centered = false
 
 [node name="Anim_idle" type="Sprite2D" parent="Body/BodyCorrect" index="8"]
-position = Vector2(19.5, 60.904633)
-rotation = 0.09538677
-scale = Vector2(0.6037221, 0.5480463)
+position = Vector2(19.5, 61.9313)
+rotation = -0.014349626
+scale = Vector2(0.55726314, 0.56796956)
 texture = ExtResource("10_x3uxc")
 centered = false
 
@@ -210,24 +210,24 @@ position = Vector2(42, 44)
 scale = Vector2(0.5, 0.592593)
 
 [node name="Anim_head1" type="Sprite2D" parent="Body/BodyCorrect" index="10"]
-position = Vector2(54.490738, 50.10463)
+position = Vector2(56.548477, 51.496952)
 centered = false
 
 [node name="Node2D" type="Node2D" parent="Body/BodyCorrect/Anim_head1" index="0"]
 position = Vector2(-51.3189, -51.1473)
 
 [node name="ThreePeater_head1_leaf1" type="Sprite2D" parent="Body/BodyCorrect/Anim_head1/Node2D" index="0"]
-position = Vector2(42.304527, 40.18642)
-rotation = -0.17871824
-scale = Vector2(0.79917425, 0.79917425)
+position = Vector2(42.048477, 42.39391)
+rotation = -0.47285885
+scale = Vector2(0.79517174, 0.79517174)
 texture = ExtResource("11_8ri8p")
 centered = false
 
 [node name="Anim_face1" type="Sprite2D" parent="Body/BodyCorrect/Anim_head1/Node2D" index="1"]
-position = Vector2(50.16968, 34.569683)
-rotation = 0.23547348
-scale = Vector2(0.638, 0.6292127)
-skew = 0.013737485
+position = Vector2(49.965652, 35.514126)
+rotation = 0.2306302
+scale = Vector2(0.63717175, 0.59426314)
+skew = 0.011617669
 texture = ExtResource("12_67f28")
 centered = false
 
@@ -241,51 +241,51 @@ centered = false
 
 [node name="ThreePeater_head1_blink2" type="Sprite2D" parent="Body/BodyCorrect/Anim_head1/Node2D" index="3"]
 visible = false
-position = Vector2(58.680748, 38.61084)
-rotation = 0.22125196
+position = Vector2(58.999043, 39.56108)
+rotation = 0.261799
 scale = Vector2(0.707, 0.626)
 texture = ExtResource("13_p64lq")
 centered = false
 
 [node name="ThreePeater_mouth1" type="Sprite2D" parent="Body/BodyCorrect/Anim_head1/Node2D" index="4"]
-position = Vector2(67.56969, 33.14321)
-rotation = 0.251327
-scale = Vector2(0.638, 0.616)
-skew = 0.0209444
+position = Vector2(67.648476, 32.762608)
+rotation = 0.23556651
+scale = Vector2(0.638, 0.6197174)
+skew = 0.019744718
 texture = ExtResource("14_g422m")
 centered = false
 
 [node name="Anim_head3" type="Sprite2D" parent="Body/BodyCorrect" index="11"]
-position = Vector2(24.581476, 21.876844)
+position = Vector2(22.97174, 21.11413)
 centered = false
 
 [node name="Node2D" type="Node2D" parent="Body/BodyCorrect/Anim_head3" index="0"]
 position = Vector2(-20.4577, -22.2722)
 
 [node name="ThreePeater_head3_leaf3" type="Sprite2D" parent="Body/BodyCorrect/Anim_head3/Node2D" index="0"]
-position = Vector2(12.987104, 15.717421)
-rotation = -0.0749462
-scale = Vector2(0.79917425, 0.79917425)
+position = Vector2(13.185871, 14.39391)
+rotation = 0.09768946
+scale = Vector2(0.799, 0.799)
 texture = ExtResource("16_m4m3d")
 centered = false
 
 [node name="ThreePeater_head3_leaf2" type="Sprite2D" parent="Body/BodyCorrect/Anim_head3/Node2D" index="1"]
-position = Vector2(9.704527, 11.930316)
-rotation = -0.06773953
-scale = Vector2(0.79917425, 0.79917425)
+position = Vector2(10.154568, 10.225213)
+rotation = 0.12746643
+scale = Vector2(0.799, 0.799)
 texture = ExtResource("17_p7jlj")
 centered = false
 
 [node name="ThreePeater_head3_leaf1" type="Sprite2D" parent="Body/BodyCorrect/Anim_head3/Node2D" index="2"]
-position = Vector2(8.056789, 9.743211)
-rotation = -0.17871824
-scale = Vector2(0.79917425, 0.79917425)
+position = Vector2(8.454568, 7.422168)
+rotation = 0.05352941
+scale = Vector2(0.799, 0.799)
 texture = ExtResource("11_8ri8p")
 centered = false
 
 [node name="Anim_face3" type="Sprite2D" parent="Body/BodyCorrect/Anim_head3/Node2D" index="3"]
-position = Vector2(15.2, 6.539368)
-scale = Vector2(0.64, 0.61012214)
+position = Vector2(15, 5.445432)
+scale = Vector2(0.64, 0.6478088)
 texture = ExtResource("12_67f28")
 centered = false
 
@@ -299,52 +299,52 @@ centered = false
 
 [node name="ThreePeater_head3_blink2" type="Sprite2D" parent="Body/BodyCorrect/Anim_head3/Node2D" index="5"]
 visible = false
-position = Vector2(24.489237, 8.304374)
+position = Vector2(24.195915, 7.372578)
 rotation = 0.022689
 scale = Vector2(0.684, 0.683)
 texture = ExtResource("13_p64lq")
 centered = false
 
 [node name="ThreePeater_mouth3" type="Sprite2D" parent="Body/BodyCorrect/Anim_head3/Node2D" index="6"]
-position = Vector2(31.634842, 0.8303159)
-scale = Vector2(0.64, 0.603)
+position = Vector2(31.517174, 0.045432314)
+scale = Vector2(0.64, 0.6242631)
 texture = ExtResource("14_g422m")
 centered = false
 
 [node name="Anim_head2" type="Sprite2D" parent="Body/BodyCorrect" index="12"]
-position = Vector2(33.918526, 34.8301)
+position = Vector2(29.98587, 34.376736)
 centered = false
 
 [node name="Node2D" type="Node2D" parent="Body/BodyCorrect/Anim_head2" index="0"]
 position = Vector2(-34.1467, -35.2009)
 
 [node name="ThreePeater_head2_leaf2" type="Sprite2D" parent="Body/BodyCorrect/Anim_head2/Node2D" index="0"]
-position = Vector2(26.482578, 23.65679)
-rotation = 0.06629853
-scale = Vector2(0.8, 0.8)
+position = Vector2(25.234348, 24.511086)
+rotation = -0.039524253
+scale = Vector2(0.799, 0.7812022)
 texture = ExtResource("17_p7jlj")
 centered = false
 
 [node name="ThreePeater_head2_leaf1" type="Sprite2D" parent="Body/BodyCorrect/Anim_head2/Node2D" index="1"]
-position = Vector2(25.578053, 20.643894)
-rotation = 0.122508384
-scale = Vector2(0.79917425, 0.79917425)
+position = Vector2(24.98587, 21.759562)
+rotation = -0.04315467
+scale = Vector2(0.799, 0.7812022)
 texture = ExtResource("11_8ri8p")
 centered = false
 
 [node name="Anim_face2" type="Sprite2D" parent="Body/BodyCorrect/Anim_head2/Node2D" index="2"]
-position = Vector2(33, 17.087105)
-rotation = 0.26612285
-scale = Vector2(0.64082575, 0.6548642)
-skew = -0.0115298545
+position = Vector2(32.9, 16.314129)
+rotation = 0.27666125
+scale = Vector2(0.64217174, 0.6829196)
+skew = -0.033514123
 texture = ExtResource("12_67f28")
 centered = false
 
 [node name="ThreePeater_mouth2" type="Sprite2D" parent="Body/BodyCorrect/Anim_head2/Node2D" index="3"]
-position = Vector2(50.3, 14.765158)
-rotation = 0.26612285
-scale = Vector2(0.64082575, 0.6548642)
-skew = -0.0115298545
+position = Vector2(50.282825, 13.179781)
+rotation = 0.27726078
+scale = Vector2(0.64217174, 0.6867479)
+skew = -0.037304632
 texture = ExtResource("14_g422m")
 centered = false
 
@@ -359,7 +359,7 @@ centered = false
 
 [node name="ThreePeater_head2_blink2" type="Sprite2D" parent="Body/BodyCorrect/Anim_head2/Node2D" index="5"]
 visible = false
-position = Vector2(41.61422, 21.33689)
+position = Vector2(41.716946, 20.724165)
 rotation = 0.29147
 scale = Vector2(0.696, 0.752)
 skew = -0.0244346

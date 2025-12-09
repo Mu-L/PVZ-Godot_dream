@@ -25,8 +25,6 @@ var plant_cell:PlantCell
 var is_death_free:= true
 ## 是否为模仿者材质
 var is_imitater_material:=false
-## 是否为我是僵尸模式
-var is_zombie_mode:=false
 #endregion
 
 #region 植物动画
@@ -45,6 +43,8 @@ enum E_BeAttackStatusPlant{
 	IsNorm = 1,		## 正常
 	IsFloat = 2,	## 悬浮
 	IsDown = 4, 	## 地刺
+	IsShort = 8,	## 低矮
+
 }
 #endregion
 
@@ -180,7 +180,7 @@ func character_death():
 	super()
 	if is_instance_valid(hurt_box_component):
 		## 要先删除碰撞器，否则僵尸攻击检测组件有问题
-		hurt_box_component.queue_free()
+		hurt_box_component.disable_component(ComponentNormBase.E_IsEnableFactor.Death)
 	if is_death_free:
 		queue_free()
 

@@ -68,12 +68,15 @@ grow_vertical = 0
 vertical_scroll_mode = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="AllBg/ScrollContainer"]
+custom_minimum_size = Vector2(255, 0)
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_constants/separation = 9
 
 [node name="CharacterText1" type="Label" parent="AllBg/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(255.42, 0)
+custom_minimum_size = Vector2(255, 0)
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0.156863, 0.196078, 0.352941, 1)
 theme_override_colors/font_outline_color = Color(0.156863, 0.196078, 0.352941, 1)
 theme_override_constants/paragraph_spacing = 0
@@ -84,7 +87,7 @@ theme_override_constants/shadow_outline_size = 0
 theme_override_fonts/font = ExtResource("4_wmr3e")
 theme_override_font_sizes/font_size = 13
 text = "豌豆射手，你的第一道防线，发射豌豆攻击僵尸"
-autowrap_mode = 2
+autowrap_mode = 1
 
 [node name="CharacterText2Para" type="VBoxContainer" parent="AllBg/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -119,7 +122,7 @@ theme_override_constants/shadow_outline_size = 0
 theme_override_fonts/font = ExtResource("4_wmr3e")
 theme_override_font_sizes/font_size = 13
 text = "中等"
-autowrap_mode = 2
+autowrap_mode = 1
 
 [node name="PlantPara2" type="HBoxContainer" parent="AllBg/ScrollContainer/VBoxContainer/CharacterText2Para"]
 layout_mode = 2
@@ -151,7 +154,7 @@ theme_override_constants/shadow_outline_size = 0
 theme_override_fonts/font = ExtResource("4_wmr3e")
 theme_override_font_sizes/font_size = 13
 text = "中等"
-autowrap_mode = 2
+autowrap_mode = 1
 
 [node name="PlantPara3" type="HBoxContainer" parent="AllBg/ScrollContainer/VBoxContainer/CharacterText2Para"]
 layout_mode = 2
@@ -183,7 +186,7 @@ theme_override_constants/shadow_outline_size = 0
 theme_override_fonts/font = ExtResource("4_wmr3e")
 theme_override_font_sizes/font_size = 13
 text = "中等"
-autowrap_mode = 2
+autowrap_mode = 1
 
 [node name="PlantPara4" type="HBoxContainer" parent="AllBg/ScrollContainer/VBoxContainer/CharacterText2Para"]
 layout_mode = 2
@@ -215,7 +218,7 @@ theme_override_constants/shadow_outline_size = 0
 theme_override_fonts/font = ExtResource("4_wmr3e")
 theme_override_font_sizes/font_size = 13
 text = "中等"
-autowrap_mode = 2
+autowrap_mode = 1
 
 [node name="PlantPara5" type="HBoxContainer" parent="AllBg/ScrollContainer/VBoxContainer/CharacterText2Para"]
 layout_mode = 2
@@ -247,7 +250,7 @@ theme_override_constants/shadow_outline_size = 0
 theme_override_fonts/font = ExtResource("4_wmr3e")
 theme_override_font_sizes/font_size = 13
 text = "中等"
-autowrap_mode = 2
+autowrap_mode = 1
 
 [node name="CharacterText3Hint" type="Label" parent="AllBg/ScrollContainer/VBoxContainer"]
 visible = false
@@ -268,6 +271,7 @@ autowrap_mode = 2
 [node name="CharacterText4Introduction" type="Label" parent="AllBg/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(255, 0)
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0.560784, 0.262745, 0.105882, 1)
 theme_override_colors/font_outline_color = Color(0.560784, 0.262745, 0.105882, 1)
 theme_override_constants/paragraph_spacing = 0
@@ -278,7 +282,7 @@ theme_override_constants/shadow_outline_size = 0
 theme_override_fonts/font = ExtResource("4_wmr3e")
 theme_override_font_sizes/font_size = 13
 text = "一棵植物，怎么能如此快地生长，并发射如此多的豌豆呢？豌豆射手说：“努力工作，奉献自己，加上一份阳光，高纤维和二氧化碳均衡搭配，这种健康早餐让一切管成可能。”"
-autowrap_mode = 2
+autowrap_mode = 1
 
 [node name="PlantEndPara" type="HBoxContainer" parent="AllBg"]
 layout_mode = 0

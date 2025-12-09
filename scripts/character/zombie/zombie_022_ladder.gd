@@ -25,6 +25,10 @@ func drop_ladder():
 	attack_component.is_can_ladder = false
 	attack_component.update_is_attack_factors(true, AttackComponentBase.E_IsAttackFactors.Anim)
 
+	move_component.update_move_factor(true, MoveComponent.E_MoveFactor.IsAnimGap)
+	await get_tree().create_timer(0.2, false).timeout
+	move_component.update_move_factor(false, MoveComponent.E_MoveFactor.IsAnimGap)
+
 
 ## 检测到可以搭梯子的植物,开始搭梯子,
 func start_ladder(plant:Plant000Base):

@@ -119,7 +119,7 @@ func _on_hammer_zombie_timer_timeout() -> void:
 
 	## 生成一小组僵尸
 	create_one_group_min_zombie()
-	print("当前波：",curr_wave)
+	#print("当前波：",curr_wave)
 	## 如果是大组的最后一小组（从0开始计数）
 	if curr_group_min == 9:
 		curr_group_min = -1

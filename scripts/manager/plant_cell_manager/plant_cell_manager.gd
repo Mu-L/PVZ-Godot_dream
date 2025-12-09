@@ -157,12 +157,18 @@ func create_plant_on_zombie_mode():
 #region 罐子
 ## 是否为罐子模式
 var is_pot_mode := false
+## 对罐子需求的植物格子僵尸行类型分成两组，水、路两种类型 根据罐子总数需求列数计算
+var plant_cell_row_on_zombie_row_type:Dictionary[Global.ZombieRowType, Array] = {
+	Global.ZombieRowType.Land:[],
+	Global.ZombieRowType.Pool:[],
+}
 
 func init_pot(game_para:ResourceLevelData):
 	is_pot_mode = game_para.is_pot_mode
 	match game_para.pot_mode:
 		ResourceLevelData.E_PotMode.Weight:
 			init_pot_random_pool(game_para)
+			init_plant_cell_row_on_zombie_row_type(game_para)
 		ResourceLevelData.E_PotMode.Fixd:
 			init_plant_cell_row_on_zombie_row_type(game_para)
 
@@ -173,6 +179,28 @@ func cerate_pot(game_para:ResourceLevelData):
 		ResourceLevelData.E_PotMode.Fixd:
 			create_all_pot_on_fixed_mode(game_para)
 
+## 将需求的植物格子按僵尸行类型分类
+func init_plant_cell_row_on_zombie_row_type(game_para:ResourceLevelData):
+	if game_para.pot_col_range.y > row_col.y:
+		game_para.pot_col_range.y = row_col.y
+		print("warning:生成罐子的结束列数大于当前场景植物格子的列数，生成罐子的结束列数已修改为植物格子列数")
+	## 罐子需要的列
+	var need_col:int = game_para.pot_col_range.y - game_para.pot_col_range.x
+	var num_pot_candidate:int = need_col * row_col.x
+	print("设置罐子的列数：", need_col, " 罐子生成位置数量为：", num_pot_candidate)
+
+	if need_col == 0:
+		print("warning: 罐子列数为0，取消生成罐子")
+		return
+
+	if game_para.pot_mode == ResourceLevelData.E_PotMode.Fixd:
+		print("罐子生成模式为 固定数量生成模式， 罐子生成总数为：", game_para.pot_num_on_fixed_mode)
+		assert(game_para.pot_num_on_fixed_mode <= num_pot_candidate, "罐子需求总数为：" + str(game_para.pot_num_on_fixed_mode) + "生成罐子候选植物格子数量为：" + str(num_pot_candidate))
+
+	for i in range(all_plant_cells.size()):
+		var plant_cell_row:Array= all_plant_cells[i]
+		plant_cell_row_on_zombie_row_type[Global.main_game.zombie_manager.all_zombie_rows[i].zombie_row_type].append_array(plant_cell_row.slice(game_para.pot_col_range.x, game_para.pot_col_range.y))
+
 
 #region 权重模式
 ## 罐子生成植物随机池
@@ -182,6 +210,7 @@ var pot_zombie_random_pool:Dictionary[Global.ZombieRowType, RandomPicker] = {
 	Global.ZombieRowType.Land : null,
 	Global.ZombieRowType.Pool : null,
 }
+
 ## 初始化罐子随机池
 func init_pot_random_pool(game_para:ResourceLevelData):
 	print("初始化罐子随机池")
@@ -205,34 +234,11 @@ func init_pot_random_pool(game_para:ResourceLevelData):
 
 ## 权重模式 生成所有罐子
 func create_all_pot_on_weigth_mode(game_para:ResourceLevelData):
-	var all_row_col_pot:Array[Vector2i] = game_para.all_row_col_pot
-	for row_col_pot in all_row_col_pot:
-		## 行或列大于当前最大值\小于0,跳过
-		if row_col_pot.x > row_col.x or\
-		row_col_pot.y > row_col.y or\
-		row_col_pot.x < 0 or row_col_pot.y < 0:
-			continue
-		## 满屏铺满
-		elif row_col_pot.x == 0 and row_col_pot.y == 0:
-			for plant_cell_row in all_plant_cells:
-				for plant_cell:PlantCell in plant_cell_row:
-					plant_cell_create_pot_on_weigth_mode(plant_cell, game_para)
-		## 某一列
-		elif row_col_pot.x == 0 and row_col_pot.y != 0:
-			for plant_cell_row in all_plant_cells:
-				var plant_cell:PlantCell = plant_cell_row[row_col_pot.y-1]
-				plant_cell_create_pot_on_weigth_mode(plant_cell, game_para)
-		## 某一行
-		elif row_col_pot.x != 0 and row_col_pot.y == 0:
-			var plant_cell_row = all_plant_cells[row_col_pot.x-1]
-			for plant_cell:PlantCell in plant_cell_row:
-				plant_cell_create_pot_on_weigth_mode(plant_cell, game_para)
-
-		## 某一个
-		else:
-			var plant_cell:PlantCell = all_plant_cells[row_col_pot.x-1][row_col_pot.y-1]
+	var plant_cell_row_on_zombie_row_type_copy = plant_cell_row_on_zombie_row_type.duplicate(true)
+	## 先对僵尸陆地和水路罐子划分
+	for zombie_row_type in [Global.ZombieRowType.Land,Global.ZombieRowType.Pool]:
+		for plant_cell:PlantCell in plant_cell_row_on_zombie_row_type_copy[zombie_row_type]:
 			plant_cell_create_pot_on_weigth_mode(plant_cell, game_para)
-
 
 ## 权重模式 植物格子创建罐子
 func plant_cell_create_pot_on_weigth_mode(plant_cell:PlantCell, game_para:ResourceLevelData):
@@ -243,6 +249,7 @@ func plant_cell_create_pot_on_weigth_mode(plant_cell:PlantCell, game_para:Resour
 func get_pot_para_on_weight_mode(plant_cell:PlantCell, game_para:ResourceLevelData) -> Dictionary:
 	var pot_para:Dictionary = {}
 	pot_para[ScaryPot.E_PotInitParaAttr.PlantCell] = plant_cell
+	## 罐子类型：随机、植物、僵尸
 	pot_para[ScaryPot.E_PotInitParaAttr.PotType] = get_weighted_result(game_para.weight_pot_type, game_para.weight_pot_type_sum) as Global.E_PotType
 	## 是否为固定结果罐子
 	var p_res_fixed := randf()
@@ -278,112 +285,79 @@ func get_weighted_result(weight: Vector3i, weight_sum:int) -> int:
 #endregion
 
 #region 固定模式
-## 按照植物格子所在的行的僵尸行类型分成两组，只对需求的植物格子进行划分，根据罐子总数计算，若格子不够则省略
-var plant_cell_row_on_zombie_row_type:Dictionary[Global.ZombieRowType, Array] = {
-	Global.ZombieRowType.Land:[],
-	Global.ZombieRowType.Pool:[],
-}
-## 将需求的植物格子按僵尸行类型分类
-func init_plant_cell_row_on_zombie_row_type(game_para:ResourceLevelData):
-	## 罐子需要的列
-	var need_col:int = ceil(game_para.pot_num_on_fixed_mode / float(row_col.x))
-	print("罐子需要的列数：", need_col)
-	if need_col == 0:
-		return
-
-	for i in range(all_plant_cells.size()):
-		var plant_cell_row:Array= all_plant_cells[i]
-		plant_cell_row_on_zombie_row_type[Global.main_game.zombie_manager.all_zombie_rows[i].zombie_row_type].append_array(plant_cell_row.slice(-need_col))
-
 ## 固定模式创建所有的罐子
 func create_all_pot_on_fixed_mode(game_para:ResourceLevelData):
 	var plant_cell_row_on_zombie_row_type_copy = plant_cell_row_on_zombie_row_type.duplicate(true)
-	## 先对僵尸陆地和水路罐子划分
+	## 先对僵尸陆地和水路罐子划分创建僵尸罐子，先创建对僵尸行类型有要求的罐子
 	for zombie_row_type in [Global.ZombieRowType.Land,Global.ZombieRowType.Pool]:
+		## 先打乱植物格子顺序
+		plant_cell_row_on_zombie_row_type_copy[zombie_row_type].shuffle()
 		plant_cell_row_on_zombie_row_type_copy[zombie_row_type] = create_multi_zombie_pot(game_para.random_pot_zombie_with_zombie_row_type[zombie_row_type], plant_cell_row_on_zombie_row_type_copy[zombie_row_type], Global.E_PotType.Random)
 		plant_cell_row_on_zombie_row_type_copy[zombie_row_type] = create_multi_zombie_pot(game_para.zombie_pot_with_zombie_row_type[zombie_row_type], plant_cell_row_on_zombie_row_type_copy[zombie_row_type], Global.E_PotType.Zombie)
 	## 将剩余的植物格子放到一起
 	var plant_cell_remaining:Array = []
 	plant_cell_remaining.append_array(plant_cell_row_on_zombie_row_type_copy[Global.ZombieRowType.Land])
 	plant_cell_remaining.append_array(plant_cell_row_on_zombie_row_type_copy[Global.ZombieRowType.Pool])
+	## 打乱植物格子顺序
+	plant_cell_remaining.shuffle()
+	## 创建 both僵尸行类型的僵尸罐子
 	plant_cell_remaining = create_multi_zombie_pot(game_para.random_pot_zombie_with_zombie_row_type[Global.ZombieRowType.Both], plant_cell_remaining, Global.E_PotType.Random)
 	plant_cell_remaining = create_multi_zombie_pot(game_para.zombie_pot_with_zombie_row_type[Global.ZombieRowType.Both], plant_cell_remaining, Global.E_PotType.Zombie)
 
 	plant_cell_remaining = create_multi_plant_pot(game_para.random_pot_plant, plant_cell_remaining, Global.E_PotType.Random)
 	plant_cell_remaining = create_multi_plant_pot(game_para.plant_pot, plant_cell_remaining, Global.E_PotType.Plant)
 
-	print("固定罐子列剩余植物格子数量：", plant_cell_remaining.size(), " 使用结果随机罐子填满")
+	print("当前已经生成的罐子数量:", curr_pot_num)
+	print("结果固定罐子生成完成后剩余植物格子数量：", plant_cell_remaining.size())
+
+	## 随机罐子数量和
+	var random_pot_num_sum = game_para.random_pot_num_on_fixed_mode.x + game_para.random_pot_num_on_fixed_mode.y + game_para.random_pot_num_on_fixed_mode.z
+	print("还需生成结果随机罐子数量(随机、植物、僵尸)：", random_pot_num_sum)
+	## 打乱顺序
+	plant_cell_remaining.shuffle()
+
+	for i in range(game_para.random_pot_num_on_fixed_mode.x):
+		create_random_res_pot(plant_cell_remaining.pop_back(), Global.E_PotType.Random)
+
+	for i in range(game_para.random_pot_num_on_fixed_mode.y):
+		create_random_res_pot(plant_cell_remaining.pop_back(), Global.E_PotType.Plant)
+
+	for i in range(game_para.random_pot_num_on_fixed_mode.z):
+		create_random_res_pot(plant_cell_remaining.pop_back(), Global.E_PotType.Zombie)
+
+	print("剩余罐子数量：", plant_cell_remaining.size(), " 使用 随机类型 结果随机罐子填充")
 	for plant_cell in plant_cell_remaining:
 		create_random_res_pot(plant_cell)
 
-	print("当前已经生成的罐子数量:", curr_pot_num )
-	## 随机罐子数量和
-	var random_pot_num_sum = game_para.random_pot_num_on_fixed_mode.x + game_para.random_pot_num_on_fixed_mode.y + game_para.random_pot_num_on_fixed_mode.z
-	## 随机罐子需求的列数
-	var random_pot_col_num = ceil(random_pot_num_sum / float(row_col.x))
-	## 真实随机罐子数量 和
-	var real_random_pot_num_sum = random_pot_col_num * row_col.x
-	## 真实随机罐子数量 三类
-	var real_random_pot_num_v3 = game_para.random_pot_num_on_fixed_mode + Vector3i(real_random_pot_num_sum - random_pot_num_sum, 0, 0)
-	print("另外：还需额外生成结果随机罐子数量(随机、植物、僵尸)：", real_random_pot_num_v3)
-	## 当前的罐子列数
-	var curr_pot_col = ceil(curr_pot_num / float(row_col.x))
-	var random_pot_plant_cell:Array[PlantCell] = []
-	for i in range(row_col.x):
-		random_pot_plant_cell.append_array(all_plant_cells[i].slice(all_plant_cells[i].size()-random_pot_col_num-curr_pot_col, all_plant_cells[i].size()-curr_pot_col))
-	for plant_cell in random_pot_plant_cell:
-		var random_pot_type = random_by_vector_weight(real_random_pot_num_v3)
-		if random_pot_type == 0:
-			real_random_pot_num_v3.x -= 1
-		elif random_pot_type == 1:
-			real_random_pot_num_v3.y -= 1
-		elif random_pot_type == 2:
-			real_random_pot_num_v3.z -= 1
-		create_random_res_pot(plant_cell, random_pot_type as Global.E_PotType)
 	print("生成的所有罐子数量:", curr_pot_num )
-	if ceil(curr_pot_num / float(row_col.x)) > 1:
-		shuffle_pot_on_row()
 
-# 输入三维向量（分量为各维度权重），返回随机选中的维度索引（0=X, 1=Y, 2=Z）
-func random_by_vector_weight(weight_vector: Vector3) -> int:
-	# 计算权重总和
-	var total_weight = weight_vector.x + weight_vector.y + weight_vector.z
-	if total_weight <= 0:
-		print("error:当前剩余三类罐子数量均为0")
-		return randi() % 3  # 权重为0时随机返回一个维度
-	# 生成0~total_weight的随机数
-	var random_value = randf() * total_weight
-	# 按权重区间判断选中的维度
-	if random_value < weight_vector.x:
-		return 0  # 选中X
-	elif random_value < weight_vector.x + weight_vector.y:
-		return 1  # 选中Y
-	else:
-		return 2  # 选中Z
+	#if ceil(curr_pot_num / float(row_col.x)) > 1:
+		#shuffle_pot_on_row()
 
-## 按行打乱植物格子罐子
-func shuffle_pot_on_row():
-	## 当前的罐子列数
-	var curr_pot_col = ceil(curr_pot_num / float(row_col.x))
-	for i in range(row_col.x):
-		## 当前行有罐子的植物格子
-		var plant_cells_have_pot_on_row:Array = all_plant_cells[i].slice(-curr_pot_col)
-		## 当前行的所有罐子
-		var all_pots_on_row:Array[ScaryPot] = []
-		for plant_cell in plant_cells_have_pot_on_row:
-			all_pots_on_row.append(plant_cell.pot)
 
-		assert(all_pots_on_row.size() == curr_pot_col, "当前行的罐子数量：" + str(all_pots_on_row.size()) + "罐子的列数: " + str(curr_pot_col))
-		## 罐子打乱顺序
-		all_pots_on_row.shuffle()
-		## 每个格子都有罐子，罐子与植物格子无信号连接，只修改引用，修改罐子父节点即可,
-		for j in range(curr_pot_col):
-			var plant_cell:PlantCell = plant_cells_have_pot_on_row[j]
-			var pot:ScaryPot = all_pots_on_row[j]
-			plant_cell.pot = pot
-			pot.reparent(plant_cell)
-			pot.position = Vector2(plant_cell.size.x / 2, plant_cell.size.y)
-			pot.plant_cell = plant_cell
+### TODO:按行打乱植物格子罐子  可以不用，生成时已经打乱顺序，
+#func shuffle_pot_on_row():
+	### 当前的罐子列数
+	#var curr_pot_col = ceil(curr_pot_num / float(row_col.x))
+	#for i in range(row_col.x):
+		### 当前行有罐子的植物格子
+		#var plant_cells_have_pot_on_row:Array = all_plant_cells[i].slice(-curr_pot_col)
+		### 当前行的所有罐子
+		#var all_pots_on_row:Array[ScaryPot] = []
+		#for plant_cell in plant_cells_have_pot_on_row:
+			#all_pots_on_row.append(plant_cell.pot)
+#
+		#assert(all_pots_on_row.size() == curr_pot_col, "当前行的罐子数量：" + str(all_pots_on_row.size()) + "罐子的列数: " + str(curr_pot_col))
+		### 罐子打乱顺序
+		#all_pots_on_row.shuffle()
+		### 每个格子都有罐子，罐子与植物格子无信号连接，只修改引用，修改罐子父节点即可,
+		#for j in range(curr_pot_col):
+			#var plant_cell:PlantCell = plant_cells_have_pot_on_row[j]
+			#var pot:ScaryPot = all_pots_on_row[j]
+			#plant_cell.pot = pot
+			#pot.reparent(plant_cell)
+			#pot.position = Vector2(plant_cell.size.x / 2, plant_cell.size.y)
+			#pot.plant_cell = plant_cell
 
 ## 创建一个结果随机罐子
 func create_random_res_pot(plant_cell:PlantCell, pot_type:=Global.E_PotType.Random):
@@ -433,8 +407,6 @@ func create_multi_plant_pot(pot_num_plant_types:Dictionary, plant_cells_candidat
 
 
 #endregion
-
-
 ## 植物格子创建罐子
 func plant_cell_creat_pot(plant_cell:PlantCell, pot_para:Dictionary):
 	var pot:ScaryPot = plant_cell.create_pot(pot_para)

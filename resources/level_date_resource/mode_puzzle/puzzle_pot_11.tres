@@ -19,11 +19,6 @@ start_sun = 500
 pre_choosed_card_list_zombie = Array[int]([3, 5, 8])
 is_pot_mode = true
 pot_mode = 2
-all_row_col_pot = Array[Vector2i]([Vector2i(0, 9), Vector2i(0, 8), Vector2i(0, 7), Vector2i(0, 6), Vector2i(0, 5), Vector2i(0, 4)])
-candidate_zombie_pot = Dictionary[int, int]({
-21: 1
-})
-weight_pot_type = Vector3i(6, 0, 4)
 random_pot_plant = Dictionary[int, int]({
 13: 5
 })

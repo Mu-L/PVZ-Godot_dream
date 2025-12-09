@@ -20,8 +20,8 @@ func _on_blink_timer_timeout() -> void:
 		for blink_body_change in all_blink_body_change:
 			var blink_sprite = get_node(blink_body_change.sprite_change[0])
 			blink_sprite.visible = true
-			await _do_blink_onc_sprite(blink_sprite, blink_body_change.sprite_change_texture)
-			blink_sprite.visible = false
+			_do_blink_onc_sprite(blink_sprite, blink_body_change.sprite_change_texture)
+
 
 ## 一个眼睛眨眼(可能有多个眼睛,三线\裂荚)
 func _do_blink_onc_sprite(blink_sprite:Sprite2D, blink_sprite_texture:Array[Texture2D]) -> void:
@@ -29,17 +29,21 @@ func _do_blink_onc_sprite(blink_sprite:Sprite2D, blink_sprite_texture:Array[Text
 	if is_inside_tree():
 		await get_tree().create_timer(0.1).timeout
 		if not is_enabling:
+			blink_sprite.visible = false
 			return
 		blink_sprite.texture = blink_sprite_texture[1]
 	if is_inside_tree():
 		await get_tree().create_timer(0.1).timeout
 		if not is_enabling:
+			blink_sprite.visible = false
 			return
 		blink_sprite.texture = blink_sprite_texture[0]
 	if is_inside_tree():
 		await get_tree().create_timer(0.1).timeout
 		if not is_enabling:
+			blink_sprite.visible = false
 			return
+	blink_sprite.visible = false
 
 ## 启用组件
 func enable_component(is_enable_factor:E_IsEnableFactor):

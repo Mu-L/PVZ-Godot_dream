@@ -161,7 +161,6 @@ position = Vector2(157, 141)
 character_init_type = 1
 
 [node name="PlantPage" type="TextureRect" parent="."]
-visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0

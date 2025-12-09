@@ -47,3 +47,8 @@ func be_blow_away():
 	var tween:Tween = create_tween()
 	tween.tween_property(self, ^"position:x", position.x+1000, 1)
 	tween.tween_callback(character_death_disappear)
+
+
+## 被冰冻控制
+func be_ice_freeze(time:float, new_time_ice_end_decelerate:float):
+	be_ice_decelerate(time + new_time_ice_end_decelerate)

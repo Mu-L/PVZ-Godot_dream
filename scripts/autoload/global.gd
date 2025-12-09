@@ -548,11 +548,11 @@ var curr_plant = [
 	PlantType.P046GoldMagnet,
 	PlantType.P047SpikeRock,
 	PlantType.P048CobCannon,
-#
+
+	#PlantType.P049PeaShooterDoubleReverse,
 	#PlantType.P1001WallNutBowling,
 	#PlantType.P1002WallNutBowlingBomb,
 	#PlantType.P1003WallNutBowlingBig,
-
 ]
 
 var curr_zombie = [
@@ -586,7 +586,7 @@ var curr_zombie = [
 	ZombieType.Z024Gargantuar,
 	ZombieType.Z025Imp,
 	### 单人雪橇车小队僵尸
-	#ZombieType.Z1001BobsledSingle,
+	ZombieType.Z1001BobsledSingle,
 ]
 #endregion
 
@@ -943,28 +943,28 @@ const  PlantInfo = {
 		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_036_coffee_bean.tscn")
 		},
 	PlantType.P037Garlic: {
-		PlantInfoAttribute.PlantName: "TallNut",
+		PlantInfoAttribute.PlantName: "Garlic",
 		PlantInfoAttribute.CoolTime: 7.5,
 		PlantInfoAttribute.SunCost: 50,
 		PlantInfoAttribute.PlantConditionResource :  preload("res://resources/character_resource/plant_condition/000_common_plant_land.tres"),
 		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_037_garlic.tscn")
 		},
 	PlantType.P038UmbrellaLeaf: {
-		PlantInfoAttribute.PlantName: "TallNut",
+		PlantInfoAttribute.PlantName: "UmbrellaLeaf",
 		PlantInfoAttribute.CoolTime: 7.5,
 		PlantInfoAttribute.SunCost: 100,
 		PlantInfoAttribute.PlantConditionResource :  preload("res://resources/character_resource/plant_condition/000_common_plant_land.tres"),
 		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_038_umbrella_leaf.tscn")
 		},
 	PlantType.P039MariGold: {
-		PlantInfoAttribute.PlantName: "TallNut",
+		PlantInfoAttribute.PlantName: "MariGold",
 		PlantInfoAttribute.CoolTime: 30.0,
 		PlantInfoAttribute.SunCost: 50,
 		PlantInfoAttribute.PlantConditionResource :  preload("res://resources/character_resource/plant_condition/000_common_plant_land.tres"),
 		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_039_mari_gold.tscn")
 		},
 	PlantType.P040MelonPult: {
-		PlantInfoAttribute.PlantName: "TallNut",
+		PlantInfoAttribute.PlantName: "MelonPult",
 		PlantInfoAttribute.CoolTime: 7.5,
 		PlantInfoAttribute.SunCost: 300,
 		PlantInfoAttribute.PlantConditionResource :  preload("res://resources/character_resource/plant_condition/000_common_plant_land.tres"),
@@ -1470,6 +1470,10 @@ var curr_pause_factor: Dictionary = {
 
 func _update_pause_state():
 	get_tree().paused = curr_pause_factor.values().any(func(v): return v)
+	if get_tree().paused:
+		print("暂停游戏")
+	else:
+		print("继续游戏")
 
 ## 开始场景树暂停
 func start_tree_pause(pause_factor: E_PauseFactor):
@@ -1480,6 +1484,7 @@ func start_tree_pause(pause_factor: E_PauseFactor):
 func end_tree_pause(pause_factor: E_PauseFactor):
 	curr_pause_factor[pause_factor] = false
 	_update_pause_state()
+
 
 ## 清除所有暂停因素
 func end_tree_pause_clear_all_pause_factors():
@@ -1500,6 +1505,7 @@ enum MainScenes{
 	ChooseLevelMiniGame,
 	ChooseLevelPuzzle,
 	ChooseLevelSurvival,
+	ChooseLevelCustom,
 
 	Garden = 200,
 	Almanac,
@@ -1518,6 +1524,7 @@ var MainScenesMap = {
 	MainScenes.ChooseLevelMiniGame: "res://scenes/main/03MiniGameChooesLevel.tscn",
 	MainScenes.ChooseLevelPuzzle: "res://scenes/main/04PuzzleChooesLevel.tscn",
 	MainScenes.ChooseLevelSurvival: "res://scenes/main/05SurvivalChooesLevel.tscn",
+	MainScenes.ChooseLevelCustom: "res://scenes/main/06CustomChooesLevel.tscn",
 
 	MainScenes.Garden: "res://scenes/main/10Garden.tscn",
 	MainScenes.Almanac: "res://scenes/main/11Almanac.tscn",

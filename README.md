@@ -18,7 +18,10 @@
 ![主游戏界面](readme_show/main_game.png)
 ### 开始菜单界面
 ![开始菜单界面](readme_show/run_start_menu.png)
-
+### 自定义关卡
+- 自定义关卡使用在游戏根目录下"level_game_para"文件夹中的游戏参数文件。
+- 游戏参数文件为"ResourceLevelData"类型的资源文件
+- 具体查看脚本文件"res://scripts/resources/level/level_data.gd"
 
 ## 游戏开发相关
 [基于本项目开发pvz同人改版必看内容（./docs/开发相关.md）](./docs/开发相关.md)
@@ -43,7 +46,7 @@ forked from [PVZ_reanim2godot_animation](https://github.com/HYTommm/PVZ_reanim2g
 
 - [R2Ga转换器v3.1发布！ (https://www.bilibili.com/video/BV1s3ZbY3E9L/)](https://www.bilibili.com/video/BV1s3ZbY3E9L/)
 
-- [PVZ wiki](https://wiki.pvz1.com/doku.php?id=home)
+- [PVZ wiki（https://wiki.pvz1.com/doku.php?id=home）](https://wiki.pvz1.com/doku.php?id=home)
 
 ## 📜 许可协议：Custom Non-Commercial License
 

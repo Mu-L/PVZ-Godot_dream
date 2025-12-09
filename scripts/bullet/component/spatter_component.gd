@@ -10,6 +10,10 @@ class_name SpatterComponent
 @export var range_attack_value:Vector2i=Vector2i(1, 13)
 ## 溅射到的上下行,默认为-1,无关行属性
 @export var spatter_lane_up_down := -1
+@export_group("攻击相关")
+## 可以攻击的敌人状态
+@export_flags("1 正常", "2 悬浮", "4 地刺", "8 低矮") var can_attack_plant_status:int = 9
+@export_flags("1 正常", "2 跳跃", "4 水下", "8 空中", "16 地下") var can_attack_zombie_status:int = 1
 
 ## 溅射伤害
 func spatter_all_area_zombie(direct_hit_enemy:Character000Base, lane:int=-1):
@@ -19,8 +23,14 @@ func spatter_all_area_zombie(direct_hit_enemy:Character000Base, lane:int=-1):
 		var enemy:Character000Base = area.owner
 		if direct_hit_enemy == enemy:
 			continue
-		else:
-			all_splatter_enemy.append(enemy)
+		## 如果不是可攻击状态敌人 植物
+		if enemy is Plant000Base and not enemy.curr_be_attack_status & can_attack_plant_status:
+			continue
+
+		if enemy is Zombie000Base and not enemy.curr_be_attack_status & can_attack_zombie_status:
+			continue
+
+		all_splatter_enemy.append(enemy)
 	if all_splatter_enemy.is_empty():
 		return
 	else:

@@ -11,7 +11,7 @@ class_name DetectComponent
 ## 是否攻击梯子下的植物,僵尸初始化时根据is_ignore_ladder更新该值
 var is_attack_ladder_plant:=true
 ## 可以攻击的敌人状态
-@export_flags("1 正常", "2 悬浮", "4 地刺") var can_attack_plant_status:int = 1
+@export_flags("1 正常", "2 悬浮", "4 地刺", "8 低矮") var can_attack_plant_status:int = 9
 @export_flags("1 正常", "2 跳跃", "4 水下", "8 空中", "16 地下") var can_attack_zombie_status:int = 1
 
 ## 植物敌人碰撞层:4(僵尸)

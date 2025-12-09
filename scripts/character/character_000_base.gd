@@ -38,6 +38,8 @@ var a :Dictionary = {"111":1}
 @export var direction_x_body := 1
 ## 跟随body方向的节点(body\影子\灰烬)
 @export var node_follow_body_direction:Array[Node2D]
+## 是否为我是僵尸模式
+var is_zombie_mode:=false
 
 @export_group("角色速度")
 ## 角色速度随机范围
@@ -144,6 +146,9 @@ func ready_norm():
 	ready_norm_signal_connect()
 	is_show = false
 	is_idle = false
+	## 我是僵尸模式，随机速度变量为1
+	if is_zombie_mode:
+		random_speed_range = Vector2(1,1)
 	call_deferred("init_random_speed")
 
 ## 初始化展示角色
@@ -257,6 +262,9 @@ func _on_ice_decelerate_timer_timeout() -> void:
 
 ## 被冰冻控制
 func be_ice_freeze(time:float, new_time_ice_end_decelerate:float):
+	## 被冰冻掉20血
+	hp_component.Hp_loss(20, Global.AttackMode.Real, true, false)
+
 	self.time_ice_end_decelerate = new_time_ice_end_decelerate
 	update_speed_factor(0.0, E_Influence_Speed_Factor.IceFreezeSpeed)
 	body.set_other_color(BodyCharacter.E_ChangeColors.IceColor, Color(0.5, 1, 1))
@@ -265,6 +273,15 @@ func be_ice_freeze(time:float, new_time_ice_end_decelerate:float):
 
 	if all_timer[E_TimerType.IceFreeze].time_left < time:
 		all_timer[E_TimerType.IceFreeze].start(time)
+
+	## 冰冻特效
+	if is_instance_valid(ice_effect):
+		ice_effect.queue_free()
+	## 冰冻效果
+	ice_effect = SceneRegistry.ICE_EFFECT.instantiate()
+	add_child(ice_effect)
+	ice_effect = ice_effect
+	ice_effect.start_ice_effect(time)
 
 ## 冰冻控制计时器结束
 func _on_ice_freeze_timer_timeout() -> void:

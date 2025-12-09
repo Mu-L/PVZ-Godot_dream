@@ -325,15 +325,6 @@ func ice_all_zombie(time_ice:float, time_decelerate: float):
 			continue
 		for zombie:Zombie000Base in zombie_row:
 			zombie.be_ice_freeze(time_ice, time_decelerate)
-			if is_instance_valid(zombie.ice_effect):
-				zombie.ice_effect.queue_free()
-			## 冰冻效果
-			var ice_effect = SceneRegistry.ICE_EFFECT.instantiate()
-			zombie.add_child(ice_effect)
-			zombie.ice_effect = ice_effect
-			ice_effect.start_ice_effect(time_ice)
-			## 被冰冻掉20血
-			zombie.be_attacked_bullet(20, Global.AttackMode.Real, true, false)
 
 func start_ice_timer(wait_time:float):
 	if not is_instance_valid(ice_timer):

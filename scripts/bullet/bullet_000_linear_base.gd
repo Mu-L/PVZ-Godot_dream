@@ -35,14 +35,15 @@ func change_y(target_y:float):
 func _on_area_2d_attack_area_entered(area: Area2D) -> void:
 	## 线性子弹判断是否攻击到斜坡,非穿透子弹
 	if area.owner is Slope:
-		if bullet_mode != Global.AttackMode.Penetration:
-			var slope:Slope = area.owner
-			## 如果方向与斜面法向量夹角小于90度
-			if direction.dot(slope.normal_vector_slope) < 0:
-				attack_once(null)
+		#if bullet_mode != Global.AttackMode.Penetration:
+		var slope:Slope = area.owner
+		## 如果方向与斜面法向量夹角小于90度
+		if direction.dot(slope.normal_vector_slope) < 0:
+			attack_once(null)
 		return
-
-	super(area)
+	if area.owner is Character000Base:
+		#print("碰撞到角色")
+		super(area)
 
 ## 直线子弹先对壳类进行攻击
 func get_first_be_hit_plant_in_cell(plant:Plant000Base)->Plant000Base:

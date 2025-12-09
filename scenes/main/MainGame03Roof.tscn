@@ -16,12 +16,16 @@ game_para = ExtResource("2_8jftm")
 texture = ExtResource("2_656vs")
 
 [node name="PanelZombieGoHome" parent="CanvasLayerBG/Background/Home/Door/DoorDown" index="4"]
-offset_left = 11.0
-offset_top = 6.0
-offset_right = 211.0004
-offset_bottom = 606.0
+offset_left = -5.0
+offset_top = -304.0
+offset_right = 199.0
+offset_bottom = 187.0
+
+[node name="Marker2DZombieGoHome" parent="CanvasLayerBG/Background/Home/Door/DoorDown/PanelZombieGoHome" index="0"]
+position = Vector2(117, 448)
 
 [node name="Background5GameoverMask" parent="CanvasLayerBG/Background/Home/Door/DoorMask" index="4"]
+visible = true
 position = Vector2(108, 139)
 
 [node name="RoofSlope" type="Node2D" parent="CanvasLayerBG/Background" index="4"]

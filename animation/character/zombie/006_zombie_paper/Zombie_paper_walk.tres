@@ -693,7 +693,7 @@ tracks/55/keys = {
 "times": PackedFloat32Array(0, 0.083333, 0.166667, 0.25, 0.333333, 0.416667, 0.5, 0.583333, 0.666667, 0.75, 0.833333, 0.916667, 1, 1.08333, 1.16667, 1.25, 1.33333, 1.41667, 1.5, 1.58333, 1.66667, 1.75, 1.83333, 1.91667, 2, 2.08333, 2.16667, 2.25, 2.33333, 2.41667, 2.5, 2.58333, 2.66667, 2.75, 2.83333, 2.91667, 3, 3.08333, 3.16667, 3.25, 3.33333, 3.41667, 3.5, 3.58333, 3.66667, 3.75, 3.83333),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.289725, 0.249582, 0.20944, 0.171042, 0.1309, 0.232129, 0.333358, 0.436332, 0.539307, 0.66497, 0.792379, 0.918043, 1.04196, 1.16937, 1.05418, 0.937242, 0.818559, 0.705113, 0.588176, 0.595157, 0.603884, 0.60912, 0.616101, 0.555015, 0.493928, 0.429351, 0.368264, 0.308923, 0.263545, 0.218166, 0.174533, 0.1309, 0.090757, 0.019199, -0.043633, -0.113446, -0.181514, -0.253073, -0.029671, 0.185005, 0.406662, 0.630064, 0.560251, 0.493928, 0.424115, 0.354302, 0.289725]
+"values": [0.289725, 0.249582, 0.20944, 0.171042, 0.1309, 0.232129, 0.333358, 0.436332, 0.539307, 0.66497, 0.7923789999999999, 0.918043, 1.04196, 1.16937, 1.05418, 0.937242, 0.818559, 0.705113, 0.588176, 0.595157, 0.603884, 0.60912, 0.616101, 0.555015, 0.493928, 0.429351, 0.368264, 0.308923, 0.263545, 0.218166, 0.174533, 0.1309, 0.090757, 0.019199, -0.043633, -0.113446, -0.181514, -0.253073, -0.029671, 0.185005, 0.406662, 0.630064, 0.560251, 0.493928, 0.424115, 0.354302, 0.289725]
 }
 tracks/56/type = "value"
 tracks/56/imported = false
@@ -1730,7 +1730,7 @@ tracks/141/keys = {
 tracks/142/type = "value"
 tracks/142/imported = false
 tracks/142/enabled = true
-tracks/142/path = NodePath("Body/BodyCorrect/Zombie_paper_paper:position")
+tracks/142/path = NodePath("Body/BodyCorrect/Zombie_paper_paper/Zombie_paper_paper:position")
 tracks/142/interp = 1
 tracks/142/loop_wrap = true
 tracks/142/keys = {
@@ -1742,19 +1742,19 @@ tracks/142/keys = {
 tracks/143/type = "value"
 tracks/143/imported = false
 tracks/143/enabled = true
-tracks/143/path = NodePath("Body/BodyCorrect/Zombie_paper_paper:rotation")
+tracks/143/path = NodePath("Body/BodyCorrect/Zombie_paper_paper/Zombie_paper_paper:rotation")
 tracks/143/interp = 1
 tracks/143/loop_wrap = true
 tracks/143/keys = {
 "times": PackedFloat32Array(0, 0.083333, 0.166667, 0.25, 0.333333, 0.416667, 0.5, 0.583333, 0.666667, 0.75, 0.833333, 0.916667, 1, 1.08333, 1.16667, 1.25, 1.33333, 1.41667, 1.5, 1.58333, 1.66667, 1.75, 1.83333, 1.91667, 2, 2.08333, 2.16667, 2.25, 2.33333, 2.41667, 2.5, 2.58333, 2.66667, 2.75, 2.83333, 2.91667, 3, 3.08333, 3.16667, 3.25, 3.33333, 3.41667, 3.5, 3.58333, 3.66667, 3.75, 3.83333),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 0.0, 0.0, 0.0, 0.0, 0.013963, 0.02618, 0.040143, 0.054105, 0.075049, 0.095993, 0.118682, 0.139626, 0.162316, 0.132645, 0.10472, 0.075049, 0.048869, 0.020944, -0.003491, -0.029671, -0.055851, -0.083776, -0.094248, -0.10821, -0.090757, -0.073304, -0.055851, -0.020944, 0.008727, 0.043633, 0.07854, 0.116937, 0.097738, 0.083776, 0.066323, 0.048869, 0.033161, 0.0, -0.024435, -0.055851, -0.087266, -0.090757, -0.095993, -0.061087, -0.029671, 0.0]
+"values": [0.0, 0.0, 0.0, 0.0, 0.0, 0.013963, 0.02618, 0.040143, 0.054105, 0.075049, 0.095993, 0.118682, 0.139626, 0.162316, 0.132645, 0.10472, 0.075049, 0.048869, 0.020944, -0.003491, -0.029671, -0.055851, -0.083776, -0.094248, -0.10821, -0.090757, -0.073304, -0.055851, -0.020944, 0.008727, 0.043633, 0.07854, 0.116937, 0.097738, 0.083776, 0.06632299999999999, 0.048869, 0.033161, 0.0, -0.024435, -0.055851, -0.087266, -0.090757, -0.095993, -0.061087, -0.029671, 0.0]
 }
 tracks/144/type = "value"
 tracks/144/imported = false
 tracks/144/enabled = true
-tracks/144/path = NodePath("Body/BodyCorrect/Zombie_paper_paper:scale")
+tracks/144/path = NodePath("Body/BodyCorrect/Zombie_paper_paper/Zombie_paper_paper:scale")
 tracks/144/interp = 1
 tracks/144/loop_wrap = true
 tracks/144/keys = {
@@ -1766,7 +1766,7 @@ tracks/144/keys = {
 tracks/145/type = "value"
 tracks/145/imported = false
 tracks/145/enabled = true
-tracks/145/path = NodePath("Body/BodyCorrect/Zombie_paper_paper:skew")
+tracks/145/path = NodePath("Body/BodyCorrect/Zombie_paper_paper/Zombie_paper_paper:skew")
 tracks/145/interp = 1
 tracks/145/loop_wrap = true
 tracks/145/keys = {
@@ -1778,7 +1778,7 @@ tracks/145/keys = {
 tracks/146/type = "value"
 tracks/146/imported = false
 tracks/146/enabled = true
-tracks/146/path = NodePath("Body/BodyCorrect/Zombie_paper_paper:self_modulate")
+tracks/146/path = NodePath("Body/BodyCorrect/Zombie_paper_paper/Zombie_paper_paper:self_modulate")
 tracks/146/interp = 1
 tracks/146/loop_wrap = true
 tracks/146/keys = {
@@ -1790,7 +1790,7 @@ tracks/146/keys = {
 tracks/147/type = "value"
 tracks/147/imported = false
 tracks/147/enabled = true
-tracks/147/path = NodePath("Body/BodyCorrect/Zombie_paper_hands:position")
+tracks/147/path = NodePath("Body/BodyCorrect/Zombie_paper_hands/Zombie_paper_hands:position")
 tracks/147/interp = 1
 tracks/147/loop_wrap = true
 tracks/147/keys = {
@@ -1802,7 +1802,7 @@ tracks/147/keys = {
 tracks/148/type = "value"
 tracks/148/imported = false
 tracks/148/enabled = true
-tracks/148/path = NodePath("Body/BodyCorrect/Zombie_paper_hands:rotation")
+tracks/148/path = NodePath("Body/BodyCorrect/Zombie_paper_hands/Zombie_paper_hands:rotation")
 tracks/148/interp = 1
 tracks/148/loop_wrap = true
 tracks/148/keys = {
@@ -1814,7 +1814,7 @@ tracks/148/keys = {
 tracks/149/type = "value"
 tracks/149/imported = false
 tracks/149/enabled = true
-tracks/149/path = NodePath("Body/BodyCorrect/Zombie_paper_hands:scale")
+tracks/149/path = NodePath("Body/BodyCorrect/Zombie_paper_hands/Zombie_paper_hands:scale")
 tracks/149/interp = 1
 tracks/149/loop_wrap = true
 tracks/149/keys = {
@@ -1826,7 +1826,7 @@ tracks/149/keys = {
 tracks/150/type = "value"
 tracks/150/imported = false
 tracks/150/enabled = true
-tracks/150/path = NodePath("Body/BodyCorrect/Zombie_paper_hands:skew")
+tracks/150/path = NodePath("Body/BodyCorrect/Zombie_paper_hands/Zombie_paper_hands:skew")
 tracks/150/interp = 1
 tracks/150/loop_wrap = true
 tracks/150/keys = {
@@ -1838,7 +1838,7 @@ tracks/150/keys = {
 tracks/151/type = "value"
 tracks/151/imported = false
 tracks/151/enabled = true
-tracks/151/path = NodePath("Body/BodyCorrect/Zombie_paper_hands:texture")
+tracks/151/path = NodePath("Body/BodyCorrect/Zombie_paper_hands/Zombie_paper_hands:texture")
 tracks/151/interp = 1
 tracks/151/loop_wrap = true
 tracks/151/keys = {
@@ -1850,7 +1850,7 @@ tracks/151/keys = {
 tracks/152/type = "value"
 tracks/152/imported = false
 tracks/152/enabled = true
-tracks/152/path = NodePath("Body/BodyCorrect/Zombie_paper_hands:self_modulate")
+tracks/152/path = NodePath("Body/BodyCorrect/Zombie_paper_hands/Zombie_paper_hands:self_modulate")
 tracks/152/interp = 1
 tracks/152/loop_wrap = true
 tracks/152/keys = {
@@ -1872,4 +1872,28 @@ tracks/153/keys = {
 "args": [],
 "method": &"_walking_start"
 }]
+}
+tracks/154/type = "value"
+tracks/154/imported = false
+tracks/154/enabled = true
+tracks/154/path = NodePath("Body/BodyCorrect/Zombie_paper_paper/Zombie_paper_paper:visible")
+tracks/154/interp = 1
+tracks/154/loop_wrap = true
+tracks/154/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/155/type = "value"
+tracks/155/imported = false
+tracks/155/enabled = true
+tracks/155/path = NodePath("Body/BodyCorrect/Zombie_paper_hands/Zombie_paper_hands:visible")
+tracks/155/interp = 1
+tracks/155/loop_wrap = true
+tracks/155/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }

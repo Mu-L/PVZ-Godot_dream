@@ -12,7 +12,7 @@ class_name JumpComponent
 ## 跳跃距离，跳跃完成后移动本体节点的距离
 @export var jump_x :float= 150
 ## 可以跳跃的敌人状态
-@export_flags("1 正常", "2 悬浮", "4 地刺") var can_attack_plant_status:int = 1
+@export_flags("1 正常", "2 悬浮", "4 地刺", "8 低矮") var can_attack_plant_status:int = 9
 @export_flags("1 正常", "2 跳跃", "4 水下", "8 空中", "16 地下")var can_attack_zombie_status:int = 1
 ## 跳跃补偿(只对植物生效)，是否跳跃过程中向后滑步保障不越过植物过多
 @export var is_jump_compensate_plant := true

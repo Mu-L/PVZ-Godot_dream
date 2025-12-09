@@ -16,7 +16,15 @@ class_name Hammer
 var is_used := false
 
 func _ready() -> void:
-	set_is_used(true)
+	EventBus.subscribe("main_game_progress_update", _on_main_game_progress_update)
+
+
+## 主游戏进程改变时,设置启动锤子
+func _on_main_game_progress_update(curr_main_game_progress:MainGameManager.E_MainGameProgress):
+	if curr_main_game_progress == MainGameManager.E_MainGameProgress.MAIN_GAME:
+		set_is_used(true)
+	else:
+		set_is_used(false)
 
 @warning_ignore("unused_parameter")
 func _process(delta):

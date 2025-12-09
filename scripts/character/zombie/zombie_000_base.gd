@@ -19,8 +19,6 @@ class_name Zombie000Base
 var is_mini_zombie:= false
 ## 是否为罐子创建的僵尸
 var is_pot_zombie:=false
-## 是否为我是僵尸模式的僵尸
-var is_zombie_mode:=false
 
 @export_subgroup("僵尸铁器")
 ## 僵尸铁器类型
@@ -139,9 +137,9 @@ enum E_ZInitAttr{
 ## 修改初始化状态，在添加到场景树之前调用
 func init_zombie(zombie_init_para:Dictionary):
 	self.character_init_type = zombie_init_para.get(E_ZInitAttr.CharacterInitType, E_CharacterInitType.IsNorm)
+	self.is_mini_zombie = zombie_init_para.get(E_ZInitAttr.IsMiniZombie, false)
 	match self.character_init_type:
 		E_CharacterInitType.IsNorm:
-			self.is_mini_zombie = zombie_init_para.get(E_ZInitAttr.IsMiniZombie, false)
 			self.is_pot_zombie = zombie_init_para.get(E_ZInitAttr.IsPotZombie, false)
 			self.is_zombie_mode = zombie_init_para.get(E_ZInitAttr.IsZombieMode, false)
 			self.lane = zombie_init_para.get(E_ZInitAttr.Lane, -1)
@@ -307,7 +305,7 @@ func change_is_swimming(value:bool):
 ## 角色死亡
 func character_death():
 	super()
-	hurt_box_component.queue_free()
+	hurt_box_component.disable_component(ComponentNormBase.E_IsEnableFactor.Death)
 	swim_box_component._on_owner_is_death()
 	#attack_component.queue_free()
 

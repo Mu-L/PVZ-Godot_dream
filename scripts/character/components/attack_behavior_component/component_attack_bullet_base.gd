@@ -7,7 +7,7 @@ class_name AttackComponentBulletBase
 @onready var bullet_attack_cd_timer: Timer = $BulletAttackCdTimer
 
 ## 当前发射子弹可以攻击的敌人状态
-@export_flags("1 正常", "2 悬浮", "4 地刺") var can_attack_plant_status:int = 1
+@export_flags("1 正常", "2 悬浮", "4 地刺", "8 低矮") var can_attack_plant_status:int = 1
 @export_flags("1 正常", "2 跳跃", "4 水下", "8 空中", "16 地下") var can_attack_zombie_status:int = 1
 
 ## 是否使用行属性进行攻击判断

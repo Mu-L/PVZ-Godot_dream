@@ -88,7 +88,7 @@ func _on_area_2d_attack_area_entered(area: Area2D) -> void:
 		push_error("敌人不是植物,不是僵尸")
 	## 在当前行
 	if in_curr_lane:
-		print(lane, enemy.lane)
+		#print(lane, enemy.lane)
 		## 如果僵尸在子弹攻击行
 		if lane == enemy.lane:
 			## 攻击后修改为不再当前行，并已攻击

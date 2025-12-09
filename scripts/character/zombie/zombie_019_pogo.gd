@@ -2,6 +2,9 @@ extends Zombie000Base
 class_name Zombie019Pogo
 ## 跳跳僵尸初始化时禁用攻击组件,使用DetectComponentPogo检测植物,若有植物,弹跳两次跳过该植物
 
+## 我是僵尸模式取消跳跃的位置
+@export var eat_brain_glo_pos_x_in_zombie_mode:float = 50
+
 @onready var detect_component_pogo: DetectComponent = $DetectComponentPogo
 @onready var body_correct: Node2D = $Body/BodyCorrect
 
@@ -31,6 +34,12 @@ func ready_norm():
 	## 跳跳状态下检测到植物停止移动,弹跳两次后移动
 	detect_component_pogo.signal_can_attack.connect(pogo_ray_enemy)
 	#detect_component_pogo.signal_not_can_attack.connect(func():move_component.update_move_factor.bind(false, MoveComponent.E_MoveFactor.IsCharacter))
+
+func _process(_delta: float) -> void:
+	## 如果是我是僵尸模式
+	if is_zombie_mode:
+		if is_pogo and global_position.x < eat_brain_glo_pos_x_in_zombie_mode:
+			loss_iron_item()
 
 ## 检测到敌人时
 func pogo_ray_enemy():
@@ -97,5 +106,5 @@ func _on_update_speed(speed_factor_product:float):
 		tween_pogo.set_speed_scale(speed_scale_pogo)
 
 ## 跳跃被强行停止,高坚果调用
-func jump_be_stop(plant:Plant000Base):
+func jump_be_stop(_plant:Plant000Base):
 	is_jump_stop = true

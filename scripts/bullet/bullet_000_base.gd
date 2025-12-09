@@ -45,7 +45,7 @@ var lane :int = -1
 
 @export_group("子弹攻击相关")
 ## 可以攻击的敌人状态
-@export_flags("1 正常", "2 悬浮", "4 地刺") var can_attack_plant_status:int = 1
+@export_flags("1 正常", "2 悬浮", "4 地刺", "8 低矮植物") var can_attack_plant_status:int = 1
 @export_flags("1 正常", "2 跳跃", "4 水下", "8 空中", "16 地下") var can_attack_zombie_status:int = 1
 
 @export_group("子弹升级相关")
@@ -78,7 +78,7 @@ enum E_InitParasAttr{
 ## 初始化子弹属性
 func init_bullet(bullet_paras:Dictionary):
 	## 子弹行
-	self.is_activate_lane = bullet_paras.get(E_InitParasAttr.IsActivateLane, true)
+	self.is_activate_lane = bullet_paras.get(E_InitParasAttr.IsActivateLane, default_is_activate_lane)
 	self.lane = bullet_paras.get(E_InitParasAttr.BulletLane, -1)
 	z_index = self.lane * 50 + 45
 
@@ -106,25 +106,30 @@ func _on_area_2d_attack_area_entered(area: Area2D) -> void:
 	var enemy:Character000Base = area.owner
 	## TODO:攻击植物子弹
 	if enemy is Plant000Base:
+		## 子弹阵营为植物
+		if bullet_camp == Global.CharacterType.Plant:
+			return
 		if not enemy.curr_be_attack_status & can_attack_plant_status:
 			return
 	elif enemy is Zombie000Base:
+		## 子弹阵营为植物
+		if bullet_camp == Global.CharacterType.Zombie:
+			return
 		## 如果不是可攻击状态敌人
 		if not enemy.curr_be_attack_status & can_attack_zombie_status:
-			print("敌人状态：", enemy.curr_be_attack_status, "可以攻击敌人状态：", can_attack_zombie_status)
+			#print("敌人状态：", enemy.curr_be_attack_status, "可以攻击敌人状态：", can_attack_zombie_status)
 			return
 	else:
 		push_error("敌人不是植物,不是僵尸")
-	## 子弹还有攻击次数
-	if max_attack_num != -1 and curr_attack_num < max_attack_num:
-		## 如果子弹有行属性
-		if is_activate_lane:
-			if lane == enemy.lane:
-				attack_once(enemy)
-		else:
+	## 子弹没有攻击次数
+	if max_attack_num != -1 and curr_attack_num >= max_attack_num:
+		return
+
+	## 如果子弹有行属性
+	if is_activate_lane:
+		if lane == enemy.lane:
 			attack_once(enemy)
-	## 子弹无限穿透
-	if max_attack_num == -1:
+	else:
 		attack_once(enemy)
 
 

@@ -44,6 +44,7 @@ func init_card_random_pool(card_random_pool_init_para:Dictionary):
 		card_choose_random_pool_zombie = RandomPicker.new(card_choose_random_pool_zombie_data)
 	assert(total_prob != 0, "植物卡片和僵尸卡片总概率值为0")
 
+	print("植物卡片概率：", total_prob_plant, "僵尸卡片概率", total_prob - total_prob_plant)
 
 ## 按概率随机获取可生成卡片索引
 func get_random_card() -> Card:

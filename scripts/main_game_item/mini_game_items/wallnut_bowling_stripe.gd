@@ -8,7 +8,7 @@ func init_item(plant_cell_col_j:int=2, plant_cell_can_use:Dictionary = {}):
 	var target_plant_cell:PlantCell= Global.main_game.plant_cell_manager.all_plant_cells[0][plant_cell_col_j]
 	var target_global_pos_x:float = target_plant_cell.global_position.x
 	var target_global_pos_y:float = target_plant_cell.global_position.y
-	print("111", target_global_pos_y)
+
 	## 如果存在屋顶斜面
 	if is_instance_valid(Global.main_game.main_game_slope):
 		scale.y = 0.88

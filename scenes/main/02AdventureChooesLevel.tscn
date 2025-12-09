@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bwevuvs5nnwfx" path="res://assets/image/ui/ui_challenge/Challenge_Background.jpg" id="1_77tr5"]
 [ext_resource type="Theme" uid="uid://cx302yraw066y" path="res://data/ChooesLevel.tres" id="1_dw7cd"]
-[ext_resource type="Script" uid="uid://jru6xfv7g4f1" path="res://scripts/choose_level/02_choose_level.gd" id="1_qbhvk"]
+[ext_resource type="Script" uid="uid://jru6xfv7g4f1" path="res://scripts/choose_level/choose_level.gd" id="1_qbhvk"]
 [ext_resource type="PackedScene" uid="uid://bhjnqm3kqr2fq" path="res://scenes/choose_level/choose_level_button.tscn" id="4_nodl8"]
 [ext_resource type="Texture2D" uid="uid://hb4b6ujaahoc" path="res://assets/image/Almanac/Almanac_GroundDay.jpg" id="5_2o48a"]
 [ext_resource type="PackedScene" uid="uid://cfc5vrs1dcy0j" path="res://scenes/character/plant/plant_001_pea_shooter_single.tscn" id="5_k1h2l"]

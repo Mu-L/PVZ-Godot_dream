@@ -5,7 +5,7 @@ class_name Plant018Squash
 @onready var detect_component: DetectComponentSquash = $DetectComponent
 
 ## 可以攻击的敌人状态
-@export_flags("1 正常", "2 悬浮", "4 地刺") var can_attack_plant_status:int = 5
+@export_flags("1 正常", "2 悬浮", "4 地刺", "8 低矮") var can_attack_plant_status:int = 13
 @export_flags("1 正常", "2 跳跃", "4 水下", "8 空中", "16 地下") var can_attack_zombie_status:int = 1
 
 @export_group("动画状态")

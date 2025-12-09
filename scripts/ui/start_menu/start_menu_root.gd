@@ -18,31 +18,38 @@ func _ready() -> void:
 	Global.time_scale = 1.0
 	Engine.time_scale = Global.time_scale
 
-
 ## 花园需要浇水
 var garden_need_water:=true
-
-
 
 ## 功能未实现
 func _unrealized():
 	dialog.appear_dialog()
 
 ## 开始游戏
-func _on_menu_button_1_pressed() -> void:
+func _on_button_1_pressed() -> void:
+	Global.game_para = null
 	get_tree().change_scene_to_file(Global.MainScenesMap[Global.MainScenes.ChooseLevelAdventure])
+
 
 ## 迷你游戏
 func _on_button_2_pressed() -> void:
+	Global.game_para = null
 	get_tree().change_scene_to_file(Global.MainScenesMap[Global.MainScenes.ChooseLevelMiniGame])
 
 ## 解密模式
 func _on_button_3_pressed() -> void:
+	Global.game_para = null
 	get_tree().change_scene_to_file(Global.MainScenesMap[Global.MainScenes.ChooseLevelPuzzle])
 
 ## 生存模式
 func _on_button_4_pressed() -> void:
+	Global.game_para = null
 	get_tree().change_scene_to_file(Global.MainScenesMap[Global.MainScenes.ChooseLevelSurvival])
+
+## 自定义关卡
+func _on_custom_button_pressed() -> void:
+	Global.game_para = null
+	get_tree().change_scene_to_file(Global.MainScenesMap[Global.MainScenes.ChooseLevelCustom])
 
 #region 选项
 func _on_option_button_1_pressed() -> void:
@@ -80,3 +87,5 @@ func _on_item_button_3_pressed() -> void:
 ## 点击用户更新时
 func _on_button_update_user_pressed() -> void:
 	user.visible = true
+
+

@@ -33,7 +33,7 @@ parabola_height = -500.0
 bullet_type = 9
 is_rotate = true
 attack_value = 40
-bullet_mode = 1
+bullet_mode = 2
 
 [node name="BulletBody" parent="Body" index="0"]
 texture = ExtResource("2_ob6g3")

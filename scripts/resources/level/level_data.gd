@@ -99,7 +99,7 @@ var level_id:String = "test"
 var save_game_name:String
 
 ## 初始化选关数据
-func init_choose_level(curr_game_mode:Global.MainScenes, curr_level_page:int, curr_level_id:String):
+func set_choose_level(curr_game_mode:Global.MainScenes, curr_level_page:int, curr_level_id:String):
 	game_mode = curr_game_mode
 	level_page = curr_level_page
 	level_id = curr_level_id
@@ -248,7 +248,10 @@ enum E_PotMode{
 	Weight,	## 根据权重随机生成罐子
 	Fixd,	## 固定生成，随机位置
 }
+## 罐子的生成模式
 @export var pot_mode:E_PotMode=E_PotMode.Null
+## 罐子的列数的范围[(从0开始计数)：(4,9),从第5列（包含）到第10列（不包含）]
+@export var pot_col_range:Vector2i =Vector2i(4, 9)
 ## 是否可以看到结果随机罐子的结果
 @export var is_can_look_random_res_pot:=false
 ## 多轮砸罐子模式是否保留植物数据
@@ -257,8 +260,6 @@ enum E_PotMode{
 @export_subgroup("权重随机生成")
 ## 固定罐子和随机罐子占比(固定罐子:初始化时固定罐子结果，随机罐子: 打开罐子确定结果)
 @export_range(0, 1, 0.01) var weight_res_fiexd:float = 1
-## 生成罐子的位置(0表示当前整行或整列)
-@export var all_row_col_pot:Array[Vector2i]
 ## 罐子植物候选列表[若没有，则从罐子植物白名单等权重随机生成]
 @export var candidate_plant_pot:Dictionary[Global.PlantType, int] = {}
 ## 罐子僵尸候选列表[若没有，则从自然刷怪白名单等权重随机生成]
@@ -365,6 +366,12 @@ func init_para():
 		whitelist_refresh_zombie_types = Global.whitelist_refresh_zombie_types_with_zombie_row_type[Global.ZombieRowTypewithMainScenesMap[game_sences]]
 		zombie_refresh_types = filter_invalid_zombie_refresh_types(zombie_refresh_types, whitelist_refresh_zombie_types)
 
+	## 如果生成罐子
+	if pot_mode != E_PotMode.Null:
+		if pot_col_range.x >  pot_col_range.y:
+			pot_col_range = Vector2i(pot_col_range.y, pot_col_range.x)
+		print("生成罐子的列数为", pot_col_range.x, "（含）到",  pot_col_range.y, "（不含）")
+
 	## 罐子模式
 	match pot_mode:
 		E_PotMode.Weight:
@@ -435,7 +442,8 @@ func init_para():
 					print("warning: 僵尸", Global.get_zombie_info(zombie_type, Global.ZombieInfoAttribute.ZombieName), "在罐子刷新黑名单中，已删除该僵尸")
 				else:
 					pot_num_on_fixed_mode += zombie_pot[zombie_type]
-			print("固定模式的罐子总数为：", pot_num_on_fixed_mode)
+			pot_num_on_fixed_mode += random_pot_num_on_fixed_mode.x + random_pot_num_on_fixed_mode.y + random_pot_num_on_fixed_mode.z
+			print("固定模式的罐子需求总数（包括结果固定罐子和结果随机罐子）为：", pot_num_on_fixed_mode)
 			random_pot_zombie_with_zombie_row_type = get_pot_zombie_with_row_type_pot_on_fiexd_mode(random_pot_zombie)
 			zombie_pot_with_zombie_row_type = get_pot_zombie_with_row_type_pot_on_fiexd_mode(zombie_pot)
 

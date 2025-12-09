@@ -17,7 +17,7 @@ class_name BombComponentBase
 var is_bomb:= false
 @export_group("攻击范围")
 ## 可以攻击的敌人状态
-@export_flags("1 正常", "2 悬浮", "4 地刺") var can_attack_plant_status:int = 1
+@export_flags("1 正常", "2 悬浮", "4 地刺", "8 低矮") var can_attack_plant_status:int = 15
 @export_flags("1 正常", "2 跳跃", "4 水下", "8 空中", "16 地下", "32 跳入泳池") var can_attack_zombie_status:int = 1
 
 @export_group("爆炸音效")

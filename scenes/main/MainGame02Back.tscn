@@ -18,9 +18,23 @@ game_para = ExtResource("2_lh46o")
 [node name="Background" parent="CanvasLayerBG" index="0"]
 texture = ExtResource("2_d84l0")
 
+[node name="Background3GameoverInteriorOverlay" parent="CanvasLayerBG/Background/Home/Door/DoorDown" index="2"]
+position = Vector2(73, 340)
+
+[node name="Background4GameoverInteriorOverlay" parent="CanvasLayerBG/Background/Home/Door/DoorDown" index="3"]
+position = Vector2(73, 339)
+
 [node name="PanelZombieGoHome" parent="CanvasLayerBG/Background/Home/Door/DoorDown" index="4"]
-offset_left = 87.0
-offset_right = 287.0004
+offset_left = 50.0
+offset_top = -19.0
+offset_right = 250.0004
+offset_bottom = 581.0
+
+[node name="Background3GameoverMask" parent="CanvasLayerBG/Background/Home/Door/DoorMask" index="2"]
+position = Vector2(71, 344)
+
+[node name="Background4GameoverMask" parent="CanvasLayerBG/Background/Home/Door/DoorMask" index="3"]
+position = Vector2(138, 305)
 
 [node name="Pool" parent="CanvasLayerBG/Background" index="3" instance=ExtResource("4_7o8m0")]
 

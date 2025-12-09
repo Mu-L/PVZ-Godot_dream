@@ -35,7 +35,7 @@ func _physics_process(delta: float) -> void:
 		if not is_instance_valid(target_enemy):
 			global_position += direction * delta * speed
 
-			## 移动超过最大距离后销毁，部分子弹有限制
+			## 移动超过最大距离后销毁，部分子弹有限制,大部分子弹超过默认2000后删除
 			if global_position.distance_to(start_pos) > max_distance:
 				queue_free()
 

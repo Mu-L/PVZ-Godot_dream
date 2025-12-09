@@ -34,6 +34,7 @@ func init_console_panel():
 func _on_texture_button_pressed() -> void:
 	visible = false
 	EventBus.push_event("change_is_mouse_visibel_on_hammer", false)
+	Global.save_config()
 
 func appear_canvas_layer_control() -> void:
 	visible = true
@@ -42,17 +43,14 @@ func appear_canvas_layer_control() -> void:
 ## 自动收集阳光
 func _on_check_box_toggled(toggled_on: bool) -> void:
 	Global.auto_collect_sun = toggled_on
-	Global.save_config()
 
 ## 自动收集金币
 func _on_check_box_2_toggled(toggled_on: bool) -> void:
 	Global.auto_collect_coin = toggled_on
-	Global.save_config()
 
 ## 隐藏多余卡槽
 func _on_check_box_3_toggled(toggled_on: bool) -> void:
 	Global.disappear_spare_card_Placeholder = toggled_on
-	Global.save_config()
 
 ## 游戏全屏
 func _on_check_box_4_toggled(toggled_on: bool) -> void:
@@ -65,22 +63,16 @@ func _on_check_box_4_toggled(toggled_on: bool) -> void:
 
 func _on_check_box_5_toggled(toggled_on: bool) -> void:
 	Global.display_plant_HP_label = toggled_on
-	Global.save_config()
 
 func _on_check_box_6_toggled(toggled_on: bool) -> void:
 	Global.display_zombie_HP_label = toggled_on
-	Global.save_config()
-
 
 func _on_check_box_7_toggled(toggled_on: bool) -> void:
 	Global.card_slot_top_mouse_focus = toggled_on
-	Global.save_config()
 
 func _on_check_box_8_toggled(toggled_on: bool) -> void:
 	Global.fog_is_static = toggled_on
-	Global.save_config()
 
 func _on_check_box_9_toggled(toggled_on: bool) -> void:
 	Global.plant_be_shovel_front = toggled_on
-	Global.save_config()
 

@@ -605,10 +605,7 @@ func clear_data_plant_cell():
 ## 读档时创建植物
 func _load_game_data_create_plant(game_data_plant):
 	var plant:Plant000Base
-	if game_data_plant["is_imitater_material"]:
-		plant = await imitater_create_plant(game_data_plant["plant_type"], false)
-	else:
-		plant = create_plant(game_data_plant["plant_type"], false, false)
+	plant = create_plant(game_data_plant["plant_type"], false, false, game_data_plant["is_imitater_material"])
 	if plant != null:
 		plant.load_game_data_plant(game_data_plant)
 #endregion

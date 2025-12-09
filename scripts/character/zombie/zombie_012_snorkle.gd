@@ -1,6 +1,15 @@
 extends Zombie000Base
 class_name Zombie012Snorkle
 
+## 角色死亡
+func character_death():
+	super()
+	## 不在泳池中，死亡后消失
+	if not is_swimming:
+		await get_tree().create_timer(2.0, false).timeout
+		queue_free()
+
+
 ## 改变攻击状态攻击
 func change_is_attack(value:bool):
 	is_attack = value
