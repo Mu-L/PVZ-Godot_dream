@@ -10,6 +10,7 @@ const ONE_USER_BUTTON = preload("uid://5yk8fhfwgwo0")
 @onready var dialog_choose_null: Dialog = $Panel/DialogChooseNull
 @onready var dialog_error: DialogError = $DialogError
 @onready var panel_rename_user: PanleRenameUser = $PanelRenameUser
+@onready var dialog_confirm_del: DialogConfirm = $DialogConfirmDel
 
 @onready var texture_button_rename: PVZButtonBase = $Panel/HBoxContainer/TextureButtonRename
 @onready var texture_button_ok: PVZButtonBase = $Panel/HBoxContainer/TextureButtonOk
@@ -30,6 +31,8 @@ func _ready() -> void:
 	texture_button_ok.pressed.connect(_on_button_ok_pressed)
 	texture_button_del.pressed.connect(_on_button_del_pressed)
 	texture_button_cancel.pressed.connect(_on_button_cancel_pressed)
+	
+	dialog_confirm_del.confirmed.connect(_on_delete_confirmed)
 
 ## 新增、删除、改名 更新当前用户按钮
 func update_curr_user_button():
@@ -99,7 +102,15 @@ func _on_button_del_pressed():
 	if curr_user_button == null:
 		dialog_choose_null.visible = true
 		return
+	
+	# 显示确认对话框
+	dialog_confirm_del.show_confirm("确定要删除用户 \"" + curr_user_button.user_name_on_curr_button + "\" 吗？\n该操作无法撤销！")
 
+## 确认删除用户
+func _on_delete_confirmed():
+	if curr_user_button == null:
+		return
+	
 	var del_user_res = Global.delete_user(curr_user_button.user_name_on_curr_button)
 
 	if del_user_res.is_empty():
