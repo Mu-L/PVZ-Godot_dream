@@ -45,7 +45,7 @@ size = Vector2(40, 20)
 radius = 20.0
 height = 100.0
 
-[node name="Zombie000Base" node_paths=PackedStringArray("node_no_change_direction", "node_follow_body_direction", "node2d_detect_in_slope") instance=ExtResource("1_q5all")]
+[node name="Zombie000Base" node_paths=PackedStringArray("node2d_detect_in_slope") instance=ExtResource("1_q5all")]
 script = ExtResource("2_72xfp")
 zombie_type = 0
 is_ignore_ladder = false
@@ -58,9 +58,7 @@ is_walk = true
 is_attack = false
 is_swimming = false
 sfx_enter_name = &""
-node_no_change_direction = []
-node_follow_body_direction = []
-node2d_detect_in_slope = []
+node2d_detect_in_slope = [NodePath("HurtBoxComponent/HurtBoxDetection"), NodePath("HurtBoxComponent/HurtBoxDetectionOnAttack"), NodePath("AttackComponent/DetectComponent")]
 
 [node name="NodeDrop" type="Node2D" parent="Body" index="1"]
 unique_name_in_owner = true
