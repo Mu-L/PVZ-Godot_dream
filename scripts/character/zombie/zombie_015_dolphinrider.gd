@@ -82,6 +82,8 @@ func zombie_jump_in_pool_end():
 	move_component.update_move_mode(MoveComponent.E_MoveMode.Speed)
 	shadow.visible = false
 
+	jump_component.enable_component(ComponentNormBase.E_IsEnableFactor.Default)
+
 ## 角色死亡
 func character_death():
 	super()

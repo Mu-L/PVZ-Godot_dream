@@ -13,7 +13,7 @@ var is_enabling := true
 
 ## 影响节点是否启用的因素
 enum E_IsEnableFactor{
-	Defautl,	## 默认是否启用组件,只有角色不使用该组件时在检测器中禁用该组件
+	Default,	## 默认是否启用组件,只有角色不使用该组件时在检测器中禁用该组件
 	InitType,	## 初始化状态类型（正常、展示、花园）
 	Character,	## 角色本身特殊需要禁用组件(确保该条件不会冲突)
 	MainGameProgress,	## 主游戏当前运行阶段
@@ -36,7 +36,7 @@ var is_enable_factors:Dictionary[E_IsEnableFactor, bool] = {}
 
 func _ready() -> void:
 	if not is_enable_default:
-		disable_component(E_IsEnableFactor.Defautl)
+		disable_component(E_IsEnableFactor.Default)
 
 
 ## 改变组件是否启用状态
