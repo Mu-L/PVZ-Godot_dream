@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=3 uid="uid://dc1xvxus2co66"]
+[gd_scene load_steps=107 format=3 uid="uid://dc1xvxus2co66"]
 
 [ext_resource type="Script" uid="uid://dkbq8o27gtu37" path="res://scripts/ui/start_menu/start_menu_root.gd" id="1_2isde"]
 [ext_resource type="Texture2D" uid="uid://cd1em7514pqef" path="res://assets/image/ui/ui_start_menu/SelectorScreen_BG.jpg" id="1_s2p02"]
@@ -1288,6 +1288,11 @@ func _on_mouse_exited() -> void:
 	default.visible = true
 "
 
+[sub_resource type="LabelSettings" id="LabelSettings_x7dp7"]
+font = ExtResource("54_343qg")
+font_size = 19
+font_color = Color(0, 0, 0, 1)
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_343qg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_xqlaa"]
@@ -2131,6 +2136,16 @@ offset_right = 94.0
 offset_bottom = 96.0
 texture = ExtResource("84_x7dp7")
 stretch_mode = 2
+
+[node name="Version" type="Label" parent="BG_Right"]
+layout_mode = 0
+offset_left = 425.0
+offset_top = 389.0
+offset_right = 488.06622
+offset_bottom = 414.48242
+rotation = 0.30697444
+text = "v 1.1.1"
+label_settings = SubResource("LabelSettings_x7dp7")
 
 [node name="WoodSign" type="Control" parent="."]
 anchors_preset = 0
