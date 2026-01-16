@@ -5,6 +5,9 @@ class_name Card
 @onready var short_cut: Label = $ShortCut
 @onready var button: Button = $Button
 
+## 是否为图鉴卡片
+var is_almanac_card:bool= false
+
 var _is_cooling : bool = false		# 是否正在冷却
 var is_sun_enough: bool = true		# 阳光是否足够
 var _cool_timer : float				# 冷却计时器
@@ -32,6 +35,9 @@ func _ready() -> void:
 		for child in character_static.get_children():
 			GlobalUtils.node_use_parent_material(child)
 
+## 设置卡片为图鉴卡片
+func set_almanac_card():
+	is_almanac_card = true
 
 ## 改变卡片的冷却时间（测试时使用）
 func card_change_cool_time(new_cool_time:float):
@@ -111,6 +117,11 @@ func card_cool():
 
 ## 点击卡片时
 func _on_button_pressed() -> void:
+	## 如果为图鉴卡片
+	if is_almanac_card:
+		signal_card_click.emit()
+		return
+
 	## 如果时主游戏场景,并且游戏中
 	if is_instance_valid(Global.main_game) and Global.main_game.main_game_progress == MainGameManager.E_MainGameProgress.MAIN_GAME:
 		## 可以点击
