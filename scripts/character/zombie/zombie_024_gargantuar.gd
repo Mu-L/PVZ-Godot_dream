@@ -50,7 +50,8 @@ func throw_out_imp():
 		n.visible = false
 	is_throw = false
 
-	create_imp()
+	if not is_death:
+		create_imp()
 
 func create_imp():
 	var zombie_init_para:Dictionary = {
