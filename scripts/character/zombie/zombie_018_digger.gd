@@ -30,6 +30,9 @@ func ready_norm_signal_connect():
 	super()
 	attack_component.disable_component(ComponentNormBase.E_IsEnableFactor.DownGround)
 
+	## 死亡时掘土结束
+	hp_component.signal_hp_component_death.connect(dig_end)
+
 ## 每帧判断是否到达最后一格
 func _process(_delta: float) -> void:
 	if is_dig:
@@ -40,12 +43,13 @@ func _process(_delta: float) -> void:
 
 ## 挖掘结束,出土
 func dig_end():
-	gpu_particles_dirt.emitting = false
-	curr_be_attack_status = E_BeAttackStatusZombie.IsNorm
-	is_dig = false
-	move_component.update_move_mode(MoveComponent.E_MoveMode.Ground)
-	await zombie_up_from_ground()
-	is_up_end = true
+	if is_dig:
+		gpu_particles_dirt.emitting = false
+		curr_be_attack_status = E_BeAttackStatusZombie.IsNorm
+		is_dig = false
+		move_component.update_move_mode(MoveComponent.E_MoveMode.Ground)
+		await zombie_up_from_ground()
+		is_up_end = true
 
 
 ## 失去铁器道具
