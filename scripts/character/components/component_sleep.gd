@@ -46,3 +46,6 @@ func owner_update_speed(speed_product:float):
 	anim_sleep.speed_scale = speed_product
 
 
+func no_sleep():
+	visible = false
+	anim_sleep.stop()
