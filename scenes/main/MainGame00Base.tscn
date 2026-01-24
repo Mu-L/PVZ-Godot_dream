@@ -1356,6 +1356,7 @@ script = ExtResource("24_b4qea")
 unique_name_in_owner = true
 script = ExtResource("55_l4e4o")
 is_lane = false
+can_attack_zombie_status = 9
 
 [node name="Area2D" type="Area2D" parent="DetectComponentGlobal"]
 collision_layer = 0
